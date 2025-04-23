@@ -2,7 +2,9 @@ package com.lumicash.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import lombok.Data;
 
+@Data
 public class Transacao {
     private Long id;
     private LocalDate data;
