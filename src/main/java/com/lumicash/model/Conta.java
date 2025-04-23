@@ -1,3 +1,5 @@
+package com.lumicash.model;
+
 import java.util.List;
 
 public class Conta {

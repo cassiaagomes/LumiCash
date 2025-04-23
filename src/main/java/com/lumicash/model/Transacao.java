@@ -1,3 +1,5 @@
+package com.lumicash.model;
+
 import java.time.LocalDate;
 import java.util.List;
 

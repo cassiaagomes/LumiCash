@@ -1,3 +1,5 @@
+package com.lumicash.model;
+
 public class Categoria {
     private Long id;
     private String nome;
