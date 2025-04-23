@@ -1,7 +1,9 @@
 package com.lumicash.model;
 
 import java.util.List;
+import lombok.Data;
 
+@Data
 public class Conta {
     private Long id;
     private String numero;
