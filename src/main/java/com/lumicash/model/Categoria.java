@@ -1,8 +1,12 @@
 package com.lumicash.model;
 
 import lombok.Data;
-@Data
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Categoria {
     private Long id;
     private String nome;
