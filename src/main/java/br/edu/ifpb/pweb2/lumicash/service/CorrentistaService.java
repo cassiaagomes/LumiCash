@@ -30,4 +30,17 @@ public class CorrentistaService {
         proximoId++;
     }
 
+    public List<Correntista> listarCorrentistas() {
+        return correntistas;
+    }
+
+    public Correntista buscarPorId (int id) {
+        for (Correntista c: correntistas) {
+            if (c.getId() == id) {
+                return c;
+            }
+        }
+        return null;
+    }
+
 }
