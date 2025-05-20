@@ -1,31 +1,37 @@
 <html xmlns:th="www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Correntistas Cadastrados</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Correntistas Cadastrados</h1>
 
-    <div th:text=""${mensagem} style="color: red"></div>
+    <form action="/search" method="get">
+      Número da conta: <input type="text" name="number" id="number" /><br /><br />
+      <input type="submit" value="Procurar" />
+    </form>
+
+    <div th:text="" ${mensagem} style="color: red"></div>
 
     <table border="1">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Senha</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="correntista : ${correntistas}">
-                <td th:text="${correntista.nome}"></td>
-                <td th:text="${correntista.email}"></td>
-                <td th:text="${correntista.admin}"></td>
-                <td th:text="${#strings.substring(correntista.senha,0,3) + '...'}"></td>
-                </tr>
-        </tbody>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Senha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="correntista : ${correntistas}">
+          <td th:text="${correntista.nome}"></td>
+          <td th:text="${correntista.email}"></td>
+          <td th:text="${correntista.admin}"></td>
+          <td
+            th:text="${#strings.substring(correntista.senha,0,3) + '...'}"
+          ></td>
+        </tr>
+      </tbody>
     </table>
-    
-</body>
+  </body>
 </html>
