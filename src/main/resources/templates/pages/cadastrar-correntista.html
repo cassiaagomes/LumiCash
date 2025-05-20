@@ -10,11 +10,16 @@
     <div th:text="${mensagem}" style="color: red"></div>
     <form th:action="@{/correntistas/save}" method="POST" th:object="${correntista}">
         <input type="hidden" th:field="*{id}"/>
-        Nome: <input type="text" th:field="*{nome}"/><br /> <br />
-        Senha: <input type="password" th:field="*{senha}"/><br /> <br />
-        Email: <input type="text" th:field="*{email}"/><br /> <br />
-        Admin? <input type="checkbox" th:field="*{admin}"/><br /> <br />
+
+        Nome: <input type="text" th:field="*{nome}"/><br />
+        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color: red;"></div><br />
+        Senha: <input type="password" th:field="*{senha}"/><br />
+        <div th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" style="color: red;"></div><br />
+        Email: <input type="text" th:field="*{email}"/><br />
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></div><br />
+        Admin? <input type="checkbox" th:field="*{admin}"/><br /><br />
         <input type="submit" value="Salvar" />
+        
     </form>
 
 </body>
