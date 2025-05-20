@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Erro Interno do Servidor</title>
+    <style>
+        body {
+            background-color: #fff4f4;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 100px;
+            color: #c0392b;
+        }
+        p {
+            font-size: 20px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #57429D;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>500</h1>
+    <p>Algo deu errado do nosso lado. Estamos trabalhando para corrigir isso.</p>
+    <a th:href="@{/}">Voltar para a Página Inicial</a>
+</body>
+</html>
