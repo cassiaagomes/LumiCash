@@ -1,4 +1,4 @@
-package com.lumicash.model;
+package br.edu.ifpb.pweb2.lumicash.model;
 
 import java.util.List;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class Conta {
     private String numero;
     private String descricao;
     private String tipo;
-    private Integer diaFechamento; // Dia de fechamento da conta if tipo == CARTAO
+    private Integer diaFechamento; 
 
     private Correntista correntista; 
     private List<Transacao> transacoes; 

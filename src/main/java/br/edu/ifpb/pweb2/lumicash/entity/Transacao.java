@@ -1,4 +1,4 @@
-package com.lumicash.model;
+package br.edu.ifpb.pweb2.lumicash.entity;
 
 import java.time.LocalDate;
 import java.util.List;
