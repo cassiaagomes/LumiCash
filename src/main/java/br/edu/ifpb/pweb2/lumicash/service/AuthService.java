@@ -1,0 +1,34 @@
+package br.edu.ifpb.pweb2.lumicash.service;
+
+import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
+import br.edu.ifpb.pweb2.lumicash.exception.EmailAlreadyExists;
+import br.edu.ifpb.pweb2.lumicash.repository.CorrentistaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+@Service
+public class AuthService {
+    @Autowired
+    private CorrentistaRepository correntistaRepository;
+
+    private boolean EmailRegistrado(String email) {
+        return this.correntistaRepository.findByEmail(email).isPresent();
+    }
+
+    public Correntista register(Correntista correntista) throws EmailAlreadyExists {
+        if (EmailRegistrado(correntista.getEmail())) {
+            throw new EmailAlreadyExists();
+        }
+
+        if (correntista.getEmail() == null || correntista.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email não pode ser nulo ou vazio");
+        }
+
+        return this.correntistaRepository.save(correntista);
+    }
+
+}
+
