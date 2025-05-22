@@ -3,6 +3,9 @@ package br.edu.ifpb.pweb2.lumicash.entity;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -18,9 +21,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Correntista {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 64)
+    @Column(nullable = false)
     @NotBlank(message = "O nome é obrigatório")
     @Size(min = 8, max = 64)
     private String nome;
@@ -28,7 +34,7 @@ public class Correntista {
     @Column(nullable = false)
     private Boolean isAdmin;
 
-    @Column(nullable = false, length = 64)
+    @Column(nullable = false)
     @NotBlank(message = "A senha não pode estar em branco")
     @Size(min = 8, max = 64)
     private String senha;

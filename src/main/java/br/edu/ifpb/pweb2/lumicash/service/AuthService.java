@@ -15,10 +15,10 @@ public class AuthService {
     private CorrentistaRepository correntistaRepository;
 
     private boolean EmailRegistrado(String email) {
-        return this.correntistaRepository.findByEmail(email).isPresent();
+        return this.correntistaRepository.retornarPorEmail(email).isPresent();
     }
 
-    public Correntista register(Correntista correntista) throws EmailAlreadyExists {
+    public Correntista registrar(Correntista correntista) throws EmailAlreadyExists {
         if (EmailRegistrado(correntista.getEmail())) {
             throw new EmailAlreadyExists();
         }
