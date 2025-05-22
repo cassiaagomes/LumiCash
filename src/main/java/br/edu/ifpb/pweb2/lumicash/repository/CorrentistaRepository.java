@@ -7,13 +7,14 @@ import java.util.Optional;
 import java.util.List;
 
 public interface CorrentistaRepository extends JpaRepository<Correntista, Long> {
-    List<Correntista> findByFirstName(String Nome);
 
-    Optional<Correntista> findByEmail(String email);
+    Optional<Correntista> retornarPorEmail(String email);
 
-    Optional<Correntista> findByNome(String nome);
+    Optional<Correntista> retornarPorNome(String nome);
 
-    Optional<Correntista> findById(Long id);
+    Optional<Correntista> retornarPorId(Long id);
 
-    List<Correntista> findAllByOrderByIdAsc();
+    List<Correntista> listarPorOrdemAsc();
+
+    List<Correntista> listarCorrentistas();
 }
