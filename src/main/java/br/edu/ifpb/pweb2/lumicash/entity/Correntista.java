@@ -2,13 +2,43 @@ package br.edu.ifpb.pweb2.lumicash.entity;
 
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Correntista {
     private Long id;
+
+    @Column(nullable = false, length = 64)
+    @NotBlank(message = "O nome é obrigatório")
+    @Size(min = 8, max = 64)
     private String nome;
+
+    @Column(nullable = false)
     private Boolean isAdmin;
+
+    @Column(nullable = false, length = 64)
+    @NotBlank(message = "A senha não pode estar em branco")
+    @Size(min = 8, max = 64)
     private String senha;
+
+    @Column(unique = true)
+    @NotBlank(message = "O e-mail é obrigatório")
+    @Email(message = "O e-mail deve ser válido")
     private String email;
 
+    @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Conta> contas; // Lista associada a um correntista
 
     public Long getId() {
