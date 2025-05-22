@@ -36,14 +36,14 @@ public class AuthController {
     }
 
     @PostMapping("/cadastrar")
-    public String registrarUsuario(@Valid @ModelAttribute("photographer") Correntista correntista,
+    public String registrarUsuario(@Valid @ModelAttribute("correntista") Correntista correntista,
                                BindingResult result,
                                HttpSession session) throws EmailAlreadyExists {
         if (result.hasErrors()) {
             return "auth/signup";
         }
 
-        Correntista salvarCorrentista = authService.register(correntista);
+        Correntista salvarCorrentista = authService.registrar(correntista);
         session.setAttribute("loggedCorrentista", salvarCorrentista);
 
         return "redirect:/home";
