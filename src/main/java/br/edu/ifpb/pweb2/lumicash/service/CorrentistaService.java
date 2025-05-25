@@ -22,9 +22,9 @@ public class CorrentistaService {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Correntista não encontrado"));
     }
 
-    public Correntista encontrarporEmail(String email)throws Exception{
-        return repository.retornarPorEmail(email).orElseThrow(() -> new Exception("Correntista não encontrado"));
-    }
+    //public Correntista encontrarporEmail(String email)throws Exception{
+    //   return repository.retornarPorEmail(email).orElseThrow(() -> new Exception("Correntista não encontrado"));
+    //}
 
     public void apagarPorId(Long id)throws Exception{
         repository.deleteById(id);

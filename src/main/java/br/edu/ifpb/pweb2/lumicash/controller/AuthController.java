@@ -31,22 +31,22 @@ public class AuthController {
     @GetMapping("/signup")
     public ModelAndView signUp(ModelAndView mav) {
         mav.addObject("Correntista", new Correntista());
-        mav.setViewName("auth/signup");
+        mav.setViewName("pages/home");
         return mav;
     }
 
-    @PostMapping("/cadastrar")
-    public String registrarUsuario(@Valid @ModelAttribute("correntista") Correntista correntista,
-                               BindingResult result,
-                               HttpSession session) throws EmailAlreadyExists {
-        if (result.hasErrors()) {
-            return "auth/signup";
-        }
+    // @PostMapping("/cadastrar")
+    // public String registrarUsuario(@Valid @ModelAttribute("correntista") Correntista correntista,
+    //                            BindingResult result,
+    //                            HttpSession session) throws EmailAlreadyExists {
+    //     if (result.hasErrors()) {
+    //         return "auth/signup";
+    //     }
 
-        Correntista salvarCorrentista = authService.registrar(correntista);
-        session.setAttribute("loggedCorrentista", salvarCorrentista);
+    //     Correntista salvarCorrentista = authService.registrar(correntista);
+    //     session.setAttribute("loggedCorrentista", salvarCorrentista);
 
-        return "redirect:/home";
-    }
+    //     return "redirect:/home";
+    // }
 
 }

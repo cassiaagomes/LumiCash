@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,17 @@ public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 512)
     private String numero;
+
+    @Column(nullable = false, length = 512)
     private String descricao;
+
+    @Column(nullable = false, length = 512)
     private String tipo;
+
+    @Column(nullable = false, length = 512)
     private Integer diaFechamento; 
 
     @ManyToOne
