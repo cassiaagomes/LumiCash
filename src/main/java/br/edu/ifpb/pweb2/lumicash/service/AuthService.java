@@ -14,21 +14,21 @@ public class AuthService {
     @Autowired
     private CorrentistaRepository correntistaRepository;
 
-    // private boolean EmailRegistrado(String email) {
-    //     return this.correntistaRepository.retornarPorEmail(email).isPresent();
-    // }
+    private boolean EmailRegistrado(String email) {
+        return this.correntistaRepository.findByEmail(email).isPresent();
+    }
 
-    // public Correntista registrar(Correntista correntista) throws EmailAlreadyExists {
-    //     if (EmailRegistrado(correntista.getEmail())) {
-    //         throw new EmailAlreadyExists();
-    //     }
+    public Correntista registrar(Correntista correntista) throws EmailAlreadyExists {
+        if (EmailRegistrado(correntista.getEmail())) {
+            throw new EmailAlreadyExists();
+        }
 
-    //     if (correntista.getEmail() == null || correntista.getEmail().isEmpty()) {
-    //         throw new IllegalArgumentException("Email não pode ser nulo ou vazio");
-    //     }
+        if (correntista.getEmail() == null || correntista.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email não pode ser nulo ou vazio");
+        }
 
-    //     return this.correntistaRepository.save(correntista);
-    // }
+        return this.correntistaRepository.save(correntista);
+    }
 
 }
 

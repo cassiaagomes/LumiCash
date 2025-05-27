@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface CorrentistaRepository extends JpaRepository<Correntista, Long> {
 
-    //Optional<Correntista> retornarPorEmail(String email);
+    Optional<Correntista> findByEmail(String email);
 
-    //Optional<Correntista> retornarPorNome(String nome);
+    Optional<Correntista> findByNome(String nome);
 
-    //Optional<Correntista> retornarPorId(Long id);
+    Optional<Correntista> findById(Long id);
 
-    //List<Correntista> listarPorOrdemAsc();
+    List<Correntista> listByOrdemAsc();
 
-    //List<Correntista> listarCorrentistas();
+    List<Correntista> listCorrentistas();
 }
