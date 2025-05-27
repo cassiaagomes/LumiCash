@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,13 @@ public class Transacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 512)
     private LocalDate data;
+    @Column(nullable = false, length = 512)
     private String descricao;
+    @Column(nullable = false, length = 512)
     private double valor;
+    @Column(nullable = false, length = 512)
     private String movimento;
 
     @ManyToOne

@@ -31,7 +31,7 @@ public class AuthController {
     @GetMapping("/signup")
     public ModelAndView signUp(ModelAndView mav) {
         mav.addObject("Correntista", new Correntista());
-        mav.setViewName("auth/signup");
+        mav.setViewName("pages/home");
         return mav;
     }
 

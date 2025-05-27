@@ -16,9 +16,14 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 512)
     private String nome;
+    @Column(nullable = false, length = 512)
     private boolean ativo;
-    private String natureza; // Receita ou despesa
+    @Column(nullable = false, length = 512)
+    private String natureza;
+    @Column(nullable = false, length = 512) // Receita ou despesa
     private int ordem;
 
     @OneToMany(mappedBy = "categoria")

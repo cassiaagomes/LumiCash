@@ -15,7 +15,7 @@ public class AuthService {
     private CorrentistaRepository correntistaRepository;
 
     private boolean EmailRegistrado(String email) {
-        return this.correntistaRepository.retornarPorEmail(email).isPresent();
+        return this.correntistaRepository.findByEmail(email).isPresent();
     }
 
     public Correntista registrar(Correntista correntista) throws EmailAlreadyExists {
