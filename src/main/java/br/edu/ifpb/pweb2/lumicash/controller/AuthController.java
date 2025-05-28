@@ -49,4 +49,16 @@ public class AuthController {
         return "redirect:/home";
     }
 
+    @GetMapping("/signin")
+    public ModelAndView signIn(ModelAndView mav) {
+        mav.setViewName("auth/signin");
+        return mav;
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/auth/signin";
+    }
+
 }
