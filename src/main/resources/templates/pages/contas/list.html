@@ -1,0 +1,38 @@
+<!doctype html5>
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+
+<head>
+    <title>BitBank - Contas Cadastradas</title>
+</head>
+
+<body>
+    <h1>Contas Cadastradas</h1>
+    <hr />
+
+    <form th:action="@{/contas/form}" method="GET">
+        <button class="btn btn-primary" type="submit">Nova</button>
+    </form>
+    <br />
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Descricão</th>
+                <th>Tipo</th>
+                <th style="text-align: center;">Data abertura</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="conta : ${contas}">
+                <td><a th:href="@{/contas/{id}(id=${conta.id})}" th:text="${conta.numero}"></a></td>
+                <td><a th:text="${conta.descricao}"></a></td>
+                <td><a th:text="${conta.tipo}"></a></td>
+
+                <td th:text="${#dates.format(conta.data, 'dd/MM/yyyy')}" style="text-align: center;" />
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
