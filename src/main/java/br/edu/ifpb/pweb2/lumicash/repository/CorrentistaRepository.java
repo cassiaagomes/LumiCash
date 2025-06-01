@@ -14,7 +14,5 @@ public interface CorrentistaRepository extends JpaRepository<Correntista, Long> 
 
     Optional<Correntista> findById(Long id);
 
-    List<Correntista> listByOrdemAsc();
-
-    List<Correntista> listCorrentistas();
+    List<Correntista> findAllByOrderByNomeAsc();
 }

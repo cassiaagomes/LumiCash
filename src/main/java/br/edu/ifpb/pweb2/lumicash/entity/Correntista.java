@@ -28,7 +28,7 @@ public class Correntista {
 
     @Column(nullable = false, length = 512)
     @NotBlank(message = "O nome é obrigatório")
-    @Size(min = 8, max = 64)
+    @Size(min = 3, max = 64)
     private String nome;
 
     @Column(nullable = false, length = 512)
