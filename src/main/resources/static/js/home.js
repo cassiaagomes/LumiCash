@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const sidenavContainer = document.getElementById("sidenav-container");
 
-    fetch("../../resources/templates/fragments/sidenav.html")
+    fetch("../../templates/fragments/sidenav.html")
         .then((response) => response.text())
         .then((html) => {
             sidenavContainer.innerHTML = html;

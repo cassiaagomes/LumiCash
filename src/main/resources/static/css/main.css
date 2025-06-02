@@ -1,19 +1,22 @@
-    body {
-      background-color: #27ac52;
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
+body {
+  background-color: #27ac52;
+  color: white;
+  margin: 0;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700; /* Aplica o peso 700 (negrito) */
+}
 
-    .content-box {
-      background-color: white;
-      border-radius: 25px;
-      padding: 30px;
-      margin: 20px;
-      color: black;
-      height: 90vh;
-    }
+.content-box {
+  background-color: white;
+  border-radius: 25px;
+  padding: 30px;
+  margin: 20px;
+  color: black;
+  height: 90vh;
+}
 
-    .main-wrapper {
-      display: flex;
-    }
+.main-wrapper {
+  display: flex;
+}
+

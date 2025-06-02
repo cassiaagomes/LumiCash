@@ -1,0 +1,94 @@
+
+/* Título */
+.content-box p {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.form-wrapper{
+    width: 680px;
+    padding-left: 60px;
+}
+
+/* Estilo geral de inputs */
+input[type="text"],
+select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+/* Estilo do botão */
+button.btn-primary {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2473f3;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-primary:hover {
+  background-color: #1a5cd9;
+}
+
+/* Estilo para a seleção do tipo de conta */
+.account-type-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.account-type-option:hover {
+  border-color: #27ac52;
+}
+
+.account-type-option.selected {
+  background-color: #dcfce7;
+  border-color: #22c55e;
+  position: relative;
+}
+
+.account-type-option img {
+  width: 32px;
+  height: 32px;
+}
+
+/* Ícone de seleção (✔️) */
+.account-type-option.selected::after {
+  content: "✔";
+  position: absolute;
+  right: 16px;
+  font-size: 18px;
+  color: #22c55e;
+  font-weight: bold;
+}
+
+/* Grupos MM / YYYY */
+.date-group {
+  display: flex;
+  gap: 10px;
+  width: 300px;
+  height: 80px;
+}
+
+.date-group select {
+  flex: 1;
+}
+

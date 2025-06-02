@@ -5,6 +5,8 @@ body {
   height: 100%;
   margin: 0;
   overflow: hidden;
+  padding-left: 30px;
+  padding-right: 50px;
 }
 
 .sidenav .logo {
@@ -13,6 +15,7 @@ body {
   font-family: "Poppins", sans-serif;
   display: flex;
   align-items: center;
+  padding-left: 50px;
 }
 
 .sidenav .logo img {
@@ -42,7 +45,8 @@ body {
 
 .sidenav .nav.flex-column {
   list-style-type: none;
-  padding-left: 116px;
+  /* ALTERAÇÃO PRINCIPAL: Reduza este valor para mover para a esquerda */
+  padding-left: 50px; /* Era 116px, agora 50px */
   margin-top: 20px;
 }
 
