@@ -1,0 +1,19 @@
+    body {
+      background-color: #27ac52;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .content-box {
+      background-color: white;
+      border-radius: 25px;
+      padding: 30px;
+      margin: 20px;
+      color: black;
+      height: 90vh;
+    }
+
+    .main-wrapper {
+      display: flex;
+    }
