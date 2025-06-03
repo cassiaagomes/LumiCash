@@ -30,7 +30,7 @@ button.btn-primary {
   padding: 14px;
   border: none;
   border-radius: 8px;
-  background-color: #2473f3;
+  background-color: #27ac52;
   color: white;
   font-weight: bold;
   font-size: 16px;
@@ -38,7 +38,7 @@ button.btn-primary {
 }
 
 button.btn-primary:hover {
-  background-color: #1a5cd9;
+  background-color: #27ac52;
 }
 
 /* Estilo para a seleção do tipo de conta */

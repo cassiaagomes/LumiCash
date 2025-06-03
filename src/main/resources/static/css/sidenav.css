@@ -9,13 +9,13 @@ body {
   padding-right: 50px;
 }
 
+
 .sidenav .logo {
   padding: 20px;
   font-size: 1.7em;
   font-family: "Poppins", sans-serif;
   display: flex;
   align-items: center;
-  padding-left: 50px;
 }
 
 .sidenav .logo img {
@@ -40,7 +40,7 @@ body {
   display: block;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  font-size: x-large;
+  font-size: larger;
 }
 
 .sidenav .nav.flex-column {
