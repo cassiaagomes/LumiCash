@@ -1,5 +1,7 @@
 package br.edu.ifpb.pweb2.lumicash.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
+
 import br.edu.ifpb.pweb2.lumicash.service.ContaService;
 import br.edu.ifpb.pweb2.lumicash.entity.Conta;
 import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
@@ -57,4 +60,17 @@ public class ContaController {
         model.addAttribute("conta", new Conta());
         return "contas/form";
     }
+
+    @GetMapping("/contas")
+    public String listarContas(Model model, HttpSession session) {
+        Correntista correntista = (Correntista) session.getAttribute("usuarioLogado");
+        if (correntista == null) {
+            return "redirect:/login";
+        }
+
+        List<Conta> contas;
+        contas = contaService.listarContasDoCorrentista(correntista);
+        model.addAttribute("contas", contas);
+        return "contas/list"; 
+}
 }
