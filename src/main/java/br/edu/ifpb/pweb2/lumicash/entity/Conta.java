@@ -9,9 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Conta {
     @Id
@@ -91,5 +97,6 @@ public class Conta {
 
     public void setTransacoes(List<Transacao> transacoes) {
         this.transacoes = transacoes;
-    } 
+    }
+
 }

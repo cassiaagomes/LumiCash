@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import br.edu.ifpb.pweb2.lumicash.service.ContaService;
-import br.edu.ifpb.pweb2.lumicash.service.FacadeService;
 import br.edu.ifpb.pweb2.lumicash.entity.Conta;
 import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
 import jakarta.servlet.http.HttpSession;
@@ -17,16 +16,16 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("")
-public class FacadeController {
+public class ContaController {
 
     private final ContaService service;
 
-    private final FacadeService facadeService;
+    private final ContaService contaService;
 
     @Autowired
-    public FacadeController(ContaService service, FacadeService facadeService) {
+    public ContaController(ContaService service, ContaService contaService) {
         this.service = service;
-        this.facadeService = facadeService;
+        this.contaService = contaService;
     }
 
     @PostMapping("/criarConta")
@@ -44,7 +43,7 @@ public class FacadeController {
     }
 
     try {
-        facadeService.CriarConta(conta, correntista);
+        contaService.CriarConta(conta, correntista);
     } catch (IllegalArgumentException e) {
         result.rejectValue("diaFechamento", null, e.getMessage());
         return "contas/form"; 
