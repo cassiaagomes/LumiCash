@@ -13,64 +13,47 @@ import org.springframework.ui.Model;
 
 import br.edu.ifpb.pweb2.lumicash.service.ContaService;
 import br.edu.ifpb.pweb2.lumicash.entity.Conta;
-import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
-import jakarta.servlet.http.HttpSession;
+
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/contas")
 public class ContaController {
-
-    private final ContaService service;
 
     private final ContaService contaService;
 
     @Autowired
-    public ContaController(ContaService service, ContaService contaService) {
-        this.service = service;
+    public ContaController(ContaService contaService) {
         this.contaService = contaService;
     }
 
-    @PostMapping("/criarConta")
+    @PostMapping
     public String cadastrarConta(@Valid @ModelAttribute("conta") Conta conta,
-                             BindingResult result,
-                             HttpSession session) {
+                                 BindingResult result) {
+        if (result.hasErrors()) {
+            return "contas/form";
+        }
 
-    if (result.hasErrors()) {
-        return "contas/form"; 
+        try {
+            contaService.CriarConta(conta, null); // passando null se CriarConta ainda exigir um Correntista
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("diaFechamento", null, e.getMessage());
+            return "contas/form";
+        }
+
+        return "redirect:/contas";
     }
 
-    Correntista correntista = (Correntista) session.getAttribute("usuarioLogado");
-    if (correntista == null) {
-        return "redirect:/login";
-    }
-
-    try {
-        contaService.CriarConta(conta, correntista);
-    } catch (IllegalArgumentException e) {
-        result.rejectValue("diaFechamento", null, e.getMessage());
-        return "contas/form"; 
-    }
-
-    return "redirect:/contas"; 
-}
-
-    @GetMapping("/contas/form")
+    @GetMapping("/form")
     public String showForm(Model model) {
         model.addAttribute("conta", new Conta());
         return "contas/form";
     }
 
-    @GetMapping("/contas")
-    public String listarContas(Model model, HttpSession session) {
-        Correntista correntista = (Correntista) session.getAttribute("usuarioLogado");
-        if (correntista == null) {
-            return "redirect:/login";
-        }
-
-        List<Conta> contas;
-        contas = contaService.listarContasDoCorrentista(correntista);
+    @GetMapping
+    public String listarContas(Model model) {
+        List<Conta> contas = contaService.findAll();
         model.addAttribute("contas", contas);
-        return "contas/list"; 
-}
+        return "contas/listar";
+    }
 }

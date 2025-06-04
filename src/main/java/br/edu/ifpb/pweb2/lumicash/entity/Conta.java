@@ -24,7 +24,7 @@ public class Conta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 512)
+    @Column(nullable = true, length = 512)
     private String numero;
 
     @Column(nullable = false, length = 512)
