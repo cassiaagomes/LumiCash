@@ -94,4 +94,5 @@ public class Correntista {
     public void setContas(List<Conta> contas) {
         this.contas = contas;
     }
+
 }
