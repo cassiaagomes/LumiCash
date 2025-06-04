@@ -14,9 +14,6 @@ public class ContaService {
     private ContaRepository repository;
 
     @Autowired
-    private ContaService contaService;
-
-    @Autowired
     private CorrentistaService correntistaService;
 
     public Conta save(Conta conta) {
@@ -44,7 +41,15 @@ public class ContaService {
         }
         conta.setCorrentista(correntista);
 
-        return contaService.save(conta);
+        return this.save(conta);
+    }
+
+    public List<Conta> findByCorrentista(Correntista correntista) {
+        return repository.findByCorrentista(correntista);
+    }
+
+    public List<Conta> listarContasDoCorrentista(Correntista correntista) {
+        return this.findByCorrentista(correntista);
     }
 
 }
