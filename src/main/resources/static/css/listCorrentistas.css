@@ -1,0 +1,107 @@
+
+.main-wrapper {
+  display: flex;
+  min-height: 100vh;
+  padding: 0;
+}
+
+#sidenav-container {
+  flex: 0 0 300px;
+  background-color: #27ac52;
+}
+
+
+.content-box {
+  flex-grow: 1;
+  background-color: white;
+  padding: 150px 80px;
+  color: black;
+  padding: 30px;
+  overflow-y: auto;
+  height: 100vh;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+  width: 300px;
+}
+
+.cadastrar {
+  white-space: nowrap;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+
+.header-table {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-table .cadastrar {
+  background-color: #27ac52;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  height: 40px;
+  padding: 0 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.header-table .cadastrar:hover {
+  background-color: #219945;
+}
+
+.search-input {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  width: 100%;
+  max-width: 400px;
+  font-size: 14px;
+}
+
+.table thead {
+  background-color: #dff5e1;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions i {
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.actions i:hover {
+  transform: scale(1.1);
+}
+
+.actions i.edit {
+  color: #007bff;
+}
+
+.actions i.delete {
+  color: #dc3545;
+}
+
+.actions i.block {
+  color: #ffc107;
+}

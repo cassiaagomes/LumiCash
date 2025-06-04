@@ -1,0 +1,65 @@
+body {
+  background-color: #27ac52;
+  color: white;
+  padding-top: 20px;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  padding-left: 30px;
+  padding-right: 50px;
+}
+
+
+.sidenav .logo {
+  padding: 20px;
+  font-size: 1.7em;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.sidenav .logo img {
+  width: 138px;
+  height: 122px;
+}
+
+.sidenav .logo span {
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sidenav .nav-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidenav .nav-item .nav-link {
+  padding: 12px 20px;
+  color: white;
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: larger;
+}
+
+.sidenav .nav.flex-column {
+  list-style-type: none;
+
+  padding-left: 50px; 
+  margin-top: 20px;
+}
+
+.sidenav .nav-item .nav-link:hover {
+  font-size: x-large;
+  background-color: #27ac52;
+}
+
+.sidenav .nav-item {
+  margin-bottom: 35px;
+}
+
+
+.sidenav .nav-item .nav-link.inactive {
+  color: #b3b3b3;
+}

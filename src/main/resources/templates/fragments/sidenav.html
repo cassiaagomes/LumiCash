@@ -1,0 +1,63 @@
+<!-- fragments/sidenav.html -->
+<div th:fragment="sidenav">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 sidenav">
+        <a class="nav-link" th:href="@{/}">
+          <div class="logo d-flex align-items-center">
+            <img th:src="@{/images/logo.png}" alt="Logo" />
+            <span class="bold-poppins ms-1">LumiCash</span>
+          </div>
+        </a>
+
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:href="@{/correntistas}"
+              th:classappend="${page == 'correntistas'} ? ' active' : ''"
+            >
+              Correntista
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:href="@{/categorias}"
+              th:classappend="${page == 'categorias'} ? ' active' : ''"
+            >
+              Categoria
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:href="@{/contas/list}"
+              th:classappend="${page == 'contas'} ? ' active' : ''"
+            >
+              Contas
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:href="@{/extrato}"
+              th:classappend="${page == 'extrato'} ? ' active' : ''"
+            >
+              Extrato
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:href="@{/orcamento}"
+              th:classappend="${page == 'orcamento'} ? ' active' : ''"
+            >
+              Orçamento Anual
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
