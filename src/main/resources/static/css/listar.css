@@ -1,26 +1,40 @@
-
-.main-wrapper {
+.header-table {
   display: flex;
-  min-height: 100vh;
-  padding: 0;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-#sidenav-container {
-  flex: 0 0 300px;
+.header-table .search-input {
+  padding-left: 45px;
+  width: 320px;
+}
+.header-table .cadastrar {
   background-color: #27ac52;
+  border: 0px;
 }
 
-
-.content-box {
-  flex-grow: 1;
-  background-color: white;
-  padding: 150px 80px;
-  color: black;
-  padding: 30px;
-  overflow-y: auto;
-  height: 100vh;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+.mb-3 {
+  margin-bottom: 0 !important;
 }
+
+.estilo-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 13px;
+  background-color: #e2f3e8;
+  color: #333
+}
+
+.estilo-btn{
+  background-color: #219945;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  padding: 5px;
+}
+
+/* Ajustar itens abaixo */
 
 .search-input {
   width: 300px;
@@ -36,12 +50,14 @@
   text-align: center;
 }
 
-
 .header-table {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  background-color: #e2f3e8;
+  padding: 10px 13px;
+  border-radius: 10px 10px 0 0;
 }
 
 .header-table .cadastrar {
@@ -69,12 +85,17 @@
   font-size: 14px;
 }
 
-.table thead {
-  background-color: #dff5e1;
+.table thead th {
+  background-color: #e2f3e8 !important;
+  color: #333 !important;
 }
 
 .table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
+}
+
+.table {
+  margin-bottom: 0 !important;
 }
 
 .actions {
@@ -95,7 +116,7 @@
 }
 
 .actions i.edit {
-  color: #007bff;
+  color: #27ac52;
 }
 
 .actions i.delete {
@@ -104,4 +125,23 @@
 
 .actions i.block {
   color: #ffc107;
+}
+
+.input-icon-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.search-input {
+  padding-left: 36px; /* Espaço pro ícone */
 }

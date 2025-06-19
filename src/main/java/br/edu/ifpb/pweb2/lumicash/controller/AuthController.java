@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +16,7 @@ import br.edu.ifpb.pweb2.lumicash.service.CorrentistaService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-@RestController
+@Controller
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -30,13 +31,13 @@ public class AuthController {
 
     @GetMapping("/signup")
     public ModelAndView signUp(ModelAndView mav) {
-        mav.addObject("Correntista", new Correntista());
-        mav.setViewName("pages/home");
+        mav.addObject("usuario", new Correntista());
+        mav.setViewName("auth/signup");
         return mav;
     }
 
     @PostMapping("/cadastrar")
-    public String registrarUsuario(@Valid @ModelAttribute("correntista") Correntista correntista,
+    public String registrarUsuario(@Valid @ModelAttribute("usuario") Correntista correntista,
                                BindingResult result,
                                HttpSession session) throws EmailAlreadyExists {
         if (result.hasErrors()) {

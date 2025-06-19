@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Cabeçalho comum -->
+    <head th:replace="~{fragments/head :: commonHead(${pageTitle})}"></head>
+
+    <!-- Estilos específicos da página -->
+    <th:block th:insert="~{::pageStyles}"></th:block>
+  </head>
+  <body>
+    <div class="container-fluid main-wrapper">
+      <!-- Barra lateral -->
+      <div
+        id="sidenav-container"
+        th:replace="~{fragments/sidenav :: sidenav}"
+      ></div>
+
+      <div class="col content-box">
+        <!-- Conteúdo específico da página -->
+        <div th:insert="~{::pageContent}"></div>
+      </div>
+    </div>
+
+    <!-- Scripts globais -->
+    <script th:src="@{/js/home.js}"></script>
+
+    <!-- Scripts específicos da página -->
+    <div th:replace="~{::pageScripts}"></div>
+  </body>
+</html>
