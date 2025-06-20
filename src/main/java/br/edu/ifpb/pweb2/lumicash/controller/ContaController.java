@@ -58,6 +58,7 @@ public class ContaController {
     @GetMapping("/contas/form")
     public String showForm(Model model) {
         model.addAttribute("conta", new Conta());
+        model.addAttribute("page", "contas"); // ADICIONADO
         return "contas/form";
     }
 
@@ -71,6 +72,7 @@ public class ContaController {
         List<Conta> contas;
         contas = contaService.listarContasDoCorrentista(correntista);
         model.addAttribute("contas", contas);
+        model.addAttribute("page", "contas"); // ADICIONADO
         return "contas/list"; 
 }
 }

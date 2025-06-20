@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <th:block th:replace="~{layouts/layout :: ~{}}">
+    <th:block th:fragment="pageStyles">
+      <link rel="stylesheet" th:href="@{/css/formulario.css}" />
+    </th:block>
+
+    <th:block th:fragment="pageContent">
+      <div class="form-container">
+        <h1>Cadastro de Conta</h1>
+
+        <form th:action="@{/contas}" th:object="${conta}" method="POST">
+          <div class="account-type-group">
+            <label class="form-label">Tipo</label>
+
+            <div
+              class="account-type-option"
+              th:classappend="${#strings.equals(conta.tipo, 'CARTAO')} ? 'selected' : ''"
+              th:onclick="|document.querySelectorAll('.account-type-option').forEach(opt => opt.classList.remove('selected')); document.getElementById('tipoCartao').checked = true; this.classList.add('selected');|"
+            >
+              <img th:src="@{/images/cartão.png}" alt="Cartão de crédito" />
+              Cartão de crédito
+            </div>
+
+            <div
+              class="account-type-option"
+              th:classappend="${#strings.equals(conta.tipo, 'CORRENTE')} ? 'selected' : ''"
+              th:onclick="|document.querySelectorAll('.account-type-option').forEach(opt => opt.classList.remove('selected')); document.getElementById('tipoCorrente').checked = true; this.classList.add('selected');|"
+            >
+              <img th:src="@{/images/banco.png}" alt="Conta corrente" />
+              Conta corrente
+            </div>
+
+            <input
+              type="radio"
+              id="tipoCartao"
+              name="tipo"
+              value="CARTAO"
+              th:checked="${#strings.equals(conta.tipo, 'CARTAO')}"
+              hidden
+            />
+            <input
+              type="radio"
+              id="tipoCorrente"
+              name="tipo"
+              value="CORRENTE"
+              th:checked="${#strings.equals(conta.tipo, 'CORRENTE')}"
+              hidden
+            />
+          </div>
+
+          <label for="descricao" class="form-label">Descrição</label>
+          <input
+            type="text"
+            id="descricao"
+            th:field="*{descricao}"
+            required
+            placeholder="Digite a descrição da conta"
+            class="form-control"
+          />
+
+          <label for="numero" class="form-label">Numero da Conta</label>
+          <input
+            type="text"
+            id="numero"
+            th:field="*{numero}"
+            required
+            placeholder="Digite o numero da conta"
+            class="form-control"
+          />
+
+          <label for="diaFechamento" class="form-label"
+            >Dia do fechamento</label
+          >
+          <input
+            type="number"
+            id="diaFechamento"
+            th:field="*{diaFechamento}"
+            required
+            placeholder="Ex: 10"
+            class="form-control"
+            min="1"
+            max="31"
+          />
+          <button
+            type="submit"
+            id="btnSalvar"
+            class="btn btn-primary mt-3"
+          >
+            Salvar Conta
+          </button>
+        </form>
+      </div>
+    </th:block>
+
+    <th:block th:fragment="pageScripts">
+      <script th:src="@{/js/formulario.js}"></script>
+    </th:block>
+  </th:block>
+</html>

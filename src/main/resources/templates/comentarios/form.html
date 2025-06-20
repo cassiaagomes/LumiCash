@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt_BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lumicash - Novo Comentário</title>
+  </head>
+  <body>
+    <h1>Adicionar Comentário à Transação</h1>
+
+    <form
+      th:action="@{|/transacoes/${transacaoId}/comentario|}"
+      method="POST"
+      th:object="${comentario}"
+    >
+      <label for="texto">Comentário</label><br />
+      <textarea th:field="*{texto}" rows="4" cols="50"></textarea><br /><br />
+      <span
+        th:if="${#fields.hasErrors('texto')}"
+        th:errors="*{texto}"
+        class="error"
+      ></span>
+
+      <hr />
+
+      <button type="submit">Enviar</button>
+      <a th:href="@{/contas/{id}/extrato(id=${contaId})}">Cancelar</a>
+    </form>
+  </body>
+</html>

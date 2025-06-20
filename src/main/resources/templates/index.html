@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <head th:replace="fragments/head :: commonHead('Home')"></head>
+  </head>
+  <body>
+    <div class="container-fluid main-wrapper">
+      <div
+        id="sidenav-container"
+        th:replace="fragments/sidenav :: sidenav"
+      ></div>
+      <div class="col content-box">
+        <h1>Bem vindo a home do LumiCash</h1>
+      </div>
+    </div>
+  </body>
+</html>
