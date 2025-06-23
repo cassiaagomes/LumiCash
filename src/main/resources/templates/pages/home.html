@@ -10,7 +10,54 @@
     </th:block>
 
     <th:block th:fragment="pageContent">
-      <h1>Bem vindo a home do LumiCash</h1>
+      <!-- Parte principal -->
+       <div class="home-page">
+       <!-- Topo da pagina -->
+      <div class="top-page"> 
+      <div>
+      <h3>Olá {{correntista.nome}}👋🏼</h3>
+    </div>  
+    <!-- Campos de usuario a esquerda -->
+      <div class="user-inform">
+        <img class="img-user"
+        th:src="@{/images/user.png}">
+        <!-- Descricao do usuario -->
+      <div class="user-check">
+      <p>{{correntista.nome}}</p>
+      <p1>{{correntista.administrador}}</p1>
+      </div>
+      <span class="seta">&#711</span>
+      </div>
+      </div>
+      <!-- Primeiro card -->
+      <div class="first-card">
+        <!-- Conteudo dos textos -->
+        <div class="text-content">
+        <span class="title">BEM VINDO AO</span>
+        <img class="img-lumi" th:src="@{/images/lumicashtext.png}"><br>
+        <span class="subtitle">Retome o Controle da sua vida e administre suas<br> finanças com responsabilidade conosco</span>
+      </div>
+      <img class="img-home" th:src="@{/images/illustration.png}">
+      </div>
+      <!-- Junção dos subcards -->
+       <div class="subcards">
+        <img class="img-home" th:src="@{/images/personal.png}">
+        <!-- os dois cards a direita -->
+        <div class="dois-cards">
+          <div class="card">
+          <span class="title-subcard">Organize sua vida Financeira</span><br>
+          <span class="subtext">Tranquilidade financeira começa com pequenos hábitos? Anotar seus gastos, definir metas realistas e acompanhar seu orçamento mensalmente são passos simples que fazem toda a diferença</span>
+          </div>
+
+        <div class="card">
+        <span class="title-subcard">Personalize os seus gastos</span><br>
+          <span class="subtext">Ao personalizar seus gastos, você entende para onde seu dinheiro vai, define limites por categoria e investe no que realmente importa pra você. Deixe de lado fórmulas genéricas e construa um orçamento que faça sentido com o seu estilo de vida</span>
+        </div>
+        </div>
+        </div>
+
+       </div>
+      </div>
     </th:block>
   </body>
 

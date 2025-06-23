@@ -42,7 +42,7 @@ public class ContaController {
 
     Correntista correntista = (Correntista) session.getAttribute("usuarioLogado");
     if (correntista == null) {
-        return "redirect:/login";
+        return "redirect:/auth/signin";
     }
 
     try {
@@ -66,7 +66,7 @@ public class ContaController {
     public String listarContas(Model model, HttpSession session) {
         Correntista correntista = (Correntista) session.getAttribute("usuarioLogado");
         if (correntista == null) {
-            return "redirect:/login";
+            return "redirect:/auth/signin";
         }
 
         List<Conta> contas;

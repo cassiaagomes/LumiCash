@@ -1,3 +1,101 @@
-h1{
-    color: black;
+body {
+  color: black;
+}
+
+.main-wrapper {
+  height: auto;
+}
+
+.content-box {
+  width: 100%;
+}
+
+.top-page {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-check p,
+p1 {
+  margin: 0; /* Remove espaçamento entre os textos */
+}
+.user-check p1 {
+  color: gray;
+}
+
+.img-user {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+}
+
+.user-inform {
+  display: flex;
+}
+
+.seta {
+  font-size: 40px;
+  padding-top: 4px;
+}
+
+.first-card {
+  background-color: #f4f5f4;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 70px;
+  border-radius: 10px;
+}
+.text-content {
+  display: flex; /* alinha os cards lado a lado */
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+}
+.title {
+  font-size: xx-large;
+  font-weight: 600;
+  text-align: left;
+}
+
+.img-home {
+  width: 280px;
+}
+
+.img-lumi {
+  width: 230px;
+}
+
+.subcards {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.dois-cards {
+  display: flex; /* alinha os cards lado a lado */
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 20px;
+}
+
+.card {
+  background-color: #f4f5f4;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 80px;
+  border: none;
+  height: 154px;
+  border-radius: 10px;
+}
+
+.title-subcard {
+  font-size: 20px;
+  font-size: larger;
+  font-weight: 700;
+  color: #1f633b;
+  padding-top: 10px;
+}
+.subtext {
+  font-size: 14px;
+  font-weight: 400;
 }
