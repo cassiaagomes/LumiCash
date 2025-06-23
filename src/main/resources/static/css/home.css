@@ -13,6 +13,12 @@ body {
 .top-page {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.user-check{
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .user-check p,
@@ -33,9 +39,12 @@ p1 {
   display: flex;
 }
 
-.seta {
-  font-size: 40px;
+a {
+  font-size: 15px;
   padding-top: 4px;
+  padding-left: 8px;
+  color: #1f633b;
+  text-decoration: none;
 }
 
 .first-card {

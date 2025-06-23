@@ -2,6 +2,7 @@ package br.edu.ifpb.pweb2.lumicash.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +33,19 @@ public class AuthController {
                                                          // form
         mav.setViewName("auth/signup");
         return mav;
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute("usuario") Correntista usuario, HttpSession session, Model model) {
+        Correntista autenticado = authService.autenticar(usuario.getEmail(), usuario.getSenha());
+
+        if (autenticado != null) {
+            session.setAttribute("loggedCorrentista", autenticado);
+            return "redirect:/home";
+        } else {
+            model.addAttribute("mensagem", "Email ou senha inválidos");
+            return "auth/signin";
+        }
     }
 
     @PostMapping("/cadastrar")

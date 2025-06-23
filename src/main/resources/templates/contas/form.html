@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
   <th:block th:replace="~{layouts/layout :: ~{}}">
+
     <th:block th:fragment="pageStyles">
       <link rel="stylesheet" th:href="@{/css/formulario.css}" />
     </th:block>
@@ -9,7 +10,7 @@
       <div class="form-container">
         <h1>Cadastro de Conta</h1>
 
-        <form th:action="@{/contas}" th:object="${conta}" method="POST">
+        <form th:action="@{/criarConta}" th:object="${conta}" method="POST">
           <div class="account-type-group">
             <label class="form-label">Tipo</label>
 
@@ -69,19 +70,21 @@
             class="form-control"
           />
 
-          <label for="diaFechamento" class="form-label"
-            >Dia do fechamento</label
-          >
-          <input
-            type="number"
-            id="diaFechamento"
-            th:field="*{diaFechamento}"
-            required
-            placeholder="Ex: 10"
-            class="form-control"
-            min="1"
-            max="31"
-          />
+          <!-- Wrapper para controlar a visibilidade -->
+          <div class="form-group" id="wrapperDiaFechamento">
+            <label for="diaFechamento" class="form-label">Dia do fechamento</label>
+            <input
+              type="number"
+              id="diaFechamento"
+              th:field="*{diaFechamento}"
+              placeholder="Ex: 10"
+              class="form-control"
+              min="1"
+              max="31"
+              required
+            />
+          </div>
+
           <button
             type="submit"
             id="btnSalvar"

@@ -30,5 +30,17 @@ public class AuthService {
         return this.correntistaRepository.save(correntista);
     }
 
-}
+    public Correntista autenticar(String email, String senha) {
+        Optional<Correntista> correntistaOpt = correntistaRepository.findByEmail(email);
 
+        if (correntistaOpt.isPresent()) {
+            Correntista correntista = correntistaOpt.get();
+            if (correntista.getSenha().equals(senha)) { 
+                return correntista;
+            }
+        }
+
+        return null; // não autenticado
+    }
+
+}

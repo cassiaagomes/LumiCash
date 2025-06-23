@@ -1,77 +1,58 @@
-// Para Conta
-
+// Seleciona as opções de tipo de conta e gerencia seleção visual + rádio oculto
 document.querySelectorAll(".account-type-option").forEach((option, index) => {
   option.addEventListener("click", function () {
-    // Remove a seleção de todos
+    // Remove seleção de todas as opções
     document
       .querySelectorAll(".account-type-option")
       .forEach((opt) => opt.classList.remove("selected"));
-    // Adiciona a seleção no clicado
+    // Seleciona a clicada
     this.classList.add("selected");
-    // Marca o radio button escondido correspondente
-    document.getElementById(
-      index === 0 ? "tipoCartao" : "tipoCorrente"
-    ).checked = true;
+    // Marca o input radio correspondente
+    document.getElementById(index === 0 ? "tipoCartao" : "tipoCorrente").checked = true;
+    // Atualiza visibilidade do campo dia de fechamento
+    atualizarVisibilidadeDiaFechamento();
+    // Atualiza validação
+    validar();
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+// Função que atualiza a visibilidade do campo "Dia do fechamento"
+function atualizarVisibilidadeDiaFechamento() {
+  const tipoCartao = document.getElementById("tipoCartao").checked;
+  const diaFechamentoWrapper = document.getElementById("wrapperDiaFechamento");
+  const diaFechamentoInput = document.getElementById("diaFechamento");
+
+  if (tipoCartao) {
+    diaFechamentoWrapper.style.display = "block";
+    diaFechamentoInput.required = true;
+  } else {
+    diaFechamentoWrapper.style.display = "none";
+    diaFechamentoInput.required = false;
+    diaFechamentoInput.value = "";
+  }
+}
+
+// Função para validar os inputs obrigatórios do formulário
+function validar() {
   const form = document.querySelector("form");
   const inputs = form.querySelectorAll("input[required]");
   const btnSalvar = document.getElementById("btnSalvar");
 
-  const validar = () => {
-    let valido = true;
-    inputs.forEach((input) => {
-      if (!input.value.trim()) valido = false;
-    });
-    btnSalvar.disabled = !valido;
-  };
-
+  let valido = true;
   inputs.forEach((input) => {
-    input.addEventListener("input", validar);
+    if (!input.value.trim()) valido = false;
   });
 
-  validar(); // inicial
+  btnSalvar.disabled = !valido;
+}
+
+// Valida inputs ao digitar
+document.querySelectorAll("input[required]").forEach((input) => {
+  input.addEventListener("input", validar);
 });
 
-// Para Correntista
-
+// Atualiza visibilidade e validação ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
-  const inputs = form.querySelectorAll("input[required]");
-  const btnSalvar = document.getElementById("btnSalvar");
-
-  const validar = () => {
-    let valido = true;
-
-    inputs.forEach((input) => {
-      const tipo = input.type;
-      const valor = input.value.trim();
-
-      if (!valor) {
-        valido = false;
-        return;
-      }
-
-      if (tipo === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) {
-        valido = false;
-        return;
-      }
-
-      // pode adicionar validação mínima da senha, se quiser
-      if (tipo === "password" && valor.length < 4) {
-        valido = false;
-        return;
-      }
-    });
-
-    btnSalvar.disabled = !valido;
-  };
-
-  inputs.forEach((input) => {
-    input.addEventListener("input", validar);
-  });
-
-  validar(); // valida no carregamento
+  atualizarVisibilidadeDiaFechamento();
+  validar();
 });

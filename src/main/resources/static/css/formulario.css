@@ -351,3 +351,6 @@ label:has(+ input[required])::after {
   font-weight: bold;
 }
 
+#wrapperDiaFechamento {
+  display: none;
+}

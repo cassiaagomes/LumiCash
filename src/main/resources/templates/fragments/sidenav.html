@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3 sidenav">
-        <a class="nav-link" th:href="@{/}">
+        <a class="nav-link" th:href="@{/home}">
           <div class="logo d-flex align-items-center">
             <img th:src="@{/images/logo.png}" alt="Logo" />
             <span class="bold-poppins ms-1">LumiCash</span>
@@ -11,7 +11,7 @@
         </a>
 
         <ul class="nav flex-column">
-          <li class="nav-item">
+          <li class="nav-item" th:if="${isAdmin}">
             <a
               class="nav-link"
               th:href="@{/correntistas}"
@@ -20,6 +20,7 @@
               Correntista
             </a>
           </li>
+
           <li class="nav-item">
             <a
               class="nav-link"

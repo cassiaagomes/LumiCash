@@ -15,7 +15,7 @@
        <!-- Topo da pagina -->
       <div class="top-page"> 
       <div>
-      <h3>Olá {{correntista.nome}}👋🏼</h3>
+      <h3 th:text="'Olá, ' + ${correntista.nome} + ' 👋🏼'">Olá, Usuário 👋🏼</h3>
     </div>  
     <!-- Campos de usuario a esquerda -->
       <div class="user-inform">
@@ -23,10 +23,10 @@
         th:src="@{/images/user.png}">
         <!-- Descricao do usuario -->
       <div class="user-check">
-      <p>{{correntista.nome}}</p>
-      <p1>{{correntista.administrador}}</p1>
+<p th:text="${correntista.nome}">Nome</p>
+<p1 th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}">Tipo</p1>
       </div>
-      <span class="seta">&#711</span>
+      <a th:href="@{/auth/logout}">Sair</a>
       </div>
       </div>
       <!-- Primeiro card -->
