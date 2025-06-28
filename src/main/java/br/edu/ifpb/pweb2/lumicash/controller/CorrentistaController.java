@@ -23,6 +23,7 @@ public class CorrentistaController {
     @GetMapping("/form")
     public ModelAndView getForm(Correntista correntista, ModelAndView mav) {
         mav.addObject("correntista", correntista);
+        mav.addObject("page", "correntistas"); // ADICIONADO
         mav.setViewName("correntistas/form");
         return mav;
     }
@@ -38,6 +39,7 @@ public class CorrentistaController {
     @GetMapping
     public ModelAndView listAll(ModelAndView model) {
         model.addObject("correntistas", correntistaService.listarCorrentistas());
+        model.addObject("page", "correntistas"); // ADICIONADO
         model.setViewName("correntistas/listar");
         return model;
     }

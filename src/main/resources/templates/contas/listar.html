@@ -9,38 +9,39 @@
 <body>
 <div th:fragment="pageContent">
     <div class="header-table d-flex justify-content-between align-items-center mb-3">
-        <form class="d-flex" th:action="@{/correntistas}" method="get">
+        <form class="d-flex" th:action="@{/contas}" method="get">
             <div class="input-icon-wrapper">
                 <span class="input-icon"><i class="fa fa-search"></i></span>
                 <input class="search-input form-control" type="text" name="number" placeholder="Procurar"/>
             </div>
         </form>
-        <button class="cadastrar btn btn-primary" type="button" th:onclick="|window.location.href='@{/correntistas/form}'|">
-            + Cadastrar Correntista
+        <button class="cadastrar btn btn-primary" type="button" th:onclick="|window.location.href='@{/contas/form}'|">
+            + Cadastrar Conta
         </button>
     </div>
 
+    <div th:if="${mensagem}" th:text="${mensagem}" class="text-danger mb-3"></div>
+
     <div class="table-wrapper">
-        <div th:if="${mensagem}" th:text="${mensagem}" class="text-danger mb-3"></div>
         <table class="table table-bordered table-hover align-middle">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>E-mail</th>
+                <th>Descrição</th>
                 <th>Tipo</th>
+                <th style="text-align: center">Dia do fechamento</th>
+                <th>Numero da conta</th>
                 <th>Ações</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="correntista : ${correntistas}">
-                <td th:text="${correntista.id}"></td>
-                <td th:text="${correntista.nome}"></td>
-                <td th:text="${correntista.email}"></td>
-                <td th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}"></td>
+            <tr th:each="conta : ${contas}">
+                <td th:text="${conta.descricao}"></td>
+                <td th:text="${conta.tipo}"></td>
+                <td th:text="${conta.diaFechamento}" style="text-align: center"></td>
+                <td th:text="${conta.numero}"></td>
                 <td class="actions">
-                    <a th:href="@{/correntistas/edit/{id}(id=${correntista.id})}" title="Editar"><i class="fas fa-edit edit"></i></a>
-                    <a href="#" title="Bloquear" th:onclick="|alert('Funcionalidade de bloqueio não implementada ainda!');|"><i class="fas fa-ban block"></i></a>
+                    <a th:href="@{/contas/edit/{id}(id=${conta.id})}" title="Editar"><i class="fas fa-edit edit"></i></a>
+                    <a href="#" th:attr="onclick=|if(confirm('Confirma exclusão da conta ${conta.numero}?')) window.location.href='@{/contas/delete/{id}(id=${conta.id})}'|" title="Excluir"><i class="fas fa-trash delete"></i></a>
                 </td>
             </tr>
             </tbody>
@@ -52,8 +53,8 @@
         <span id="pageInfo"></span>
         <button id="nextPage" class="estilo-btn">Próximo</button>
     </div>
-    
-    <div class="modal fade" id="modalCadastro" tabindex="-1" aria-hidden="true">
+
+    <div class="modal fade" id="modalCadastroConta" tabindex="-1" aria-hidden="true">
         </div>
 </div>
 

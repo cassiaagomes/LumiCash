@@ -1,0 +1,25 @@
+package br.edu.ifpb.pweb2.lumicash.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.edu.ifpb.pweb2.lumicash.entity.Transacao;
+import br.edu.ifpb.pweb2.lumicash.repository.TransacaoRepository;
+
+@Service
+public class TransacaoService {
+
+    @Autowired
+    private TransacaoRepository transacaoRepository;
+
+    public Transacao buscarPorId(Long id) {
+        Optional<Transacao> opt = transacaoRepository.findById(id);
+        return opt.orElse(null);
+    }
+
+    public void salvar(Transacao transacao) {
+        transacaoRepository.save(transacao);
+    }
+}

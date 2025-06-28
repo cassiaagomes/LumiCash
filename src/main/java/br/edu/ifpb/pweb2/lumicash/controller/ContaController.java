@@ -21,56 +21,48 @@ import jakarta.validation.Valid;
 @RequestMapping("")
 public class ContaController {
 
-    private final ContaService service;
-
     private final ContaService contaService;
 
     @Autowired
-    public ContaController(ContaService service, ContaService contaService) {
-        this.service = service;
+    public ContaController(ContaService contaService) {
         this.contaService = contaService;
     }
 
     @PostMapping("/criarConta")
     public String cadastrarConta(@Valid @ModelAttribute("conta") Conta conta,
-                             BindingResult result,
-                             HttpSession session) {
+                                 BindingResult result,
+                                 HttpSession session) {
 
-    if (result.hasErrors()) {
-        return "contas/form"; 
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+
+        if (result.hasErrors()) {
+            return "contas/form";
+        }
+
+        try {
+            contaService.CriarConta(conta, correntista);
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("diaFechamento", null, e.getMessage());
+            return "contas/form";
+        }
+
+        return "redirect:/contas";
     }
-
-    Correntista correntista = (Correntista) session.getAttribute("usuarioLogado");
-    if (correntista == null) {
-        return "redirect:/login";
-    }
-
-    try {
-        contaService.CriarConta(conta, correntista);
-    } catch (IllegalArgumentException e) {
-        result.rejectValue("diaFechamento", null, e.getMessage());
-        return "contas/form"; 
-    }
-
-    return "redirect:/contas"; 
-}
 
     @GetMapping("/contas/form")
     public String showForm(Model model) {
         model.addAttribute("conta", new Conta());
+        model.addAttribute("page", "contas");
         return "contas/form";
     }
 
     @GetMapping("/contas")
     public String listarContas(Model model, HttpSession session) {
-        Correntista correntista = (Correntista) session.getAttribute("usuarioLogado");
-        if (correntista == null) {
-            return "redirect:/login";
-        }
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
-        List<Conta> contas;
-        contas = contaService.listarContasDoCorrentista(correntista);
+        List<Conta> contas = contaService.listarContasDoCorrentista(correntista);
         model.addAttribute("contas", contas);
-        return "contas/list"; 
-}
+        model.addAttribute("page", "contas");
+        return "contas/listar";
+    }
 }

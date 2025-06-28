@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html
+  lang="pt-BR"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/layout :: ~{}}"
+>
+  <body>
+    <th:block th:fragment="pageStyles">
+      <link rel="stylesheet" th:href="@{/css/home.css}" />
+    </th:block>
+
+    <th:block th:fragment="pageContent">
+      <!-- Parte principal -->
+       <div class="home-page">
+       <!-- Topo da pagina -->
+      <div class="top-page"> 
+      <div>
+      <h3 th:text="'Olá, ' + ${correntista.nome} + ' 👋🏼'">Olá, Usuário 👋🏼</h3>
+    </div>  
+    <!-- Campos de usuario a esquerda -->
+      <div class="user-inform">
+        <img class="img-user"
+        th:src="@{/images/user.png}">
+        <!-- Descricao do usuario -->
+      <div class="user-check">
+<p th:text="${correntista.nome}">Nome</p>
+<p1 th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}">Tipo</p1>
+      </div>
+      <a th:href="@{/auth/logout}">Sair</a>
+      </div>
+      </div>
+      <!-- Primeiro card -->
+      <div class="first-card">
+        <!-- Conteudo dos textos -->
+        <div class="text-content">
+        <span class="title">BEM VINDO AO</span>
+        <img class="img-lumi" th:src="@{/images/lumicashtext.png}"><br>
+        <span class="subtitle">Retome o Controle da sua vida e administre suas<br> finanças com responsabilidade conosco</span>
+      </div>
+      <img class="img-home" th:src="@{/images/illustration.png}">
+      </div>
+      <!-- Junção dos subcards -->
+       <div class="subcards">
+        <img class="img-home" th:src="@{/images/personal.png}">
+        <!-- os dois cards a direita -->
+        <div class="dois-cards">
+          <div class="card">
+          <span class="title-subcard">Organize sua vida Financeira</span><br>
+          <span class="subtext">Tranquilidade financeira começa com pequenos hábitos? Anotar seus gastos, definir metas realistas e acompanhar seu orçamento mensalmente são passos simples que fazem toda a diferença</span>
+          </div>
+
+        <div class="card">
+        <span class="title-subcard">Personalize os seus gastos</span><br>
+          <span class="subtext">Ao personalizar seus gastos, você entende para onde seu dinheiro vai, define limites por categoria e investe no que realmente importa pra você. Deixe de lado fórmulas genéricas e construa um orçamento que faça sentido com o seu estilo de vida</span>
+        </div>
+        </div>
+        </div>
+
+       </div>
+      </div>
+    </th:block>
+  </body>
+
+  <th:block th:fragment="pageScripts">
+  </th:block>
+</html>
