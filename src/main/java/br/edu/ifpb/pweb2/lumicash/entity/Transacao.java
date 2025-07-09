@@ -2,6 +2,8 @@ package br.edu.ifpb.pweb2.lumicash.entity;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,10 +16,12 @@ import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
 @NoArgsConstructor
+@ToString(exclude = { "categoria", "conta", "comentario" })
 @AllArgsConstructor
 public class Transacao {
 
@@ -25,6 +29,7 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, length = 512)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
     @Column(nullable = false, length = 512)
     private String descricao;
@@ -35,12 +40,12 @@ public class Transacao {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    private Categoria categoria; 
+    private Categoria categoria;
 
     @ManyToOne
     @JoinColumn(name = "conta_id")
     private Conta conta;
 
     @OneToOne(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Comentario comentario; 
+    private Comentario comentario;
 }

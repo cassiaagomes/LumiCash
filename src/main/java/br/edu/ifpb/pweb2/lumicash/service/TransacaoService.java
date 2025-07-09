@@ -1,5 +1,6 @@
 package br.edu.ifpb.pweb2.lumicash.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,9 @@ public class TransacaoService {
 
     public void salvar(Transacao transacao) {
         transacaoRepository.save(transacao);
+    }
+
+    public List<Transacao> buscarTodas() {
+        return transacaoRepository.findAll();  // <-- IMPLEMENTADO AQUI
     }
 }

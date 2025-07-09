@@ -13,23 +13,23 @@
       <div
         class="header-table d-flex justify-content-between align-items-center mb-3"
       >
-        <form class="d-flex" th:action="@{/contas}" method="get">
+        <form class="d-flex" th:action="@{/transacoes}" method="get">
           <div class="input-icon-wrapper">
             <span class="input-icon"><i class="fa fa-search"></i></span>
             <input
               class="search-input form-control"
               type="text"
-              name="number"
-              placeholder="Procurar"
+              name="descricao"
+              placeholder="Buscar por descrição"
             />
           </div>
         </form>
         <button
           class="cadastrar btn btn-primary"
           type="button"
-          th:onclick="|window.location.href='@{/contas/form}'|"
+          th:onclick="|window.location.href='@{/transacoes/form}'|"
         >
-          + Cadastrar Conta
+          + Nova Transação
         </button>
       </div>
 
@@ -43,45 +43,35 @@
         <table class="table table-bordered table-hover align-middle">
           <thead>
             <tr>
+              <th>Data</th>
               <th>Descrição</th>
-              <th>Tipo</th>
-              <th style="text-align: center">Dia do fechamento</th>
-              <th>Numero da conta</th>
+              <th>Valor (R$)</th>
+              <th>Movimento</th>
+              <th>Categoria</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="conta : ${contas}">
-              <td th:text="${conta.descricao}"></td>
-              <td>
-                <img
-                  th:if="${conta.tipo == 'CARTAO'}"
-                  th:src="@{/images/cartão.png}"
-                  alt="Cartão"
-                  width="24"
-                  height="24"
-                />
-                <img
-                  th:if="${conta.tipo == 'CORRENTE'}"
-                  th:src="@{/images/banco.png}"
-                  alt="Conta Corrente"
-                  width="24"
-                  height="24"
-                />
-              </td>
-
+            <tr th:each="transacao : ${transacoes}">
               <td
-                th:text="${conta.diaFechamento}"
-                style="text-align: center"
+                th:text="${#temporals.format(transacao.data, 'dd/MM/yyyy')}"
               ></td>
-              <td th:text="${conta.numero}"></td>
+
+              <td th:text="${transacao.descricao}"></td>
+              <td
+                th:text="${#numbers.formatDecimal(transacao.valor, 1, 'COMMA', 2, 'POINT')}"
+              ></td>
+              <td th:text="${transacao.movimento}"></td>
+              <td th:text="${transacao.categoria.nome}"></td>
               <td class="actions">
-                <a th:href="@{/contas/edit/{id}(id=${conta.id})}" title="Editar"
+                <a
+                  th:href="@{/transacoes/editar/{id}(id=${transacao.id})}"
+                  title="Editar"
                   ><i class="fas fa-edit edit"></i
                 ></a>
                 <a
                   href="#"
-                  th:attr="onclick=|if(confirm('Confirma exclusão da conta ${conta.numero}?')) window.location.href='@{/contas/delete/{id}(id=${conta.id})}'|"
+                  th:attr="onclick=|if(confirm('Confirma exclusão da transação ${transacao.descricao}?')) window.location.href='@{/transacoes/delete/{id}(id=${transacao.id})}'|"
                   title="Excluir"
                   ><i class="fas fa-trash delete"></i
                 ></a>
@@ -103,7 +93,7 @@
 
       <div
         class="modal fade"
-        id="modalCadastroConta"
+        id="modalCadastroTransacao"
         tabindex="-1"
         aria-hidden="true"
       ></div>

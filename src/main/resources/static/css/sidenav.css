@@ -7,7 +7,6 @@
 }
 
 .sidenav .logo img {
-  width: 138px;
   height: 122px;
 }
 
@@ -29,7 +28,7 @@
   display: block;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  font-size: larger;
+  font-size: x-large;
   background-color: transparent;
 }
 
@@ -41,7 +40,7 @@
 
 /* Hover mantém a cor atual e adiciona fundo verde */
 .sidenav .nav-item .nav-link:hover {
-  font-size: x-large;
+  font-size: xx-large;
   background-color: #27ac52;
   color: white; /* Garante cor branca no hover */
 }

@@ -1,5 +1,6 @@
 package br.edu.ifpb.pweb2.lumicash.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -12,14 +13,17 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@ToString(exclude = { "contas" })
 public class Correntista {
 
     @Id
@@ -44,55 +48,21 @@ public class Correntista {
     @Email(message = "O e-mail deve ser válido")
     private String email;
 
+    @Column(nullable = false)
+    private Boolean ativo = true;
+
+    // SOLUÇÃO 1: Remover orphanRemoval temporariamente
     @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Conta> contas; // Lista associada a um correntista
+    @Setter(AccessLevel.NONE) // Mantenha esta linha para evitar o bug de criação
+    private List<Conta> contas = new ArrayList<>();
 
-    public Long getId() {
-        return id;
+    public void addConta(Conta conta) {
+        this.contas.add(conta);
+        conta.setCorrentista(this);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void removeConta(Conta conta) {
+        this.contas.remove(conta);
+        conta.setCorrentista(null);
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<Conta> getContas() {
-        return contas;
-    }
-
-    public void setContas(List<Conta> contas) {
-        this.contas = contas;
-    }
-
 }

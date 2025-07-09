@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
+@ToString(exclude = {"transacoes"})
 @AllArgsConstructor
 public class Categoria {
 
