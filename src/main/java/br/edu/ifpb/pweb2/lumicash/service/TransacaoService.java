@@ -46,6 +46,7 @@ public class TransacaoService {
         return transacaoRepository.findByContaIdAndCorrentista(contaId, correntista);
     }
 
+    //Salvando a transação
     public Transacao salvar(Transacao transacao) {
         Conta conta = transacao.getConta();
 
