@@ -70,3 +70,16 @@ function deletarCorrentista(url) {
     form.submit();
   }
 }
+function verificarContaSelecionada() {
+  const select = document.getElementById("conta");
+  const contaSelecionada = select.value;
+
+  if (!contaSelecionada) {
+    alert(
+      "Por favor, selecione uma conta antes de cadastrar uma nova transação."
+    );
+  } else {
+    // Redireciona para a URL com contaId como parâmetro
+    window.location.href = "/transacoes/form?contaId=" + contaSelecionada;
+  }
+}

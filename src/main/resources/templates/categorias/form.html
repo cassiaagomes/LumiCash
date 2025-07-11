@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <th:block th:replace="~{layouts/layout :: ~{}}">
+    <th:block th:fragment="pageStyles">
+      <link rel="stylesheet" th:href="@{/css/formulario.css}" />
+    </th:block>
+
+    <th:block th:fragment="pageContent">
+      <div class="form-container">
+        <h1>Cadastro da Categoria</h1>
+
+        <form
+          th:action="@{/categorias}"
+          method="POST"
+          th:object="${categoria}"
+        >
+          <input type="hidden" th:field="*{id}" />
+
+          <div class="mb-3">
+            <label class="form-label">Nome da Categoria</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nome"
+              th:field="*{nome}"
+              placeholder="Ex: Mercado"
+              required
+            />
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('nome')}"
+              th:errors="*{nome}"
+            ></div>
+          </div>
+
+          <button
+            type="submit"
+            id="btnSalvar"
+            class="btn btn-primary mt-3"
+            disabled
+          >
+            Salvar Categoria
+          </button>
+        </form>
+      </div>
+    </th:block>
+    <th:block th:fragment="pageScripts"> 
+       <script th:src="@{/js/formulario.js}"></script>
+    </th:block>
+  </th:block>
+</html>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.ifpb.pweb2.lumicash.entity.Conta;
 import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
@@ -20,6 +21,7 @@ import br.edu.ifpb.pweb2.lumicash.service.CategoriaService;
 import br.edu.ifpb.pweb2.lumicash.service.ContaService;
 import br.edu.ifpb.pweb2.lumicash.service.CorrentistaService;
 import br.edu.ifpb.pweb2.lumicash.service.TransacaoService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/transacoes")
@@ -38,45 +40,102 @@ public class TransacaoController {
     private ContaService contaService;
 
     @GetMapping
-    public String listarTransacoes(Model model) {
-        model.addAttribute("transacoes", transacaoService.buscarTodas());
+    public String listarTransacoes(Model model,
+            @RequestParam(required = false) Long contaId,
+            HttpSession session) {
+
+        // Pegar o correntista da sessão (consistente com ContaController)
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+
+        if (correntista == null) {
+            // Se não houver correntista na sessão, redirecionar para login
+            return "redirect:/login";
+        }
+
+        // Buscar apenas as contas do correntista logado
+        List<Conta> contas = contaService.findByCorrentista(correntista);
+
+        List<Transacao> transacoes = new ArrayList<>();
+
+        if (contaId != null) {
+            // Verificar se a conta selecionada pertence ao correntista
+            boolean contaPertenceAoCorrentista = contas.stream()
+                    .anyMatch(conta -> conta.getId().equals(contaId));
+
+            if (contaPertenceAoCorrentista) {
+                // Buscar transações da conta específica ordenadas por data
+                transacoes = transacaoService.buscarPorContaOrderByData(contaId);
+            } else {
+                model.addAttribute("mensagem", "Conta não encontrada ou não pertence ao usuário.");
+            }
+        } else {
+            // Se nenhuma conta foi selecionada, buscar transações de todas as contas do
+            // correntista
+            transacoes = transacaoService.buscarPorCorrentista(correntista);
+        }
+
+        model.addAttribute("contas", contas);
+        model.addAttribute("transacoes", transacoes);
+        model.addAttribute("contaSelecionadaId", contaId);
         model.addAttribute("page", "transacoes");
-        return "transacoes/listar"; // certifique-se de ter o template em templates/transacoes/list.html
+
+        return "transacoes/listar";
     }
 
     @GetMapping("/form")
-    public String mostrarFormularioDeTransacao(Model model, Principal principal) throws Exception {
-
-        Correntista correntista = correntistaService.encontrarporEmail("paulo@gmail.com");
-
-        if (principal != null) {
-            String email = principal.getName();
-            try {
-                correntista = correntistaService.encontrarporEmail(email);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Caso não tenha usuário autenticado, você pode criar um correntista "genérico"
-        // Ou simplesmente seguir sem contas associadas para não quebrar a página
-        List<Conta> contas = new ArrayList<>();
-        if (correntista != null) {
-            contas = contaService.findByCorrentista(correntista);
-
-        }
-        for (Conta c : contas) {
-            System.out.println("Conta id=" + c.getId() + ", número=" + c.getNumero());
-        }
+    public String mostrarFormularioDeTransacao(@RequestParam(required = false) Long contaId,
+            Model model,
+            Principal principal) throws Exception {
+        Correntista correntista = correntistaService.encontrarporEmail(principal.getName());
+        List<Conta> contas = contaService.findByCorrentista(correntista);
 
         Transacao transacao = new Transacao();
+
+        if (contaId != null) {
+            Conta contaSelecionada = contaService.findById(contaId);
+            transacao.setConta(contaSelecionada);
+            model.addAttribute("contaId", contaId); // 👈 ESSENCIAL
+        }
+
+        model.addAttribute("transacao", transacao);
+        model.addAttribute("contas", contas);
+        model.addAttribute("categorias", categoriaService.buscarTodas());
+
+        return "transacoes/form";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editarTransacao(@PathVariable Long id, Model model, HttpSession session) {
+
+        // Pegar o correntista da sessão
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+
+        if (correntista == null) {
+            return "redirect:/login";
+        }
+
+        Transacao transacao = transacaoService.buscarPorId(id);
+
+        if (transacao == null) {
+            return "redirect:/transacoes";
+        }
+
+        // Verificar se a transação pertence ao correntista logado
+        if (!transacao.getConta().getCorrentista().getId().equals(correntista.getId())) {
+            model.addAttribute("mensagem", "Você não tem permissão para editar esta transação.");
+            return "redirect:/transacoes";
+        }
+
+        // Buscar contas do correntista para o formulário
+        List<Conta> contas = contaService.findByCorrentista(correntista);
+
         model.addAttribute("transacao", transacao);
         model.addAttribute("categorias", categoriaService.buscarTodas());
         model.addAttribute("contas", contas);
 
-        // Você pode passar também o ID da conta selecionada, se quiser
-        if (!contas.isEmpty()) {
-            model.addAttribute("contaId", contas.get(0).getId());
+        // Passar o contaId para o template
+        if (transacao.getConta() != null) {
+            model.addAttribute("contaId", transacao.getConta().getId());
         } else {
             model.addAttribute("contaId", null);
         }
@@ -84,31 +143,76 @@ public class TransacaoController {
         return "transacoes/form";
     }
 
-    @GetMapping("/editar/{id}")
-    public String editarTransacao(@PathVariable Long id, Model model) {
+    @PostMapping("/salvar")
+    public String salvarTransacao(@ModelAttribute Transacao transacao, HttpSession session) {
+
+        // Pegar o correntista da sessão
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+
+        if (correntista == null) {
+            return "redirect:/login";
+        }
+
+        // Verificar se a conta da transação pertence ao correntista
+        if (transacao.getConta() != null) {
+            List<Conta> contas = contaService.findByCorrentista(correntista);
+            boolean contaPertenceAoCorrentista = contas.stream()
+                    .anyMatch(conta -> conta.getId().equals(transacao.getConta().getId()));
+
+            if (!contaPertenceAoCorrentista) {
+                // Conta não pertence ao correntista - não salvar
+                return "redirect:/transacoes";
+            }
+        }
+
+        transacaoService.salvar(transacao);
+        return "redirect:/transacoes";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String excluirTransacao(@PathVariable Long id, HttpSession session) {
+
+        // Pegar o correntista da sessão
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+
+        if (correntista == null) {
+            return "redirect:/login";
+        }
+
+        Transacao transacao = transacaoService.buscarPorId(id);
+
+        if (transacao != null) {
+            // Verificar se a transação pertence ao correntista logado
+            if (transacao.getConta().getCorrentista().getId().equals(correntista.getId())) {
+                transacaoService.excluir(id);
+            }
+        }
+
+        return "redirect:/transacoes";
+    }
+
+    @GetMapping("/comentario/{id}")
+    public String adicionarComentario(@PathVariable Long id, Model model, HttpSession session) {
+
+        // Pegar o correntista da sessão
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+
+        if (correntista == null) {
+            return "redirect:/login";
+        }
+
         Transacao transacao = transacaoService.buscarPorId(id);
 
         if (transacao == null) {
             return "redirect:/transacoes";
         }
 
-        System.out.println("Movimento da transação: " + transacao.getMovimento());
-        model.addAttribute("transacao", transacao);
-        model.addAttribute("categorias", categoriaService.buscarTodas());
-
-        // Passar o contaId para o template:
-        if (transacao.getConta() != null) {
-            model.addAttribute("contaId", transacao.getConta().getId());
-        } else {
-            model.addAttribute("contaId", null); // ou trate caso não tenha conta
+        // Verificar se a transação pertence ao correntista logado
+        if (!transacao.getConta().getCorrentista().getId().equals(correntista.getId())) {
+            return "redirect:/transacoes";
         }
 
-        return "transacoes/form";
-    }
-
-    @PostMapping("/salvar")
-    public String salvarTransacao(@ModelAttribute Transacao transacao) {
-        transacaoService.salvar(transacao);
-        return "redirect:/transacoes";
+        model.addAttribute("transacao", transacao);
+        return "transacoes/comentario";
     }
 }
