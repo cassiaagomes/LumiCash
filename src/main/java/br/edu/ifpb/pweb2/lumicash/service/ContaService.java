@@ -20,17 +20,17 @@ public class ContaService {
         return repository.save(conta);
     }
 
-    public List<Conta> findAll(){
+    public List<Conta> findAll() {
         return repository.findAll();
     }
 
-    public Conta findById(Long id){
+    public Conta findById(Long id) {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Conta de ID " + id + " não encontrada"));
     }
 
     public Conta CriarConta(Conta conta, Correntista correntista) {
         if ("CARTAO".equalsIgnoreCase(conta.getTipo())) {
-            if(conta.getDiaFechamento() == null ) {
+            if (conta.getDiaFechamento() == null) {
                 throw new IllegalArgumentException("Dia de fechamento não pode ser nulo para contas do tipo CARTAO");
             }
 
@@ -42,6 +42,10 @@ public class ContaService {
         conta.setCorrentista(correntista);
 
         return this.save(conta);
+    }
+
+    public void excluirConta(Conta conta) {
+        repository.delete(conta);
     }
 
     public List<Conta> findByCorrentista(Correntista correntista) {

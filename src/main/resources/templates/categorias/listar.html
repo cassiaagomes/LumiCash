@@ -44,6 +44,7 @@
             <tr>
               <th>Id</th>
               <th>Nome da categoria</th>
+              <th>Ativo</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -51,6 +52,7 @@
             <tr th:each="categoria : ${categorias}">
               <td th:text="${categoria.id}"></td>
               <td th:text="${categoria.nome}"></td>
+              <td th:text="${categoria.ativo}"></tdth>
               <td class="actions">
                 <a
                   th:href="@{/categorias/edit/{id}(id=${categoria.id})}"

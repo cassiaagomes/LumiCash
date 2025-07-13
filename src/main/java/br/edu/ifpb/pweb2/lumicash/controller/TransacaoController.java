@@ -85,16 +85,28 @@ public class TransacaoController {
     @GetMapping("/form")
     public String mostrarFormularioDeTransacao(@RequestParam(required = false) Long contaId,
             Model model,
-            Principal principal) throws Exception {
-        Correntista correntista = correntistaService.encontrarporEmail(principal.getName());
-        List<Conta> contas = contaService.findByCorrentista(correntista);
+            HttpSession session) {
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
+        if (correntista == null) {
+            return "redirect:/login";
+        }
+
+        List<Conta> contas = contaService.findByCorrentista(correntista);
         Transacao transacao = new Transacao();
 
         if (contaId != null) {
+            // ⚠️ Verificar se a conta pertence ao usuário
             Conta contaSelecionada = contaService.findById(contaId);
-            transacao.setConta(contaSelecionada);
-            model.addAttribute("contaId", contaId); // 👈 ESSENCIAL
+            boolean pertence = contas.stream().anyMatch(c -> c.getId().equals(contaId));
+            if (contaSelecionada != null && pertence) {
+                transacao.setConta(contaSelecionada);
+                model.addAttribute("contaId", contaId);
+            } else {
+                // Redirecionar ou tratar erro
+                model.addAttribute("mensagem", "Conta inválida ou não pertence a você.");
+                return "redirect:/transacoes";
+            }
         }
 
         model.addAttribute("transacao", transacao);

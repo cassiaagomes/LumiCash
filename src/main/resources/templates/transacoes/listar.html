@@ -31,13 +31,33 @@
             </select>
           </div>
         </form>
+        
+        <!-- CORREÇÃO: Botão só aparece se conta estiver selecionada -->
         <button
           class="cadastrar btn btn-primary"
           type="button"
-          onclick="verificarContaSelecionada()"
+          th:if="${contaSelecionadaId != null}"
+          th:onclick="|window.location.href='@{/transacoes/form(contaId=${contaSelecionadaId})}'|"
         >
           + Nova Transação
         </button>
+        
+        <!-- CORREÇÃO: Botão desabilitado quando nenhuma conta está selecionada -->
+        <button
+          class="cadastrar btn btn-secondary"
+          type="button"
+          th:if="${contaSelecionadaId == null}"
+          disabled
+          title="Selecione uma conta primeiro"
+        >
+          + Nova Transação
+        </button>
+      </div>
+
+      <!-- Mensagem quando nenhuma conta está selecionada -->
+      <div th:if="${contaSelecionadaId == null}" class="alert alert-info mb-3">
+        <i class="fas fa-info-circle"></i>
+        Selecione uma conta acima para visualizar as transações e criar novas.
       </div>
 
       <div
@@ -46,7 +66,8 @@
         class="text-danger mb-3"
       ></div>
 
-      <div class="table-wrapper">
+      <!-- Tabela só aparece se houver conta selecionada -->
+      <div class="table-wrapper" th:if="${contaSelecionadaId != null}">
         <table class="table table-bordered table-hover align-middle">
           <thead>
             <tr>
@@ -69,9 +90,14 @@
               <td
                 th:text="${#numbers.formatDecimal(transacao.valor, 1, 'COMMA', 2, 'POINT')}"
               ></td>
-              <td th:text="${transacao.movimento}"></td>
+              <td>
+                <span 
+                  th:text="${transacao.movimento}" 
+                  th:classappend="${transacao.movimento == 'CREDITO'} ? 'badge bg-success' : 'badge bg-danger'"
+                ></span>
+              </td>
               <td th:text="${transacao.categoria.nome}"></td>
-              <td th:text="${transacao.comentario}"></td>
+              <td th:text="${transacao.comentario ?: 'Sem comentário'}"></td>
               <td class="actions">
                 <a
                   th:href="@{/transacoes/editar/{id}(id=${transacao.id})}"
@@ -94,9 +120,17 @@
             </tr>
           </tbody>
         </table>
+        
+        <!-- Mensagem quando conta está selecionada mas não há transações -->
+        <div th:if="${#lists.isEmpty(transacoes)}" class="alert alert-info text-center">
+          <i class="fas fa-info-circle"></i>
+          Nenhuma transação encontrada para esta conta.
+        </div>
       </div>
 
+      <!-- Controles de paginação só aparecem se houver transações -->
       <div
+        th:if="${contaSelecionadaId != null and !#lists.isEmpty(transacoes)}"
         id="pagination-controls"
         style="margin-top: auto; text-align: center"
         class="estilo-row"
@@ -105,14 +139,6 @@
         <span id="pageInfo"></span>
         <button id="nextPage" class="estilo-btn">Próximo</button>
       </div>
-      <!-- 
-      <div
-        class="buttonAdd"
-        type="button"
-        th:onclick="|window.location.href='@{/transacoes/form}'|"
-      >
-        <button class="buttonAddSimb">+</button>
-      </div> -->
 
       <div
         class="modal fade"
