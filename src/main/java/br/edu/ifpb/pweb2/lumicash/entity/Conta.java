@@ -36,23 +36,12 @@ public class Conta {
     @Column(nullable = true, length = 512)
     private Integer diaFechamento; 
 
-    @Column(nullable = false)
-    private Double saldo;
-
     @ManyToOne
     @JoinColumn(name = "correntista_id")
     private Correntista correntista; 
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transacao> transacoes;
-
-    public Double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
-    }
 
     public Long getId() {
         return id;
