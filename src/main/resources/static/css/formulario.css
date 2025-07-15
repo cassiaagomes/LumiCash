@@ -45,7 +45,6 @@ h1::after {
   color: black;
 }
 
-/* Estilo para seleção do tipo de conta */
 .account-type-group {
   margin-bottom: 32px;
 }
@@ -103,7 +102,6 @@ h1::after {
   border: 2px solid #27ac52;
 }
 
-/* Estilo dos inputs */
 input[type="text"],
 select {
   width: 100%;
@@ -130,7 +128,6 @@ input[type="text"]::placeholder {
   opacity: 0.7;
 }
 
-/* Grupo de data */
 .date-group {
   display: flex;
   gap: 16px;
@@ -142,7 +139,6 @@ input[type="text"]::placeholder {
   margin-bottom: 0;
 }
 
-/* Estilo do botão */
 .btn-primary {
   width: 100%;
   padding: 16px 24px;
@@ -190,7 +186,6 @@ input[type="text"]::placeholder {
   transform: translateY(0);
 }
 
-/* Seção Billing Info */
 .billing-section {
   margin-top: 32px;
   padding-top: 32px;
@@ -226,7 +221,6 @@ input[type="text"]::placeholder {
   color: #27ac52;
 }
 
-/* Animações */
 .account-type-option,
 input,
 select,
@@ -264,79 +258,12 @@ input:nth-of-type(1) {
     transform: translateY(0);
   }
 }
-
-/* Responsividade */
-/* @media (max-width: 1024px) {
-  .content-box {
-    padding: 40px 60px;
-  }
-
-  .form-container {
-    max-width: 500px;
-  }
-} */
-
-/* @media (max-width: 768px) {
-  .main-wrapper {
-    flex-direction: column;
-  }
-
-  #sidenav-container {
-    flex: none;
-    height: auto;
-  }
-
-  .content-box {
-    padding: 40px 30px;
-  }
-
-  h1 {
-    font-size: 24px;
-    margin-bottom: 24px;
-  }
-
-  input[type="text"],
-  select {
-    padding: 14px 16px;
-    font-size: 16px;
-  }
-
-  .account-type-option {
-    padding: 16px 20px;
-  }
-
-  .account-type-option img {
-    width: 32px;
-    height: 32px;
-  }
-
-  .btn-primary {
-    padding: 14px 20px;
-    font-size: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .content-box {
-    padding: 30px 20px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-
-  .date-group {
-    flex-direction: column;
-    gap: 12px;
-  }
-} */
-
 .btn-primary:disabled {
   background: linear-gradient(
     135deg,
     #b6dfc4,
     #d0f2d8
-  ); /* tons claros do verde usado */
+  );
   border: none;
   color: #ffffff;
   cursor: not-allowed;
@@ -354,3 +281,65 @@ label:has(+ input[required])::after {
 #wrapperDiaFechamento {
   display: none;
 }
+
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 12px;       
+  justify-content: space-around;
+}
+
+.form-actions .btn-secondary-1 {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: red; 
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: none; 
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.form-actions .btn-secondary-1:hover {
+  background-color: red; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.form-actions .btn-secondary-2 {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: blue; 
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: none; 
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.form-actions .btn-secondary-2:hover {
+  background-color: blue; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btnAbaixo{
+  display: flex;
+  padding-top: 20px;
+  gap: 100px;
+}
+
+
+
+

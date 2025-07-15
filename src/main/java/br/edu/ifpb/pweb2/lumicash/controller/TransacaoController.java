@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.edu.ifpb.pweb2.lumicash.entity.Comentario;
 import br.edu.ifpb.pweb2.lumicash.entity.Conta;
 import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
 import br.edu.ifpb.pweb2.lumicash.entity.Transacao;
@@ -49,7 +50,7 @@ public class TransacaoController {
 
         if (correntista == null) {
             // Se não houver correntista na sessão, redirecionar para login
-            return "redirect:/login";
+            return "redirect:/auth/signin";
         }
 
         // Buscar apenas as contas do correntista logado
@@ -89,7 +90,7 @@ public class TransacaoController {
         Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
         if (correntista == null) {
-            return "redirect:/login";
+            return "redirect:/auth/signin";
         }
 
         List<Conta> contas = contaService.findByCorrentista(correntista);
@@ -112,6 +113,8 @@ public class TransacaoController {
         model.addAttribute("transacao", transacao);
         model.addAttribute("contas", contas);
         model.addAttribute("categorias", categoriaService.buscarTodas());
+        model.addAttribute("contaId", contaId);
+        model.addAttribute("page", "transacoes");
 
         return "transacoes/form";
     }
@@ -123,7 +126,7 @@ public class TransacaoController {
         Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
         if (correntista == null) {
-            return "redirect:/login";
+            return "redirect:/auth/signin";
         }
 
         Transacao transacao = transacaoService.buscarPorId(id);
@@ -162,7 +165,7 @@ public class TransacaoController {
         Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
         if (correntista == null) {
-            return "redirect:/login";
+            return "redirect:/auth/signin";
         }
 
         // Verificar se a conta da transação pertence ao correntista
@@ -188,7 +191,7 @@ public class TransacaoController {
         Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
         if (correntista == null) {
-            return "redirect:/login";
+            return "redirect:/auth/signin";
         }
 
         Transacao transacao = transacaoService.buscarPorId(id);
@@ -205,26 +208,84 @@ public class TransacaoController {
 
     @GetMapping("/comentario/{id}")
     public String adicionarComentario(@PathVariable Long id, Model model, HttpSession session) {
-
-        // Pegar o correntista da sessão
         Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
         if (correntista == null) {
-            return "redirect:/login";
+            return "redirect:/auth/signin";
         }
 
         Transacao transacao = transacaoService.buscarPorId(id);
 
-        if (transacao == null) {
+        if (transacao == null || !transacao.getConta().getCorrentista().getId().equals(correntista.getId())) {
             return "redirect:/transacoes";
         }
 
-        // Verificar se a transação pertence ao correntista logado
-        if (!transacao.getConta().getCorrentista().getId().equals(correntista.getId())) {
-            return "redirect:/transacoes";
+        model.addAttribute("transacaoId", transacao.getId());
+
+        // Passa o comentário existente, se houver. Se não, passa um novo objeto
+        // Comentario
+        if (transacao.getComentario() != null) {
+            model.addAttribute("comentario", transacao.getComentario());
+        } else {
+            model.addAttribute("comentario", new Comentario());
         }
 
-        model.addAttribute("transacao", transacao);
-        return "transacoes/comentario";
+        model.addAttribute("page", "transacoes");
+        return "comentarios/form";
     }
+
+    @PostMapping("/{id}/comentario")
+    public String salvarComentario(
+            @PathVariable Long id,
+            @ModelAttribute("comentario") Comentario comentarioForm,
+            HttpSession session) {
+
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+        if (correntista == null) {
+            return "redirect:/auth/signin";
+        }
+
+        Transacao transacao = transacaoService.buscarPorId(id);
+        if (transacao == null || !transacao.getConta().getCorrentista().getId().equals(correntista.getId())) {
+            return "redirect:/transacoes";
+        }
+
+        Comentario comentario = transacao.getComentario();
+
+        if (comentario == null) {
+            comentario = new Comentario();
+            comentario.setTransacao(transacao);
+        }
+
+        comentario.setTexto(comentarioForm.getTexto());
+        transacao.setComentario(comentario);
+
+        transacaoService.salvar(transacao);
+
+        return "redirect:/transacoes?contaId=" + transacao.getConta().getId();
+    }
+
+    @GetMapping("/{id}/comentario/delete")
+    public String apagarComentario(@PathVariable Long id, HttpSession session) {
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+
+        if (correntista == null) {
+            return "redirect:/auth/signin";
+        }
+
+        Transacao transacao = transacaoService.buscarPorId(id);
+
+        if (transacao == null || !transacao.getConta().getCorrentista().getId().equals(correntista.getId())) {
+            return "redirect:/transacoes";
+        }
+
+        if (transacao.getComentario() != null) {
+            // Remover a associação e apagar o comentário
+            transacao.setComentario(null);
+            transacaoService.salvar(transacao);
+        }
+
+        return "redirect:/transacoes?contaId=" + transacao.getConta().getId();
+    }
+
 }

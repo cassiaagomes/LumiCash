@@ -31,7 +31,7 @@
             </select>
           </div>
         </form>
-        
+
         <!-- CORREÇÃO: Botão só aparece se conta estiver selecionada -->
         <button
           class="cadastrar btn btn-primary"
@@ -41,7 +41,7 @@
         >
           + Nova Transação
         </button>
-        
+
         <!-- CORREÇÃO: Botão desabilitado quando nenhuma conta está selecionada -->
         <button
           class="cadastrar btn btn-secondary"
@@ -91,13 +91,15 @@
                 th:text="${#numbers.formatDecimal(transacao.valor, 1, 'COMMA', 2, 'POINT')}"
               ></td>
               <td>
-                <span 
-                  th:text="${transacao.movimento}" 
+                <span
+                  th:text="${transacao.movimento}"
                   th:classappend="${transacao.movimento == 'CREDITO'} ? 'badge bg-success' : 'badge bg-danger'"
                 ></span>
               </td>
               <td th:text="${transacao.categoria.nome}"></td>
-              <td th:text="${transacao.comentario ?: 'Sem comentário'}"></td>
+              <td
+                th:text="${transacao.comentario != null ? transacao.comentario.texto : 'Sem comentário'}"
+              ></td>
               <td class="actions">
                 <a
                   th:href="@{/transacoes/editar/{id}(id=${transacao.id})}"
@@ -110,6 +112,7 @@
                 >
                   <i class="fas fa-comment comment"></i>
                 </a>
+
                 <a
                   href="#"
                   th:attr="onclick=|if(confirm('Confirma exclusão da transação ${transacao.descricao}?')) window.location.href='@{/transacoes/delete/{id}(id=${transacao.id})}'|"
@@ -120,9 +123,12 @@
             </tr>
           </tbody>
         </table>
-        
+
         <!-- Mensagem quando conta está selecionada mas não há transações -->
-        <div th:if="${#lists.isEmpty(transacoes)}" class="alert alert-info text-center">
+        <div
+          th:if="${#lists.isEmpty(transacoes)}"
+          class="alert alert-info text-center"
+        >
           <i class="fas fa-info-circle"></i>
           Nenhuma transação encontrada para esta conta.
         </div>

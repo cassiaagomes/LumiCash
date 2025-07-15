@@ -1,28 +1,36 @@
-// Seleciona as opções de tipo de conta e gerencia seleção visual + rádio oculto
-document.querySelectorAll(".account-type-option").forEach((option, index) => {
-  option.addEventListener("click", function () {
-    // Remove seleção de todas as opções
-    document
-      .querySelectorAll(".account-type-option")
-      .forEach((opt) => opt.classList.remove("selected"));
-    // Seleciona a clicada
-    this.classList.add("selected");
-    // Marca o input radio correspondente
-    document.getElementById(index === 0 ? "tipoCartao" : "tipoCorrente").checked = true;
-    // Atualiza visibilidade do campo dia de fechamento
-    atualizarVisibilidadeDiaFechamento();
-    // Atualiza validação
-    validar();
+// Função para inicializar a seleção do tipo de conta (Cartão / Corrente)
+function inicializarTipoConta() {
+  const opcoes = document.querySelectorAll(".account-type-option");
+  const tipoCartaoInput = document.getElementById("tipoCartao");
+  const tipoCorrenteInput = document.getElementById("tipoCorrente");
+
+  if (!opcoes.length || !tipoCartaoInput || !tipoCorrenteInput) return;
+
+  opcoes.forEach((option, index) => {
+    option.addEventListener("click", function () {
+      // Remove seleção anterior
+      opcoes.forEach((opt) => opt.classList.remove("selected"));
+      this.classList.add("selected");
+
+      // Marca o input radio correspondente
+      if (index === 0) tipoCartaoInput.checked = true;
+      else tipoCorrenteInput.checked = true;
+
+      atualizarVisibilidadeDiaFechamento();
+      validar();
+    });
   });
-});
+}
 
 // Função que atualiza a visibilidade do campo "Dia do fechamento"
 function atualizarVisibilidadeDiaFechamento() {
-  const tipoCartao = document.getElementById("tipoCartao").checked;
+  const tipoCartaoInput = document.getElementById("tipoCartao");
   const diaFechamentoWrapper = document.getElementById("wrapperDiaFechamento");
   const diaFechamentoInput = document.getElementById("diaFechamento");
 
-  if (tipoCartao) {
+  if (!tipoCartaoInput || !diaFechamentoWrapper || !diaFechamentoInput) return;
+
+  if (tipoCartaoInput.checked) {
     diaFechamentoWrapper.style.display = "block";
     diaFechamentoInput.required = true;
   } else {
@@ -35,10 +43,13 @@ function atualizarVisibilidadeDiaFechamento() {
 // Função para validar os inputs obrigatórios do formulário
 function validar() {
   const form = document.querySelector("form");
-  const inputs = form.querySelectorAll("input[required]");
   const btnSalvar = document.getElementById("btnSalvar");
 
+  if (!form || !btnSalvar) return;
+
+  const inputs = form.querySelectorAll("input[required]");
   let valido = true;
+
   inputs.forEach((input) => {
     if (!input.value.trim()) valido = false;
   });
@@ -46,13 +57,20 @@ function validar() {
   btnSalvar.disabled = !valido;
 }
 
-// Valida inputs ao digitar
-document.querySelectorAll("input[required]").forEach((input) => {
-  input.addEventListener("input", validar);
-});
+// Inicializa validação de inputs obrigatórios ao digitar
+function inicializarValidacao() {
+  const inputs = document.querySelectorAll("input[required]");
+  if (!inputs.length) return;
 
-// Atualiza visibilidade e validação ao carregar a página
+  inputs.forEach((input) => {
+    input.addEventListener("input", validar);
+  });
+}
+
+// Inicialização geral ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
+  inicializarTipoConta();
+  inicializarValidacao();
   atualizarVisibilidadeDiaFechamento();
   validar();
 });
