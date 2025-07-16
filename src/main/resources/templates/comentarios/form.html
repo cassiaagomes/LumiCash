@@ -47,11 +47,12 @@
               >Cancelar</a
             >
             <a
-              th:href="@{/transacoes(contaId=${contaId})}"
-              class="btn btn-secondary-1"
               th:if="${comentario.id != null}"
-              >Apagar</a
+              th:href="@{|/transacoes/${transacaoId}/comentario/delete|}"
+              class="btn btn-secondary-1"
             >
+              Apagar
+            </a>
           </div>
         </div>
       </form>

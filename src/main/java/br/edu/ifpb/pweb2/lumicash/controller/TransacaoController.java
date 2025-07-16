@@ -270,7 +270,7 @@ public class TransacaoController {
         Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
         if (correntista == null) {
-            return "redirect:/auth/signin";
+            return "redirect:/signin";
         }
 
         Transacao transacao = transacaoService.buscarPorId(id);
@@ -279,11 +279,7 @@ public class TransacaoController {
             return "redirect:/transacoes";
         }
 
-        if (transacao.getComentario() != null) {
-            // Remover a associação e apagar o comentário
-            transacao.setComentario(null);
-            transacaoService.salvar(transacao);
-        }
+        transacaoService.apagarComentario(transacao);
 
         return "redirect:/transacoes?contaId=" + transacao.getConta().getId();
     }
