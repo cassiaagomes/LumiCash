@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,29 +33,47 @@ public class Correntista {
 
     @Column(nullable = false, length = 512)
     @NotBlank(message = "O nome é obrigatório")
-    @Size(min = 3, max = 64)
+    @Size(min = 3, max = 64, message = "O nome deve ter entre 3 e 64 caracteres")
     private String nome;
 
-    @Column(nullable = false, length = 512)
-    private Boolean isAdmin;
+    @Column(nullable = false)
+    @NotNull(message = "O campo isAdmin é obrigatório")
+    private Boolean isAdmin = false;
 
     @Column(nullable = false, length = 512)
     @NotBlank(message = "A senha não pode estar em branco")
-    @Size(min = 8, max = 64)
+    @Size(min = 8, max = 64, message = "A senha deve ter entre 8 e 64 caracteres")
     private String senha;
 
-    @Column(nullable = false, length = 512)
+    @Column(nullable = false, unique = true, length = 512)
     @NotBlank(message = "O e-mail é obrigatório")
     @Email(message = "O e-mail deve ser válido")
     private String email;
 
     @Column(nullable = false)
+    @NotNull(message = "O campo ativo é obrigatório")
     private Boolean ativo = true;
 
-    // SOLUÇÃO 1: Remover orphanRemoval temporariamente
-    @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Setter(AccessLevel.NONE) // Mantenha esta linha para evitar o bug de criação
+    // ✅ SOLUÇÃO ALTERNATIVA 1: Remover orphanRemoval temporariamente
+    @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL)
+    @Setter(AccessLevel.NONE)
     private List<Conta> contas = new ArrayList<>();
+
+    // ✅ SOLUÇÃO ALTERNATIVA 2: Ou manter orphanRemoval mas usar @JoinColumn
+    /*
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "correntista_id")
+    @Setter(AccessLevel.NONE)
+    private List<Conta> contas = new ArrayList<>();
+    */
+
+    public Correntista(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.isAdmin = false;
+        this.ativo = true;
+    }
 
     public void addConta(Conta conta) {
         this.contas.add(conta);
@@ -64,5 +83,13 @@ public class Correntista {
     public void removeConta(Conta conta) {
         this.contas.remove(conta);
         conta.setCorrentista(null);
+    }
+    
+    public boolean isAtivo() {
+        return this.ativo != null && this.ativo;
+    }
+    
+    public boolean isAdmin() {
+        return this.isAdmin != null && this.isAdmin;
     }
 }

@@ -31,11 +31,11 @@ public class AuthService {
     }
 
     public Correntista autenticar(String email, String senha) {
-        Optional<Correntista> correntistaOpt = correntistaRepository.findByEmail(email);
+        Optional<Correntista> correntistaOpt = correntistaRepository.findByEmailWithContas(email);
 
         if (correntistaOpt.isPresent()) {
             Correntista correntista = correntistaOpt.get();
-            if (correntista.getSenha().equals(senha)) { 
+            if (correntista.getSenha().equals(senha)) {
                 return correntista;
             }
         }
