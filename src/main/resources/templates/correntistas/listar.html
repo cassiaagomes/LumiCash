@@ -49,6 +49,7 @@
               <th>Nome</th>
               <th>E-mail</th>
               <th>Tipo</th>
+              <th>Ativo</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -60,6 +61,11 @@
               <td
                 th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}"
               ></td>
+              <td>
+              <span th:if="${!correntista.ativo}" class="badge bg-danger">Bloqueado</span>
+              <span th:if="${correntista.ativo}" class="badge bg-success">Ativo</span>
+              </td>
+
               <td class="actions">
                 <a
                   th:href="@{/correntistas/edit/{id}(id=${correntista.id})}"

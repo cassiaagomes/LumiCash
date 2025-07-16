@@ -2,6 +2,7 @@ package br.edu.ifpb.pweb2.lumicash.service;
 
 import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
 import br.edu.ifpb.pweb2.lumicash.exception.EmailAlreadyExists;
+import br.edu.ifpb.pweb2.lumicash.exception.UsuarioBloqueadoException;
 import br.edu.ifpb.pweb2.lumicash.repository.CorrentistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +36,17 @@ public class AuthService {
 
         if (correntistaOpt.isPresent()) {
             Correntista correntista = correntistaOpt.get();
+
+            if (Boolean.FALSE.equals(correntista.getAtivo())) {
+                throw new UsuarioBloqueadoException();
+            }
+
             if (correntista.getSenha().equals(senha)) {
                 return correntista;
             }
         }
 
-        return null; // não autenticado
+        return null; // senha ou email inválido
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
 import br.edu.ifpb.pweb2.lumicash.exception.EmailAlreadyExists;
+import br.edu.ifpb.pweb2.lumicash.exception.UsuarioBloqueadoException;
 import br.edu.ifpb.pweb2.lumicash.service.AuthService;
 import br.edu.ifpb.pweb2.lumicash.service.CorrentistaService;
 import jakarta.servlet.http.HttpSession;
@@ -37,15 +38,20 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute("usuario") Correntista usuario, HttpSession session, Model model) {
-        Correntista autenticado = authService.autenticar(usuario.getEmail(), usuario.getSenha());
+        try {
+            Correntista autenticado = authService.autenticar(usuario.getEmail(), usuario.getSenha());
 
-        if (autenticado != null) {
-            session.setAttribute("loggedCorrentista", autenticado);
-            return "redirect:/home";
-        } else {
-            model.addAttribute("mensagem", "Email ou senha inválidos");
-            return "auth/signin";
+            if (autenticado != null) {
+                session.setAttribute("loggedCorrentista", autenticado);
+                return "redirect:/home";
+            } else {
+                model.addAttribute("mensagem", "Email ou senha inválidos.");
+            }
+        } catch (UsuarioBloqueadoException ex) {
+            model.addAttribute("mensagem", ex.getMessage());
         }
+
+        return "auth/signin";
     }
 
     @PostMapping("/cadastrar")
