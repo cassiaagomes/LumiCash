@@ -25,4 +25,28 @@ public class Comentario {
     @OneToOne
     @JoinColumn(name = "transacao_id")
     private Transacao transacao;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public Transacao getTransacao() {
+        return transacao;
+    }
+
+    public void setTransacao(Transacao transacao) {
+        this.transacao = transacao;
+    }
 }
