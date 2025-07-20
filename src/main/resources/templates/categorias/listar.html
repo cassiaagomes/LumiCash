@@ -60,11 +60,21 @@
                   ><i class="fas fa-edit edit"></i
                 ></a>
                 <a
+                  href="#"
+                  th:if="${categoria.ativo}"
                   th:href="@{/categorias/desativar/{id}(id=${categoria.id})}"
-                  title="Desativar"
                   onclick="return confirm('Deseja realmente desativar esta categoria?');"
+                  title="Desativar"
                 >
                   <i class="fas fa-ban block"></i>
+                </a>
+                <a
+                  href="#"
+                  th:if="${!categoria.ativo}"
+                  onclick="alert('Esta categoria já está desativada.'); return false;"
+                  title="Desativada"
+                >
+                  <i class="fas fa-ban block text-muted"></i>
                 </a>
               </td>
             </tr>

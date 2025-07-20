@@ -62,23 +62,33 @@
                 th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}"
               ></td>
               <td>
-              <span th:if="${!correntista.ativo}" class="badge bg-danger">Bloqueado</span>
-              <span th:if="${correntista.ativo}" class="badge bg-success">Ativo</span>
+                <span th:if="${!correntista.ativo}" class="badge bg-danger">Bloqueado</span>
+                <span th:if="${correntista.ativo}" class="badge bg-success">Ativo</span>
               </td>
 
               <td class="actions">
                 <a
                   th:href="@{/correntistas/edit/{id}(id=${correntista.id})}"
                   title="Editar"
-                  ><i class="fas fa-edit edit"></i
-                ></a>
+                >
+                  <i class="fas fa-edit edit"></i>
+                </a>
+
+<form th:if="${correntista.ativo}" th:action="@{/correntistas/bloquear/{id}(id=${correntista.id})}" method="post" style="display:inline;" 
+      onsubmit="return confirm('Deseja realmente bloquear este correntista?');">
+  <button type="submit" class="btn btn-link p-0 m-0" title="Bloquear" style="border:none; background:none; cursor:pointer;">
+    <i class="fas fa-ban block"></i>
+  </button>
+</form>
+
 
                 <a
                   href="#"
-                  title="Bloquear"
-                  th:onclick="|bloquearCorrentista('@{/correntistas/bloquear/{id}(id=${correntista.id})}'); return false;|"
+                  th:if="${!correntista.ativo}"
+                  title="Correntista já está bloqueado"
+                  onclick="alert('Este correntista já está bloqueado.'); return false;"
                 >
-                  <i class="fas fa-ban block"></i>
+                  <i class="fas fa-ban block text-muted"></i>
                 </a>
 
                 <a
