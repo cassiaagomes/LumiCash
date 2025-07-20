@@ -31,4 +31,9 @@ public class CategoriaService {
     public List<Categoria> listarCategorias() {
         return categoriaRepository.findAll();
     }
+
+    public Categoria buscarPorId(Long id) {
+    return categoriaRepository.findById(id).orElse(null);
+}
+
 }
