@@ -120,9 +120,9 @@ public class ContaController {
         }
 
         try {
-            conta.setId(id); // garante que não será criado um novo
+            conta.setId(id); // garante que atualize a conta existente
             conta.setCorrentista(correntista);
-            contaService.atualizarConta(conta);
+            contaService.atualizarConta(conta, correntista); // <-- aqui, passe os dois!
         } catch (IllegalArgumentException e) {
             result.rejectValue("diaFechamento", null, e.getMessage());
             return "contas/form";

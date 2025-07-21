@@ -99,9 +99,23 @@ public class ContaService {
         return this.findByCorrentista(correntista);
     }
 
-    public void atualizarConta(Conta conta) {
-        // opcional: validar tipo, número etc.
-        repository.save(conta);
+    @Transactional
+    public void atualizarConta(Conta contaAtualizada, Correntista correntista) {
+        Conta contaExistente = repository.findById(contaAtualizada.getId())
+                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+
+        // Verifica se a conta pertence ao correntista correto
+        if (!contaExistente.getCorrentista().getId().equals(correntista.getId())) {
+            throw new RuntimeException("Você não tem permissão para editar esta conta.");
+        }
+
+        // Atualiza apenas os campos desejados, sem tocar na lista de transações
+        contaExistente.setDescricao(contaAtualizada.getDescricao());
+        contaExistente.setNumero(contaAtualizada.getNumero());
+        contaExistente.setTipo(contaAtualizada.getTipo());
+        contaExistente.setDiaFechamento(contaAtualizada.getDiaFechamento());
+
+        // repository.save não é necessário com @Transactional e entidade gerenciada
     }
 
 }
