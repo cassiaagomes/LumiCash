@@ -22,7 +22,7 @@ public class Categoria {
     @Column(nullable = false, length = 512)
     private String nome;
     @Column(nullable = false, length = 512)
-    private boolean ativo;
+    private Boolean ativo = true;
     @Column(nullable = false, length = 512)
     private String natureza;
     @Column(nullable = false, length = 512) // Receita ou despesa

@@ -52,7 +52,7 @@
             <tr th:each="categoria : ${categorias}">
               <td th:text="${categoria.id}"></td>
               <td th:text="${categoria.nome}"></td>
-              <td th:text="${categoria.ativo}"></tdth>
+              <td th:text="${categoria.ativo}"></td>
               <td class="actions">
                 <a
                   th:href="@{/categorias/edit/{id}(id=${categoria.id})}"
@@ -61,10 +61,20 @@
                 ></a>
                 <a
                   href="#"
+                  th:if="${categoria.ativo}"
+                  th:href="@{/categorias/desativar/{id}(id=${categoria.id})}"
+                  onclick="return confirm('Deseja realmente desativar esta categoria?');"
                   title="Desativar"
-                  th:onclick="|desativarCategoria(${categoria.id}); return false;|"
                 >
                   <i class="fas fa-ban block"></i>
+                </a>
+                <a
+                  href="#"
+                  th:if="${!categoria.ativo}"
+                  onclick="alert('Esta categoria já está desativada.'); return false;"
+                  title="Desativada"
+                >
+                  <i class="fas fa-ban block text-muted"></i>
                 </a>
               </td>
             </tr>
