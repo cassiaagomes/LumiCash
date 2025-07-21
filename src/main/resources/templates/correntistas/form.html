@@ -85,13 +85,16 @@
             class="btn btn-primary mt-3"
             disabled
           >
-            Salvar Correntista
+            <span
+              th:text="${correntista.id} == null ? 'Salvar Correntista' : 'Atualizar Correntista'"
+              >Salvar Correntista</span
+            >
           </button>
         </form>
       </div>
     </th:block>
-    <th:block th:fragment="pageScripts"> 
-       <script th:src="@{/js/formulario.js}"></script>
+    <th:block th:fragment="pageScripts">
+      <script th:src="@{/js/formulario.js}"></script>
     </th:block>
   </th:block>
 </html>

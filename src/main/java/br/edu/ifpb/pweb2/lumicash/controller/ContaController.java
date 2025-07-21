@@ -101,4 +101,34 @@ public class ContaController {
         return "redirect:/contas";
     }
 
+    @PostMapping("/contas/{id}")
+    public String atualizarConta(@PathVariable Long id,
+            @Valid @ModelAttribute("conta") Conta conta,
+            BindingResult result,
+            HttpSession session) {
+
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
+
+        if (result.hasErrors()) {
+            return "contas/form";
+        }
+
+        Conta contaExistente = contaService.findById(id);
+
+        if (contaExistente == null || !contaExistente.getCorrentista().getId().equals(correntista.getId())) {
+            return "redirect:/contas?erro=acesso-nao-autorizado";
+        }
+
+        try {
+            conta.setId(id); // garante que não será criado um novo
+            conta.setCorrentista(correntista);
+            contaService.atualizarConta(conta);
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("diaFechamento", null, e.getMessage());
+            return "contas/form";
+        }
+
+        return "redirect:/contas";
+    }
+
 }

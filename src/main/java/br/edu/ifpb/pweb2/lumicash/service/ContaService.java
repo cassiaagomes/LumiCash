@@ -19,7 +19,7 @@ public class ContaService {
 
     @Autowired
     private CorrentistaService correntistaService;
-    
+
     // ✅ SOLUÇÃO: Adicionar EntityManager para controle de sessão
     @PersistenceContext
     private EntityManager entityManager;
@@ -61,13 +61,13 @@ public class ContaService {
         novaConta.setNumero(conta.getNumero());
         novaConta.setTipo(conta.getTipo());
         novaConta.setDiaFechamento(conta.getDiaFechamento());
-        
+
         // Estabelecer relacionamento
         correntista.addConta(novaConta);
 
         // Salvar o correntista (cascade irá salvar a conta)
         Correntista salvo = correntistaService.salvar(correntista);
-        
+
         // Encontrar a conta recém-criada
         return salvo.getContas()
                 .stream()
@@ -83,9 +83,9 @@ public class ContaService {
             conta = repository.findById(conta.getId())
                     .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
         }
-        
+
         repository.delete(conta);
-        
+
         // Limpar cache
         entityManager.flush();
         entityManager.clear();
@@ -98,4 +98,10 @@ public class ContaService {
     public List<Conta> listarContasDoCorrentista(Correntista correntista) {
         return this.findByCorrentista(correntista);
     }
+
+    public void atualizarConta(Conta conta) {
+        // opcional: validar tipo, número etc.
+        repository.save(conta);
+    }
+
 }

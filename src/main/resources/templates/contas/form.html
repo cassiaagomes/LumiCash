@@ -8,9 +8,16 @@
 
     <th:block th:fragment="pageContent">
       <div class="form-container">
-        <h1>Cadastro de Conta</h1>
+        <h1 th:text="${conta.id == null} ? 'Cadastro de Conta' : 'Edição de Conta'">Cadastro de Conta</h1>
 
-        <form th:action="@{/criarConta}" th:object="${conta}" method="POST">
+        <form
+          th:action="${conta.id} == null ? @{/criarConta} : @{/contas/{id}(id=${conta.id})}"
+          th:object="${conta}"
+          method="post"
+        >
+          <input type="hidden" th:if="${conta.id != null}" th:field="*{id}" />
+          <input type="hidden" name="_method" th:value="${conta.id != null} ? 'put' : 'post'" />
+
           <div class="account-type-group">
             <label class="form-label">Tipo</label>
 
@@ -60,17 +67,16 @@
             class="form-control"
           />
 
-          <label for="numero" class="form-label">Numero da Conta</label>
+          <label for="numero" class="form-label">Número da Conta</label>
           <input
             type="text"
             id="numero"
             th:field="*{numero}"
             required
-            placeholder="Digite o numero da conta"
+            placeholder="Digite o número da conta"
             class="form-control"
           />
 
-          <!-- Wrapper para controlar a visibilidade -->
           <div class="form-group" id="wrapperDiaFechamento">
             <label for="diaFechamento" class="form-label">Dia do fechamento</label>
             <input
@@ -85,12 +91,8 @@
             />
           </div>
 
-          <button
-            type="submit"
-            id="btnSalvar"
-            class="btn btn-primary mt-3"
-          >
-            Salvar Conta
+          <button type="submit" id="btnSalvar" class="btn btn-primary mt-3">
+            <span th:text="${conta.id} == null ? 'Salvar Conta' : 'Atualizar Conta'">Salvar Conta</span>
           </button>
         </form>
       </div>
