@@ -48,19 +48,19 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/cadastrar")
-    public String registrarUsuario(@Valid @ModelAttribute("correntista") Correntista correntista,
-            BindingResult result,
-            HttpSession session) throws EmailAlreadyExists {
-        if (result.hasErrors()) {
-            return "auth/signup";
-        }
+    // @PostMapping("/cadastrar")
+    // public String registrarUsuario(@Valid @ModelAttribute("correntista") Correntista correntista,
+    //         BindingResult result,
+    //         HttpSession session) throws EmailAlreadyExists {
+    //     if (result.hasErrors()) {
+    //         return "auth/signup";
+    //     }
 
-        Correntista salvarCorrentista = authService.registrar(correntista);
-        session.setAttribute("loggedCorrentista", salvarCorrentista);
+    //     Correntista salvarCorrentista = authService.registrar(correntista);
+    //     session.setAttribute("loggedCorrentista", salvarCorrentista);
 
-        return "redirect:/home";
-    }
+    //     return "redirect:/home";
+    // }
 
     @GetMapping("/signin")
     public ModelAndView signIn(ModelAndView mav) {
