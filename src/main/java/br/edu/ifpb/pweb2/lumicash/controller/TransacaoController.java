@@ -1,6 +1,9 @@
 package br.edu.ifpb.pweb2.lumicash.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +22,18 @@ public class TransacaoController {
 
     @GetMapping
     public String listarTransacoes(Model model) {
-        model.addAttribute("listaTransacoes", transacaoService.findAllTransacao(null)); // ajustar se quiser por conta
+        model.addAttribute("listaTransacoes", transacaoService.findAllTransacao(null)); 
+        return "transacoes/lista";
+    }
+
+    @GetMapping("/filtro")
+    public String filtrarTransacoesPorData(
+        @RequestParam(required = false) Long contaId,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim,
+        Model model
+    ) {
+        model.addAttribute("listaTransacoes", transacaoService.buscarPorData(contaId, inicio, fim));
         return "transacoes/lista";
     }
 
@@ -43,7 +57,7 @@ public class TransacaoController {
     public String salvarTransacao(@ModelAttribute Transacao transacao, RedirectAttributes redirectAttributes) {
         transacaoService.salvar(transacao);
         redirectAttributes.addFlashAttribute("msg", "Transação salva com sucesso.");
-        return "redirect:/transacoes"; // PRG
+        return "redirect:/transacoes";
     }
 
     @GetMapping("/{id}/comentario")
@@ -57,7 +71,7 @@ public class TransacaoController {
         comentario.setTransacao(transacao);
 
         model.addAttribute("comentario", comentario);
-        return "transacoes/comentario-form"; 
+        return "transacoes/comentario-form";
     }
 
     @PostMapping("/{id}/comentario/salvar")
@@ -82,4 +96,3 @@ public class TransacaoController {
         return "redirect:/transacoes";
     }
 }
-

@@ -2,9 +2,12 @@ package br.edu.ifpb.pweb2.lumicash.entity;
 
 import java.time.LocalDate;
 
+import br.edu.ifpb.pweb2.lumicash.enums.TipoTransacao;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +28,7 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "data")
     private LocalDate data;
 
     @Column(nullable = false, length = 512)
@@ -34,8 +37,8 @@ public class Transacao {
     @Column(nullable = false)
     private Double valor;
 
-    @Column(nullable = false, length = 512)
-    private String tipo; 
+    @Enumerated(EnumType.STRING) 
+    private TipoTransacao tipo;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
@@ -80,11 +83,11 @@ public class Transacao {
         this.valor = valor;
     }
 
-    public String getTipo() {
+    public TipoTransacao getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoTransacao tipo) {
         this.tipo = tipo;
     }
 
