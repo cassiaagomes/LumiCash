@@ -1,10 +1,7 @@
--- src/main/resources/data.sql
 
--- Define o início da sequência para a tabela 'categoria' se você estiver usando GenerationType.IDENTITY
--- Isso é útil para garantir que os IDs inseridos manualmente não conflitem com os IDs gerados automaticamente depois.
--- ALTER SEQUENCE categoria_id_seq RESTART WITH 100; -- Exemplo: se seus IDs manuais vão até 50, comece a geração auto de 100.
-                                                  -- Ajuste o número (100) conforme a necessidade dos seus IDs.
-                                                
+
+ALTER SEQUENCE categoria_id_seq RESTART WITH 30;
+ALTER SEQUENCE correntista_id_seq RESTART WITH 2;
 
 
 -- Categorias de ENTRADA (E)
@@ -34,3 +31,5 @@ INSERT INTO categoria (id, ativo, natureza, nome, ordem) VALUES (19, TRUE, 'INVE
 INSERT INTO categoria (id, ativo, natureza, nome, ordem) VALUES (20, TRUE, 'INVESTIMENTO', 'Aporte Renda Variavel', 2) ON CONFLICT (id) DO NOTHING;
 INSERT INTO categoria (id, ativo, natureza, nome, ordem) VALUES (21, TRUE, 'INVESTIMENTO', 'Aporte Reserva Emergencia', 3) ON CONFLICT (id) DO NOTHING;
 INSERT INTO categoria (id, ativo, natureza, nome, ordem) VALUES (22, TRUE, 'INVESTIMENTO', 'Aporte Previdencia', 4) ON CONFLICT (id) DO NOTHING;
+
+insert into correntista values (1,true,'adm@gmail.com',true,'Chefao','12345678') ON CONFLICT (id) DO NOTHING;
