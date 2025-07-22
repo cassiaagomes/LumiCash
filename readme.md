@@ -79,7 +79,7 @@ No arquivo:
 src/main/resources/application.properties
 ```
 
-adicione ou confira:
+adicione ou confira, na linha 15:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/lumicash
@@ -91,13 +91,13 @@ spring.datasource.password=ifpb
 
 ### 3️⃣ Inserção de Categorias e Administrador Inicial
 
-Após a **primeira execução** (onde acontece de fato a criação das tabelas do banco), garanta que o arquivo `application.properties` contenha:
+**Após** a **primeira execução** (onde acontece de fato a criação das tabelas do banco), garanta que o arquivo `application.properties` contenha:
 
 ```properties
 spring.sql.init.mode=always
 ```
 
-Ou seja, descomente essa propriedade para que o arquivo data.sql seja executado.
+Ou seja, **descomente essa propriedade para que o arquivo data.sql seja executado**.
 
 ---
 
