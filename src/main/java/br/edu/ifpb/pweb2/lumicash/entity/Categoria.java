@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
+@ToString(exclude = {"transacoes"})
 @AllArgsConstructor
 public class Categoria {
 
@@ -20,7 +22,7 @@ public class Categoria {
     @Column(nullable = false, length = 512)
     private String nome;
     @Column(nullable = false, length = 512)
-    private boolean ativo;
+    private Boolean ativo = true;
     @Column(nullable = false, length = 512)
     private String natureza;
     @Column(nullable = false, length = 512) // Receita ou despesa
@@ -28,4 +30,8 @@ public class Categoria {
 
     @OneToMany(mappedBy = "categoria")
     private List<Transacao> transacoes;
+
+    public void setAtivo(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
