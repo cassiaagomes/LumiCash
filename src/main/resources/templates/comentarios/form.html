@@ -1,29 +1,66 @@
 <!DOCTYPE html>
-<html lang="pt_BR" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Lumicash - Novo Comentário</title>
-  </head>
-  <body>
-    <h1>Adicionar Comentário à Transação</h1>
+<html
+  lang="pt-BR"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/layout :: ~{}}"
+>
+  <!-- Estilos -->
+  <th:block th:fragment="pageStyles">
+    <link rel="stylesheet" th:href="@{/css/formulario.css}" />
+  </th:block>
 
-    <form
-      th:action="@{|/transacoes/${transacaoId}/comentario|}"
-      method="POST"
-      th:object="${comentario}"
-    >
-      <label for="texto">Comentário</label><br />
-      <textarea th:field="*{texto}" rows="4" cols="50"></textarea><br /><br />
-      <span
-        th:if="${#fields.hasErrors('texto')}"
-        th:errors="*{texto}"
-        class="error"
-      ></span>
+  <!-- Conteúdo -->
+  <th:block th:fragment="pageContent">
+    <div class="form-container">
+      <h1>Adicionar Comentário</h1>
 
-      <hr />
+      <form
+        th:action="@{|/transacoes/${transacaoId}/comentario|}"
+        method="POST"
+        th:object="${comentario}"
+      >
+        <div class="form-group">
+          <label for="texto" class="form-label">Comentário</label>
+          <textarea
+            id="texto"
+            th:field="*{texto}"
+            class="form-control"
+            rows="4"
+            placeholder="Digite seu comentário"
+            required
+          ></textarea>
+          <span
+            th:if="${#fields.hasErrors('texto')}"
+            th:errors="*{texto}"
+            class="text-danger"
+          ></span>
+        </div>
 
-      <button type="submit">Enviar</button>
-      <a th:href="@{/contas/{id}/extrato(id=${contaId})}">Cancelar</a>
-    </form>
-  </body>
+        <div class="form-actions mt-3">
+          <button type="submit" class="btn btn-primary">
+            Salvar Comentário
+          </button>
+          <div class="btnAbaixo">
+            <a
+              th:href="@{/transacoes(contaId=${contaId})}"
+              class="btn btn-secondary-2"
+              >Cancelar</a
+            >
+            <a
+              th:if="${comentario.id != null}"
+              th:href="@{|/transacoes/${transacaoId}/comentario/delete|}"
+              class="btn btn-secondary-1"
+            >
+              Apagar
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </th:block>
+
+  <!-- Scripts -->
+  <th:block th:fragment="pageScripts">
+    <script th:src="@{/js/formulario.js}"></script>
+  </th:block>
 </html>

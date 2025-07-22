@@ -6,7 +6,6 @@
         <a class="nav-link" th:href="@{/home}">
           <div class="logo d-flex align-items-center">
             <img th:src="@{/images/logo.png}" alt="Logo" />
-            <span class="bold-poppins ms-1">LumiCash</span>
           </div>
         </a>
 
@@ -21,7 +20,7 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item" th:if="${isAdmin}">
             <a
               class="nav-link"
               th:href="@{/categorias}"
@@ -39,6 +38,17 @@
               Contas
             </a>
           </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              th:href="@{/transacoes}"
+              th:classappend="${page == 'transacoes'} ? ' active' : ''"
+            >
+              Transações
+            </a>
+          </li>
+
           <li class="nav-item">
             <a
               class="nav-link"
