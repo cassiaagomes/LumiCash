@@ -47,6 +47,8 @@ public class Correntista {
     @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL)
     private List<Conta> contas; // Lista associada a um correntista
 
+    private Boolean ativo = true;
+
     public Long getId() {
         return id;
     }
@@ -93,6 +95,14 @@ public class Correntista {
 
     public void setContas(List<Conta> contas) {
         this.contas = contas;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
 }
