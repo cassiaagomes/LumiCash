@@ -34,18 +34,6 @@ public class TransacaoService {
         return transacaoRepository.findByContaIdAndTipo(contaId, tipo);
     }
 
-    public List<Transacao> buscarPorData(Long contaId, LocalDate inicio, LocalDate fim) {
-        return transacaoRepository.findByContaIdAndDataBetween(
-            contaId,
-            inicio != null ? inicio.toString() : null,
-            fim != null ? fim.toString() : null
-        );
-    }
-
-    public List<Transacao> buscarPorContaECorrentista(Long contaId, Correntista correntista) {
-        return transacaoRepository.findByContaIdAndCorrentista(contaId, correntista);
-    }
-
     public Transacao salvar(Transacao transacao) {
         Conta conta = transacao.getConta();
 

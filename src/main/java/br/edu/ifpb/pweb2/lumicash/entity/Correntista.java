@@ -44,7 +44,7 @@ public class Correntista {
     @Email(message = "O e-mail deve ser válido")
     private String email;
 
-    @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL)
     private List<Conta> contas; // Lista associada a um correntista
 
     public Long getId() {
