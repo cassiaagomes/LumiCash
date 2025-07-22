@@ -31,7 +31,7 @@ public class Correntista {
     @Size(min = 3, max = 64)
     private String nome;
 
-    @Column(nullable = false, length = 512)
+    @Column(nullable = false, length = 64)
     private Boolean isAdmin;
 
     @Column(nullable = false, length = 512)
@@ -39,12 +39,12 @@ public class Correntista {
     @Size(min = 8, max = 64)
     private String senha;
 
-    @Column(nullable = false, length = 512)
+    @Column(nullable = false, length = 64)
     @NotBlank(message = "O e-mail é obrigatório")
     @Email(message = "O e-mail deve ser válido")
     private String email;
 
-    @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "correntista", cascade = CascadeType.ALL)
     private List<Conta> contas; // Lista associada a um correntista
 
     public Long getId() {
