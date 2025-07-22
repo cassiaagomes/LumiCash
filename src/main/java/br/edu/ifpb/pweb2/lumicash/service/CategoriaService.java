@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoriaService {
 
+    @Autowired
     private final CategoriaRepository categoriaRepository;
 
-    @Autowired
     public List<Categoria> buscarTodas() {
         return categoriaRepository.findAll();
     }

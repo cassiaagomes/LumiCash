@@ -9,10 +9,10 @@ import jakarta.servlet.http.HttpSession;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
-    @ModelAttribute("correntista")
-    public Correntista getLoggedCorrentista(HttpSession session) {
-        return (Correntista) session.getAttribute("loggedCorrentista");
-    }
+    // @ModelAttribute("correntista")
+    // public Correntista getLoggedCorrentista(HttpSession session) {
+    //     return (Correntista) session.getAttribute("loggedCorrentista");
+    // }
 
     @ModelAttribute("isAdmin")
     public boolean isAdmin(HttpSession session) {

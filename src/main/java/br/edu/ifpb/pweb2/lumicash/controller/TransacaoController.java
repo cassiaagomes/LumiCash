@@ -20,7 +20,7 @@ public class TransacaoController {
     @GetMapping
     public String listarTransacoes(Model model) {
         model.addAttribute("listaTransacoes", transacaoService.findAllTransacao(null)); // ajustar se quiser por conta
-        return "transacoes/lista";
+        return "transacoes/listar";
     }
 
     @GetMapping("/form")
