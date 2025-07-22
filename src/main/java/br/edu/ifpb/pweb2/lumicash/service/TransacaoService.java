@@ -121,4 +121,9 @@ public class TransacaoService {
 
         transacaoRepository.deleteById(id);
     }
+
+    public List<Transacao> filtrarTransacoes(Conta conta, LocalDate dataInicio, LocalDate dataFim) {
+        // TODO: Falta proteger datas nulas
+        return transacaoRepository.filtraTransacaoPorContaDataIncialDataFinal(conta, dataInicio, dataFim);
+    }
 }
