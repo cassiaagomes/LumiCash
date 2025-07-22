@@ -1,22 +1,51 @@
 package br.edu.ifpb.pweb2.lumicash.entity;
 
 import java.time.LocalDate;
-import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Entity
 @Data
 @NoArgsConstructor
+@ToString(exclude = { "categoria", "conta", "comentario" })
 @AllArgsConstructor
 public class Transacao {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 512)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
+    @Column(nullable = false, length = 512)
     private String descricao;
+    @Column(nullable = false, length = 512)
     private double valor;
+    @Column(nullable = false, length = 512)
     private String movimento;
 
-    private Categoria categoria; 
-    private List<Conta> contas; 
-    private Comentario comentario; 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "conta_id")
+    private Conta conta;
+
+    @OneToOne(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Comentario comentario;
 }

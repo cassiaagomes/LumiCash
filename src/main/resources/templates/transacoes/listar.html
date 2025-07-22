@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html
+  lang="pt-BR"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/layout :: ~{}}"
+>
+  <th:block th:fragment="pageStyles">
+    <link th:href="@{/css/listar.css}" rel="stylesheet" />
+  </th:block>
+
+  <body>
+    <div th:fragment="pageContent">
+      <div
+        class="header-table d-flex justify-content-between align-items-center mb-3"
+      >
+        <form class="d-flex" th:action="@{/transacoes}" method="get">
+          <div class="dropdown-icon-wrapper">
+            <select
+              class="form-select"
+              name="contaId"
+              id="conta"
+              onchange="this.form.submit()"
+            >
+              <option value="">Selecione uma conta:</option>
+              <option
+                th:each="conta : ${contas}"
+                th:value="${conta.id}"
+                th:selected="${conta.id == contaSelecionadaId}"
+                th:text="${(conta.tipo == 'CARTAO' ? 'Cartão de Crédito' : 'Conta Corrente') + ' - ' + conta.numero}"
+              ></option>
+            </select>
+          </div>
+        </form>
+
+        <!-- CORREÇÃO: Botão só aparece se conta estiver selecionada -->
+        <button
+          class="cadastrar btn btn-primary"
+          type="button"
+          th:if="${contaSelecionadaId != null}"
+          th:onclick="|window.location.href='@{/transacoes/form(contaId=${contaSelecionadaId})}'|"
+        >
+          + Nova Transação
+        </button>
+
+        <!-- CORREÇÃO: Botão desabilitado quando nenhuma conta está selecionada -->
+        <button
+          class="cadastrar btn btn-secondary"
+          type="button"
+          th:if="${contaSelecionadaId == null}"
+          disabled
+          title="Selecione uma conta primeiro"
+        >
+          + Nova Transação
+        </button>
+      </div>
+
+      <!-- Mensagem quando nenhuma conta está selecionada -->
+      <div th:if="${contaSelecionadaId == null}" class="alert alert-info mb-3">
+        <i class="fas fa-info-circle"></i>
+        Selecione uma conta acima para visualizar as transações e criar novas.
+      </div>
+
+      <div
+        th:if="${mensagem}"
+        th:text="${mensagem}"
+        class="text-danger mb-3"
+      ></div>
+
+      <!-- Tabela só aparece se houver conta selecionada -->
+      <div class="table-wrapper" th:if="${contaSelecionadaId != null}">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Descrição</th>
+              <th>Valor (R$)</th>
+              <th>Movimento</th>
+              <th>Categoria</th>
+              <th>Comentário</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="transacao : ${transacoes}">
+              <td
+                th:text="${#temporals.format(transacao.data, 'dd/MM/yyyy')}"
+              ></td>
+
+              <td th:text="${transacao.descricao}"></td>
+              <td
+                th:text="${#numbers.formatDecimal(transacao.valor, 1, 'COMMA', 2, 'POINT')}"
+              ></td>
+              <td>
+                <span
+                  th:text="${transacao.movimento}"
+                  th:classappend="${transacao.movimento == 'CREDITO'} ? 'badge bg-success' : 'badge bg-danger'"
+                ></span>
+              </td>
+              <td th:text="${transacao.categoria.nome}"></td>
+              <td
+                th:text="${transacao.comentario != null ? transacao.comentario.texto : 'Sem comentário'}"
+              ></td>
+              <td class="actions">
+                <a
+                  th:href="@{/transacoes/editar/{id}(id=${transacao.id})}"
+                  title="Editar"
+                  ><i class="fas fa-edit edit"></i
+                ></a>
+                <a
+                  th:href="@{/transacoes/comentario/{id}(id=${transacao.id})}"
+                  title="Adicionar Comentário"
+                >
+                  <i class="fas fa-comment comment"></i>
+                </a>
+
+                <a
+                  href="#"
+                  th:attr="onclick=|if(confirm('Confirma exclusão da transação ${transacao.descricao}?')) window.location.href='@{/transacoes/delete/{id}(id=${transacao.id})}'|"
+                  title="Excluir"
+                  ><i class="fas fa-trash delete"></i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mensagem quando conta está selecionada mas não há transações -->
+        <div
+          th:if="${#lists.isEmpty(transacoes)}"
+          class="alert alert-info text-center"
+        >
+          <i class="fas fa-info-circle"></i>
+          Nenhuma transação encontrada para esta conta.
+        </div>
+      </div>
+
+      <!-- Controles de paginação só aparecem se houver transações -->
+      <div
+        th:if="${contaSelecionadaId != null and !#lists.isEmpty(transacoes)}"
+        id="pagination-controls"
+        style="margin-top: auto; text-align: center"
+        class="estilo-row"
+      >
+        <button id="prevPage" class="estilo-btn">Anterior</button>
+        <span id="pageInfo"></span>
+        <button id="nextPage" class="estilo-btn">Próximo</button>
+      </div>
+
+      <div
+        class="modal fade"
+        id="modalCadastroTransacao"
+        tabindex="-1"
+        aria-hidden="true"
+      ></div>
+    </div>
+
+    <th:block th:fragment="pageScripts">
+      <script th:src="@{/js/listar.js}"></script>
+    </th:block>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+  <head>
+    <head th:replace="fragments/head :: commonHead('Login')"></head>
+    <link th:href="@{/css/cadastro.css}" rel="stylesheet" />
+  </head>
+
+  <body class="text-center">
+    <div class="boxes">
+      <div class="box-esquerda">
+        <form
+          class="form-signin"
+          th:action="@{/auth/login}"
+          method="POST"
+          th:object="${usuario}"
+        >
+          <div class="centered">
+            <div class="juncao-esquerda">
+              <div class="imglogo">
+                <img
+                  class="mb-4"
+                  th:src="@{/images/lumicashgreen.png}"
+                  alt="Logo do Lumicash"
+                />
+              </div>
+
+              <div
+                th:if="${not #strings.isEmpty(mensagem)}"
+                th:utext="${mensagem}"
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              ></div>
+
+              <div class="campos">
+                <label for="email" class="form-label">E-mail</label>
+                <div class="input-container">
+                  <i class="fa-solid fa-user icon"></i>
+                  <input
+                    type="email"
+                    class="form-control input-login input-with-icon"
+                    placeholder="usuario@email.com"
+                    required
+                    autofocus
+                    th:field="*{email}"
+                  />
+                </div>
+
+                <label for="senha" class="form-label">Senha</label>
+                <div class="input-container">
+                  <i class="fa-solid fa-lock icon"></i>
+                  <input
+                    type="password"
+                    class="form-control input-login input-with-icon"
+                    placeholder="Sua senha"
+                    required
+                    th:field="*{senha}"
+                  />
+                </div>
+
+                <div class="checkbox mb-3">
+                  <label>
+                    <input type="checkbox" value="lembrar" />
+                    Lembrar-me
+                  </label>
+                </div>
+                <button class="btn btn-lg btn-primary" type="submit">
+                  ENTRAR
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="box-direita">
+        <div class="juncao-direita">
+          <div class="porquinho">
+            <img th:src="@{/images/porco.png}" alt="Logo" />
+          </div>
+          <div class="texto-porquinho">
+            <h3>
+              Agora ficou fácil cuidar <br />
+              do seu dinheiro.
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar"></div>
+  </body>
+</html>

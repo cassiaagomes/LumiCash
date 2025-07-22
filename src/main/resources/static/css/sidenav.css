@@ -1,0 +1,63 @@
+.sidenav .logo {
+  padding: 20px;
+  font-size: 1.7em;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.sidenav .logo img {
+  height: 122px;
+}
+
+.sidenav .logo span {
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sidenav .nav-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Regra base para todos os nav-links */
+.sidenav .nav-item .nav-link {
+  padding: 12px 20px;
+  color: #b3b3b3; /* Cor padrão cinza para itens não ativos */
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: x-large;
+  background-color: transparent;
+}
+
+.sidenav .nav.flex-column {
+  list-style-type: none;
+  padding-left: 50px; 
+  margin-top: 20px;
+}
+
+/* Hover mantém a cor atual e adiciona fundo verde */
+.sidenav .nav-item .nav-link:hover {
+  font-size: xx-large;
+  background-color: #27ac52;
+  color: white; /* Garante cor branca no hover */
+}
+
+.sidenav .nav-item {
+  margin-bottom: 35px;
+}
+
+/* Regra para item ativo - maior especificidade */
+.sidenav .nav-item .nav-link.active {
+  color: white !important;
+  background-color: #27ac52 !important;
+  font-weight: 700 !important;
+}
+
+/* Regra para item inativo (opcional, já que é o padrão agora) */
+.sidenav .nav-item .nav-link:not(.active) {
+  color: #b3b3b3;
+  background-color: transparent;
+}
