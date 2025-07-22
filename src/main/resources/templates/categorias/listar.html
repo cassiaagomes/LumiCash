@@ -42,7 +42,6 @@
         <table class="table table-bordered table-hover align-middle">
           <thead>
             <tr>
-              <th>Id</th>
               <th>Nome da categoria</th>
               <th>Ativo</th>
               <th>Ações</th>
@@ -50,7 +49,6 @@
           </thead>
           <tbody>
             <tr th:each="categoria : ${categorias}">
-              <td th:text="${categoria.id}"></td>
               <td th:text="${categoria.nome}"></td>
               <td th:text="${categoria.ativo}"></td>
               <td class="actions">
