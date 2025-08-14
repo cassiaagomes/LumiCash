@@ -23,4 +23,9 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     List<Transacao> filtraTransacaoPorContaDataIncialDataFinal(Conta conta,
                                                                LocalDate dataInicial,
                                                                LocalDate dataFinal);
+
+    @Query("SELECT t FROM Transacao t WHERE t.conta.id = :contaId AND t.data BETWEEN :dataInicial AND :dataFinal")
+    List<Transacao> filtraTransacaoPorContaIdDataInicialDataFinal(Long contaId,
+                                                               LocalDate dataInicial,
+                                                               LocalDate dataFinal);
 }
