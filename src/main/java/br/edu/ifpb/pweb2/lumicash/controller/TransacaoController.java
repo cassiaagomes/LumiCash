@@ -181,7 +181,7 @@ public class TransacaoController {
         }
 
         transacaoService.salvar(transacao);
-        return "redirect:/transacoes";
+        return "redirect:/transacoes?contaId=" + transacao.getConta().getId();
     }
 
     @GetMapping("/delete/{id}")
@@ -221,6 +221,7 @@ public class TransacaoController {
         }
 
         model.addAttribute("transacaoId", transacao.getId());
+        model.addAttribute("contaId", transacao.getConta().getId());
 
         // Passa o comentário existente, se houver. Se não, passa um novo objeto
         // Comentario
