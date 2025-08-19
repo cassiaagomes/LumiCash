@@ -97,9 +97,20 @@
                 ></span>
               </td>
               <td th:text="${transacao.categoria.nome}"></td>
-              <td
-                th:text="${transacao.comentario != null ? transacao.comentario.texto : 'Sem comentário'}"
-              ></td>
+
+              <!-- Comentário com modal -->
+              <td>
+                <a href="#"
+                   th:if="${transacao.comentario != null}"
+                   th:attr="data-comentario=${transacao.comentario.texto}"
+                   class="abrirComentario"
+                   data-bs-toggle="modal"
+                   data-bs-target="#comentarioModal">
+                   Ver Comentário
+                </a>
+                <span th:if="${transacao.comentario == null}">-</span>
+              </td>
+
               <td class="actions">
                 <a
                   th:href="@{/transacoes/editar/{id}(id=${transacao.id})}"
@@ -146,12 +157,23 @@
         <button id="nextPage" class="estilo-btn">Próximo</button>
       </div>
 
-      <div
-        class="modal fade"
-        id="modalCadastroTransacao"
-        tabindex="-1"
-        aria-hidden="true"
-      ></div>
+      <!-- Modal de Comentário -->
+      <div class="modal fade" id="comentarioModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Comentário da Transação</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body" id="comentarioTexto">
+              <!-- Texto do comentário entra aqui -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <th:block th:fragment="pageScripts">
