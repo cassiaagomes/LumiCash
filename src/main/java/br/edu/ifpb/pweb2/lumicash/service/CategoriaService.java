@@ -33,7 +33,11 @@ public class CategoriaService {
     }
 
     public Categoria buscarPorId(Long id) {
-    return categoriaRepository.findById(id).orElse(null);
-}
+        return categoriaRepository.findById(id).orElse(null);
+    }
+
+    public List<Categoria> listarPorNatureza(String natureza) {
+        return categoriaRepository.findByNaturezaOrderByOrdem(natureza);
+    }
 
 }

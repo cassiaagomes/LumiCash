@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html
+  lang="pt-BR"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/layout :: ~{}}"
+>
+  <th:block th:fragment="pageStyles">
+    <link th:href="@{/css/listar.css}" rel="stylesheet" />
+  </th:block>
+
+  <body>
+    <div th:fragment="pageContent">
+
+      <!-- Header com seletor de ano -->
+      <div class="header-table d-flex justify-content-between align-items-center mb-3">
+        <form class="d-flex align-items-center" th:action="@{/orcamento-anual}" method="get">
+          <div class="input-icon-wrapper me-2">
+            <span class="input-icon"><i class="fa fa-calendar"></i></span>
+            <select class="search-input form-select" name="ano" id="ano">
+              <option th:each="y : ${anosDisponiveis}" th:value="${y}" th:text="${y}" th:selected="${y == anoSelecionado}"></option>
+            </select>
+          </div>
+          <button type="submit" class="cadastrar btn btn-primary ms-auto">Filtrar</button>
+        </form>
+      </div>
+
+      <div th:if="${mensagem}" th:text="${mensagem}" class="text-danger mb-3 text-center"></div>
+
+      <!-- Tabela de Entradas -->
+      <div th:if="${orcamentoEntradas != null}">
+        <h5>Entradas</h5>
+        <div class="table-wrapper">
+          <table class="table table-bordered table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th th:each="m : ${meses}" th:text="${m}"></th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="cat : ${orcamentoEntradas}">
+                <td th:text="${cat.nome}"></td>
+                <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tabela de Saídas -->
+      <div th:if="${orcamentoSaidas != null}">
+        <h5>Saídas</h5>
+        <div class="table-wrapper">
+          <table class="table table-bordered table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th th:each="m : ${meses}" th:text="${m}"></th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="cat : ${orcamentoSaidas}">
+                <td th:text="${cat.nome}"></td>
+                <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tabela de Investimentos -->
+      <div th:if="${orcamentoInvestimentos != null}">
+        <h5>Investimentos</h5>
+        <div class="table-wrapper">
+          <table class="table table-bordered table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th th:each="m : ${meses}" th:text="${m}"></th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="cat : ${orcamentoInvestimentos}">
+                <td th:text="${cat.nome}"></td>
+                <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <th:block th:fragment="pageScripts">
+      <script th:src="@{/js/listar.js}"></script>
+    </th:block>
+  </body>
+</html>

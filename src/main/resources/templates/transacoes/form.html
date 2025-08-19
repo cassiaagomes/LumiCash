@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
   <th:block th:replace="~{layouts/layout :: ~{}}">
+
     <!-- Estilos -->
     <th:block th:fragment="pageStyles">
       <link rel="stylesheet" th:href="@{/css/formulariotran.css}" />
@@ -116,19 +117,25 @@
               >
                 <option value="" disabled>Selecione uma categoria</option>
 
-                <optgroup label="Entradas" th:each="cat : ${categoriasEntrada}">
-                  <option th:value="${cat.id}" th:text="${cat.nome}"></option>
+                <!-- Entradas -->
+                <optgroup label="Entradas">
+                  <option th:each="cat : ${categoriasEntrada}"
+                          th:value="${cat.id}" 
+                          th:text="${cat.nome}"></option>
                 </optgroup>
 
-                <optgroup label="Saídas" th:each="cat : ${categoriasSaida}">
-                  <option th:value="${cat.id}" th:text="${cat.nome}"></option>
+                <!-- Saídas -->
+                <optgroup label="Saídas">
+                  <option th:each="cat : ${categoriasSaida}"
+                          th:value="${cat.id}" 
+                          th:text="${cat.nome}"></option>
                 </optgroup>
 
-                <optgroup
-                  label="Investimentos"
-                  th:each="cat : ${categoriasInvestimento}"
-                >
-                  <option th:value="${cat.id}" th:text="${cat.nome}"></option>
+                <!-- Investimentos -->
+                <optgroup label="Investimentos">
+                  <option th:each="cat : ${categoriasInvestimento}"
+                          th:value="${cat.id}" 
+                          th:text="${cat.nome}"></option>
                 </optgroup>
               </select>
 
