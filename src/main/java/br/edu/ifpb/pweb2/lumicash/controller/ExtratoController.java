@@ -39,6 +39,7 @@ public class ExtratoController {
         List<Conta> contas = contaService.listarContasDoCorrentista(correntista);
         model.addAttribute("contasCorrentista", contas);
         model.addAttribute("contaSelecionadaId", null);
+        model.addAttribute("page", "extrato");
         return "extrato/listar";
     }
 
@@ -59,6 +60,7 @@ public class ExtratoController {
         if (Objects.nonNull(dataFim) && !dataFim.isBlank()) {
             parametros += "dataFim=" + dataFim;
         }
+        model.addAttribute("page", "extrato");
 
         return "redirect:/extrato/contas/" + parametros;
     }

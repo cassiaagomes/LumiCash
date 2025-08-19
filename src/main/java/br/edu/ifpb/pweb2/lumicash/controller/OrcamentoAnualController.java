@@ -53,28 +53,11 @@ public class OrcamentoAnualController {
         List<OrcamentoCategoriaDTO> orcamentoInvestimentos = transacaoService.gerarOrcamentoPorCategoria(investimentos,
                 anoCorrente);
 
-        // ===== TESTE: imprimir no console =====
-
-        entradas.forEach(c -> System.out.println("Entrada: " + c.getId() + " - " + c.getNome()));
-        saidas.forEach(c -> System.out.println("Saída: " + c.getId() + " - " + c.getNome()));
-        investimentos.forEach(c -> System.out.println("Investimento: " + c.getId() + " - " + c.getNome()));
-
-        // System.out.println("=== ORÇAMENTO ENTRADAS ===");
-        // orcamentoEntradas.forEach(dto -> System.out
-        //         .println(dto.getNome() + " -> " + dto.getValoresMensais() + " | Total: " + dto.getTotal()));
-
-        // System.out.println("=== ORÇAMENTO SAIDAS ===");
-        // orcamentoSaidas.forEach(dto -> System.out
-        //         .println(dto.getNome() + " -> " + dto.getValoresMensais() + " | Total: " + dto.getTotal()));
-
-        // System.out.println("=== ORÇAMENTO INVESTIMENTOS ===");
-        // orcamentoInvestimentos.forEach(dto -> System.out
-        //         .println(dto.getNome() + " -> " + dto.getValoresMensais() + " | Total: " + dto.getTotal()));
-        // ======================================
-
         model.addAttribute("orcamentoEntradas", orcamentoEntradas);
         model.addAttribute("orcamentoSaidas", orcamentoSaidas);
         model.addAttribute("orcamentoInvestimentos", orcamentoInvestimentos);
+
+        model.addAttribute("page", "orcamento-anual");
 
         return "orcamento-anual/listar";
     }
