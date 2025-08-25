@@ -1,121 +1,98 @@
 <!DOCTYPE html>
-<html
-  lang="pt-BR"
-  xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{layouts/layout :: ~{}}"
->
-  <th:block th:fragment="pageStyles">
-    <link th:href="@{/css/listar.css}" rel="stylesheet" />
-  </th:block>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/layout :: ~{}}">
+<th:block th:fragment="pageStyles">
+  <link th:href="@{/css/listar.css}" rel="stylesheet" />
+</th:block>
 
-  <body>
-    <div th:fragment="pageContent">
-      <div
-        class="header-table d-flex justify-content-between align-items-center mb-3"
-      >
-        <form class="d-flex" th:action="@{/correntistas}" method="get">
-          <div class="input-icon-wrapper">
-            <span class="input-icon"><i class="fa fa-search"></i></span>
-            <input
-              class="search-input form-control"
-              type="text"
-              name="number"
-              placeholder="Procurar"
-            />
-          </div>
-        </form>
-        <button class="cadastrar btn btn-primary" type="button" th:onclick="|window.location.href='@{/correntistas/form}'|">
-            + Cadastrar Correntista
-        </button>
-      </div>
+<body>
+  <div th:fragment="pageContent">
+    <div class="header-table d-flex justify-content-between align-items-center mb-3">
+      <form class="d-flex" th:action="@{/correntistas}" method="get">
+        <div class="input-icon-wrapper">
+          <span class="input-icon"><i class="fa fa-search"></i></span>
+          <input class="search-input form-control" type="text" name="number" placeholder="Procurar" />
+        </div>
+      </form>
+      <button class="cadastrar btn btn-primary" type="button"
+        th:onclick="|window.location.href='@{/correntistas/form}'|">
+        + Cadastrar Correntista
+      </button>
+    </div>
 
-      <div class="table-wrapper">
-        <div
-          th:if="${mensagem}"
-          th:text="${mensagem}"
-          class="alert alert-success mb-3"
-        ></div>
+    <div class="table-wrapper">
+      <div th:if="${mensagem}" th:text="${mensagem}" class="alert alert-success mb-3"></div>
 
-        <div
-          th:if="${erro}"
-          th:text="${erro}"
-          class="alert alert-danger mb-3"
-        ></div>
+      <div th:if="${erro}" th:text="${erro}" class="alert alert-danger mb-3"></div>
 
-        <table class="table table-bordered table-hover align-middle">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Nome</th>
-              <th>E-mail</th>
-              <th>Tipo</th>
-              <th>Ativo</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="correntista : ${correntistas}">
-              <td th:text="${correntista.id}"></td>
-              <td th:text="${correntista.nome}"></td>
-              <td th:text="${correntista.email}"></td>
-              <td
-                th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}"
-              ></td>
-              <td>
-                <span th:if="${!correntista.ativo}" class="badge bg-danger">Bloqueado</span>
-                <span th:if="${correntista.ativo}" class="badge bg-success">Ativo</span>
-              </td>
+      <table class="table table-bordered table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Tipo</th>
+            <th>Ativo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="correntista : ${correntistas}">
+            <td th:text="${correntista.id}"></td>
+            <td th:text="${correntista.nome}"></td>
+            <td th:text="${correntista.email}"></td>
+            <td th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}"></td>
+            <td>
+              <span th:if="${!correntista.ativo}" class="badge bg-danger">Bloqueado</span>
+              <span th:if="${correntista.ativo}" class="badge bg-success">Ativo</span>
+            </td>
 
-              <td class="actions">
-                <a
-                  th:href="@{/correntistas/edit/{id}(id=${correntista.id})}"
-                  title="Editar"
-                >
-                  <i class="fas fa-edit edit"></i>
-                </a>
+            <td class="actions">
+              <a th:href="@{/correntistas/edit/{id}(id=${correntista.id})}" title="Editar">
+                <i class="fas fa-edit edit"></i>
+              </a>
 
-<form th:if="${correntista.ativo}" th:action="@{/correntistas/bloquear/{id}(id=${correntista.id})}" method="post" style="display:inline;" 
-      onsubmit="return confirm('Deseja realmente bloquear este correntista?');">
-  <button type="submit" class="btn btn-link p-0 m-0" title="Bloquear" style="border:none; background:none; cursor:pointer;">
-    <i class="fas fa-ban block"></i>
-  </button>
-</form>
+              <form th:if="${correntista.ativo}" th:action="@{/correntistas/bloquear/{id}(id=${correntista.id})}"
+                method="post" style="display:inline;"
+                onsubmit="return confirm('Deseja realmente bloquear este correntista?');">
+                <button type="submit" class="btn btn-link p-0 m-0" title="Bloquear"
+                  style="border:none; background:none; cursor:pointer;">
+                  <i class="fas fa-ban block"></i>
+                </button>
+              </form>
 
 
-                <a
-                  href="#"
-                  th:if="${!correntista.ativo}"
-                  title="Correntista já está bloqueado"
-                  onclick="alert('Este correntista já está bloqueado.'); return false;"
-                >
-                  <i class="fas fa-ban block text-muted"></i>
-                </a>
+              <a href="#" th:if="${!correntista.ativo}" title="Correntista já está bloqueado"
+                onclick="alert('Este correntista já está bloqueado.'); return false;">
+                <i class="fas fa-ban block text-muted"></i>
+              </a>
 
-                <a
-                  href="#"
-                  title="Apagar"
-                  th:onclick="|deletarCorrentista('@{/correntistas/delete/{id}(id=${correntista.id})}'); return false;|"
-                >
+              <a href="#" title="Apagar"
+                th:onclick="|deletarCorrentista('@{/correntistas/delete/{id}(id=${correntista.id})}'); return false;|">
+              </a>
+
+
+              <form th:action="@{/correntistas/delete/{id}(id=${correntista.id})}" method="post" style="display:inline;"
+                onsubmit="return confirm('Você tem certeza que deseja apagar este correntista?');">
+                <button type="submit" class="btn btn-link p-0 m-0" title="Apagar"
+                  style="border:none; background:none; cursor:pointer;">
                   <i class="fas fa-trash delete"></i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-      <div
-        id="pagination-controls"
-        style="margin-top: auto; text-align: center"
-        class="estilo-row"
-      >
-        <button id="prevPage" class="estilo-btn">Anterior</button>
-        <span id="pageInfo"></span>
-        <button id="nextPage" class="estilo-btn">Próximo</button>
-      </div>
+    <div id="pagination-controls" style="margin-top: auto; text-align: center" class="estilo-row">
+      <button id="prevPage" class="estilo-btn">Anterior</button>
+      <span id="pageInfo"></span>
+      <button id="nextPage" class="estilo-btn">Próximo</button>
+    </div>
 
     <th:block th:fragment="pageScripts">
       <script th:src="@{/js/listar.js}"></script>
     </th:block>
-  </body>
+</body>
+
 </html>

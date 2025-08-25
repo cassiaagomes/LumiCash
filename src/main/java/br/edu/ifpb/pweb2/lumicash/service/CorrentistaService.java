@@ -8,6 +8,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,14 +17,17 @@ public class CorrentistaService {
     @Autowired
     private CorrentistaRepository repository;
 
-    // ✅ SOLUÇÃO 1: Adicionar EntityManager para controle de sessão
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public Correntista salvar(Correntista correntista) {
         if (correntista.getId() == null) {
             System.out.println("[SERVICE] Salvando novo correntista...");
+            correntista.setSenha(passwordEncoder.encode(correntista.getSenha()));
 
             if (correntista.getIsAdmin() == null) {
                 correntista.setIsAdmin(false);
@@ -47,11 +51,14 @@ public class CorrentistaService {
 
             existente.setNome(correntista.getNome());
             existente.setEmail(correntista.getEmail());
-            existente.setSenha(correntista.getSenha());
+            
+            // Verifica se a senha foi alterada antes de criptografar
+            if (correntista.getSenha() != null && !correntista.getSenha().isEmpty() && !passwordEncoder.matches(correntista.getSenha(), existente.getSenha())) {
+                existente.setSenha(passwordEncoder.encode(correntista.getSenha()));
+            }
+
             existente.setIsAdmin(correntista.getIsAdmin());
             existente.setAtivo(correntista.getAtivo());
-
-            // Não mexa na coleção de contas aqui, para evitar problemas
 
             return repository.save(existente);
         }
@@ -72,7 +79,6 @@ public class CorrentistaService {
         Correntista c = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Correntista não encontrado"));
 
-        // Inicializar a coleção dentro da transação
         c.getContas().size();
 
         return c;
@@ -82,19 +88,15 @@ public class CorrentistaService {
     public void apagarPorId(Long id) throws Exception {
         System.out.println("[SERVICE] Iniciando exclusão do correntista ID: " + id);
 
-        // ✅ CORREÇÃO: Buscar com contas para garantir que tudo seja carregado
         Correntista correntista = repository.findById(id)
                 .orElseThrow(() -> new Exception("Correntista não encontrado com o ID: " + id));
 
-        // Forçar carregamento das contas
         correntista.getContas().size();
 
         System.out.println("[SERVICE] Correntista encontrado com " + correntista.getContas().size() + " contas");
 
-        // Remover o correntista (cascade irá remover as contas)
         repository.delete(correntista);
 
-        // ✅ CORREÇÃO: Limpar cache do EntityManager
         entityManager.flush();
         entityManager.clear();
 

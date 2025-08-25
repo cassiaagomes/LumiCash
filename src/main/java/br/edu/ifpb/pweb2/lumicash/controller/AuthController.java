@@ -30,28 +30,9 @@ public class AuthController {
 
     @GetMapping("/signup")
     public ModelAndView signUp(ModelAndView mav) {
-        mav.addObject("correntista", new Correntista()); // "correntista" com letra minúscula para compatibilidade com o
-                                                         // form
-        mav.setViewName("auth/signup");
+        mav.addObject("correntista", new Correntista());
+
         return mav;
-    }
-
-    @PostMapping("/login")
-    public String login(@ModelAttribute("usuario") Correntista usuario, HttpSession session, Model model) {
-        try {
-            Correntista autenticado = authService.autenticar(usuario.getEmail(), usuario.getSenha());
-
-            if (autenticado != null) {
-                session.setAttribute("loggedCorrentista", autenticado);
-                return "redirect:/home";
-            } else {
-                model.addAttribute("mensagem", "Email ou senha inválidos.");
-            }
-        } catch (UsuarioBloqueadoException ex) {
-            model.addAttribute("mensagem", ex.getMessage());
-        }
-
-        return "auth/signin";
     }
 
     @PostMapping("/cadastrar")
