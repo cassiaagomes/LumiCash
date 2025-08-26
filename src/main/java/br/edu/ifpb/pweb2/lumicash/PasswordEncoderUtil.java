@@ -1,3 +1,5 @@
+package br.edu.ifpb.pweb2.lumicash;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class PasswordEncoderUtil {

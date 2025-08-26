@@ -4,94 +4,108 @@
   xmlns:th="http://www.thymeleaf.org"
   th:replace="~{layouts/layout :: ~{}}"
 >
-  <th:block th:fragment="pageStyles">
-    <link th:href="@{/css/listar.css}" rel="stylesheet" />
-  </th:block>
-
+  <head>
+    <title>Orçamento Anual</title>
+    <th:block th:fragment="pageStyles">
+      <link th:href="@{/css/listarorcamento.css}" rel="stylesheet" />
+    </th:block>
+  </head>
   <body>
     <div th:fragment="pageContent">
 
-      <!-- Header com seletor de ano -->
-      <div class="header-table d-flex justify-content-between align-items-center mb-3">
-        <form class="d-flex align-items-center" th:action="@{/orcamento-anual}" method="get">
+      <div class="page-controls-wrapper">
+
+          <form class="filter-form d-flex align-items-center" th:action="@{/orcamento-anual}" method="get">
           <div class="input-icon-wrapper me-2">
             <span class="input-icon"><i class="fa fa-calendar"></i></span>
             <select class="search-input form-select" name="ano" id="ano">
               <option th:each="y : ${anosDisponiveis}" th:value="${y}" th:text="${y}" th:selected="${y == anoSelecionado}"></option>
             </select>
           </div>
-          <button type="submit" class="cadastrar btn btn-primary ms-auto">Filtrar</button>
+          <button type="submit" class="cadastrar btn btn-primary">Filtrar</button>
         </form>
+        <ul class="nav nav-tabs" id="orcamentoTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="entradas-tab" data-bs-toggle="tab" data-bs-target="#entradas-content" type="button" role="tab" aria-controls="entradas-content" aria-selected="true">Entradas</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="saidas-tab" data-bs-toggle="tab" data-bs-target="#saidas-content" type="button" role="tab" aria-controls="saidas-content" aria-selected="false">Saídas</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="investimentos-tab" data-bs-toggle="tab" data-bs-target="#investimentos-content" type="button" role="tab" aria-controls="investimentos-content" aria-selected="false">Investimentos</button>
+          </li>
+        </ul>
       </div>
-
       <div th:if="${mensagem}" th:text="${mensagem}" class="text-danger mb-3 text-center"></div>
 
-      <!-- Tabela de Entradas -->
-      <div th:if="${orcamentoEntradas != null}">
-        <h5>Entradas</h5>
-        <div class="table-wrapper">
-          <table class="table table-bordered table-hover align-middle">
-            <thead>
-              <tr>
-                <th>Categoria</th>
-                <th th:each="m : ${meses}" th:text="${m}"></th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="cat : ${orcamentoEntradas}">
-                <td th:text="${cat.nome}"></td>
-                <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
-                <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="tab-content" id="orcamentoTabContent">
+        <div class="tab-pane fade show active" id="entradas-content" role="tabpanel" aria-labelledby="entradas-tab">
+          <div th:if="${orcamentoEntradas != null}">
+            <div class="table-wrapper">
+              <table class="table table-bordered table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Categoria</th>
+                    <th th:each="m : ${meses}" th:text="${m}"></th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="cat : ${orcamentoEntradas}">
+                    <td th:text="${cat.nome}"></td>
+                    <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- Tabela de Saídas -->
-      <div th:if="${orcamentoSaidas != null}">
-        <h5>Saídas</h5>
-        <div class="table-wrapper">
-          <table class="table table-bordered table-hover align-middle">
-            <thead>
-              <tr>
-                <th>Categoria</th>
-                <th th:each="m : ${meses}" th:text="${m}"></th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="cat : ${orcamentoSaidas}">
-                <td th:text="${cat.nome}"></td>
-                <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
-                <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="tab-pane fade" id="saidas-content" role="tabpanel" aria-labelledby="saidas-tab">
+          <div th:if="${orcamentoSaidas != null}">
+            <div class="table-wrapper">
+              <table class="table table-bordered table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Categoria</th>
+                    <th th:each="m : ${meses}" th:text="${m}"></th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="cat : ${orcamentoSaidas}">
+                    <td th:text="${cat.nome}"></td>
+                    <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- Tabela de Investimentos -->
-      <div th:if="${orcamentoInvestimentos != null}">
-        <h5>Investimentos</h5>
-        <div class="table-wrapper">
-          <table class="table table-bordered table-hover align-middle">
-            <thead>
-              <tr>
-                <th>Categoria</th>
-                <th th:each="m : ${meses}" th:text="${m}"></th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="cat : ${orcamentoInvestimentos}">
-                <td th:text="${cat.nome}"></td>
-                <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
-                <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="tab-pane fade" id="investimentos-content" role="tabpanel" aria-labelledby="investimentos-tab">
+          <div th:if="${orcamentoInvestimentos != null}">
+            <div class="table-wrapper">
+              <table class="table table-bordered table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Categoria</th>
+                    <th th:each="m : ${meses}" th:text="${m}"></th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="cat : ${orcamentoInvestimentos}">
+                    <td th:text="${cat.nome}"></td>
+                    <td th:each="val : ${cat.valoresMensais}" th:text="${#numbers.formatDecimal(val,1,'COMMA',2,'POINT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(cat.total,1,'COMMA',2,'POINT')}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
 
