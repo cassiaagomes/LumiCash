@@ -8,8 +8,13 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class CorrentistaService {
@@ -120,4 +125,10 @@ public class CorrentistaService {
     public List<Correntista> listarCorrentistas() {
         return repository.findAll();
     }
+
+    public Page<Correntista> listarCorrentistasPaginados(int page, int size, String sortBy, String direction) {
+    Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+    Pageable pageable = PageRequest.of(page, size, sort);
+    return repository.findAll(pageable);
+}
 }

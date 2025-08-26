@@ -1,43 +1,26 @@
 <!DOCTYPE html>
-<html
-  lang="pt-BR"
-  xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{layouts/layout :: ~{}}"
->
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/layout :: ~{}}">
   <th:block th:fragment="pageStyles">
     <link th:href="@{/css/listar.css}" rel="stylesheet" />
   </th:block>
 
   <body>
     <div th:fragment="pageContent">
-      <div
-        class="header-table d-flex justify-content-between align-items-center mb-3"
-      >
+      <div class="header-table d-flex justify-content-between align-items-center mb-3">
         <form class="d-flex" th:action="@{/contas}" method="get">
           <div class="input-icon-wrapper">
             <span class="input-icon"><i class="fa fa-search"></i></span>
-            <input
-              class="search-input form-control"
-              type="text"
-              name="number"
-              placeholder="Procurar"
-            />
+            <input class="search-input form-control" type="text" name="number" placeholder="Procurar" />
           </div>
         </form>
-        <button
-          class="cadastrar btn btn-primary"
-          type="button"
-          th:onclick="|window.location.href='@{/contas/form}'|"
-        >
+        <button class="cadastrar btn btn-primary" type="button"
+                th:onclick="|window.location.href='@{/contas/form}'|">
           + Cadastrar Conta
         </button>
       </div>
 
-      <div
-        th:if="${mensagem}"
-        th:text="${mensagem}"
-        class="text-danger mb-3"
-      ></div>
+      <div th:if="${mensagem}" th:text="${mensagem}" class="alert alert-success mb-3"></div>
+      <div th:if="${erro}" th:text="${erro}" class="alert alert-danger mb-3"></div>
 
       <div class="table-wrapper">
         <table class="table table-bordered table-hover align-middle">
@@ -46,7 +29,7 @@
               <th>Descrição</th>
               <th>Tipo</th>
               <th style="text-align: center">Dia do fechamento</th>
-              <th>Numero da conta</th>
+              <th>Número da conta</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -54,63 +37,48 @@
             <tr th:each="conta : ${contas}">
               <td th:text="${conta.descricao}"></td>
               <td>
-                <img
-                  th:if="${conta.tipo == 'CARTAO'}"
-                  th:src="@{/images/cartão.png}"
-                  alt="Cartão"
-                  width="24"
-                  height="24"
-                />
-                <img
-                  th:if="${conta.tipo == 'CORRENTE'}"
-                  th:src="@{/images/banco.png}"
-                  alt="Conta Corrente"
-                  width="24"
-                  height="24"
-                />
+                <img th:if="${conta.tipo == 'CARTAO'}" th:src="@{/images/cartão.png}" alt="Cartão" width="24" height="24"/>
+                <img th:if="${conta.tipo == 'CORRENTE'}" th:src="@{/images/banco.png}" alt="Conta Corrente" width="24" height="24"/>
               </td>
-
-              <td
-                th:text="${conta.diaFechamento}"
-                style="text-align: center"
-              ></td>
+              <td th:text="${conta.diaFechamento}" style="text-align: center"></td>
               <td th:text="${conta.numero}"></td>
               <td class="actions">
-                <a th:href="@{/contas/edit/{id}(id=${conta.id})}" title="Editar"
-                  ><i class="fas fa-edit edit"></i
-                ></a>
-                <a
-                  href="#"
-                  th:attr="onclick=|if(confirm('Confirma exclusão da conta ${conta.numero}?')) window.location.href='@{/contas/delete/{id}(id=${conta.id})}'|"
-                  title="Excluir"
-                  ><i class="fas fa-trash delete"></i
-                ></a>
+                <a th:href="@{/contas/edit/{id}(id=${conta.id})}" title="Editar"><i class="fas fa-edit edit"></i></a>
+
+                <form th:action="@{/contas/delete/{id}(id=${conta.id})}" method="get" style="display:inline"
+                      onsubmit="return confirm('Você tem certeza que deseja apagar esta conta?');">
+                  <button type="submit" class="btn btn-link p-0 m-0" title="Apagar" style="border:none; background:none; cursor:pointer;">
+                    <i class="fas fa-trash delete"></i>
+                  </button>
+                </form>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div
-        id="pagination-controls"
-        style="margin-top: auto; text-align: center"
-        class="estilo-row"
-      >
-        <button id="prevPage" class="estilo-btn">Anterior</button>
-        <span id="pageInfo"></span>
-        <button id="nextPage" class="estilo-btn">Próximo</button>
+      <!-- Paginação com Spring Data -->
+      <div id="pagination-controls" style="margin-top: 0; text-align: center" class="estilo-row">
+        <form th:action="@{/contas}" method="get" style="display:inline">
+          <input type="hidden" name="page" th:value="${currentPage - 1}" />
+          <input type="hidden" name="size" th:value="${pageSize}" />
+          <button type="submit" class="estilo-btn" th:disabled="${currentPage == 0}">Anterior</button>
+        </form>
+
+        <span id="pageInfo" style="margin: 0 10px">
+          Página <span th:text="${currentPage + 1}"></span> de <span th:text="${totalPages}"></span>
+        </span>
+
+        <form th:action="@{/contas}" method="get" style="display:inline">
+          <input type="hidden" name="page" th:value="${currentPage + 1}" />
+          <input type="hidden" name="size" th:value="${pageSize}" />
+          <button type="submit" class="estilo-btn" th:disabled="${currentPage + 1 >= totalPages}">Próximo</button>
+        </form>
       </div>
 
-      <div
-        class="modal fade"
-        id="modalCadastroConta"
-        tabindex="-1"
-        aria-hidden="true"
-      ></div>
+      <th:block th:fragment="pageScripts">
+        <script th:src="@{/js/listar.js}"></script>
+      </th:block>
     </div>
-
-    <th:block th:fragment="pageScripts">
-      <script th:src="@{/js/listar.js}"></script>
-    </th:block>
   </body>
 </html>

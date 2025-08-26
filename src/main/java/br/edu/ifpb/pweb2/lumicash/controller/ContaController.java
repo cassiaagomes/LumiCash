@@ -3,6 +3,10 @@ package br.edu.ifpb.pweb2.lumicash.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
 import br.edu.ifpb.pweb2.lumicash.service.ContaService;
@@ -17,6 +22,7 @@ import br.edu.ifpb.pweb2.lumicash.entity.Conta;
 import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+
 
 @Controller
 @RequestMapping("")
@@ -76,12 +82,23 @@ public class ContaController {
     }
 
     @GetMapping("/contas")
-    public String listarContas(Model model, HttpSession session) {
+    public String listarContas(
+            Model model,
+            HttpSession session,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
         Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
-        List<Conta> contas = contaService.listarContasDoCorrentista(correntista);
-        model.addAttribute("contas", contas);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("descricao").ascending());
+        Page<Conta> contasPage = contaService.listarContasDoCorrentistaPaginado(correntista, pageable);
+
+        model.addAttribute("contas", contasPage.getContent());
+        model.addAttribute("currentPage", contasPage.getNumber());
+        model.addAttribute("totalPages", contasPage.getTotalPages());
+        model.addAttribute("pageSize", size);
         model.addAttribute("page", "contas");
+
         return "contas/listar";
     }
 
