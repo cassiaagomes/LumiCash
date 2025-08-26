@@ -1,0 +1,111 @@
+
+.content-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  height: 800px; /* Garante que a altura se ajuste ao conteúdo *//
+}
+
+/* --- Contêiner dos Controles (Filtro e Abas) --- */
+.page-controls-wrapper {
+  position: relative; /* Essencial para posicionar o filtro */
+  display: flex;
+  justify-content: center; /* Centraliza o item principal (as abas) */
+  align-items: center;
+  height: 50px; /* Altura fixa para alinhar tudo verticalmente */
+  background-color: #e2f3e8;
+  padding: 35px;
+  border-radius: 10px 10px 0 0;
+}
+
+/* --- Formulário de Filtro (Posicionado na Direita) --- */
+.filter-form {
+  position: absolute; /* Remove o formulário do fluxo normal */
+  left: 5px; /* Alinha na extrema direita do wrapper */
+  top: 50%; /* Alinha verticalmente no centro */
+  transform: translateY(-50%);
+}
+
+.filter-form .cadastrar {
+  background-color: #27ac52;
+  border: none;
+  border-radius: 10px;
+  height: 40px;
+  padding: 0 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.filter-form .cadastrar:hover {
+  background-color: #219945;
+}
+
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+}
+
+.search-input {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 8px 12px 8px 36px; /* Adiciona espaço para o ícone */
+  font-size: 14px;
+  width: 150px; /* Tamanho compacto para o seletor de ano */
+}
+
+
+/* --- Estilos das Abas de Navegação (Centralizadas) --- */
+.nav-tabs {
+  border-bottom: none; /* Remove a linha padrão do Bootstrap */
+  gap: 8px; /* Adiciona um espaço entre os botões das abas */
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  background-color: #a8a8a8; /* Fundo cinza claro para abas inativas */
+  color: #555; /* Cor de texto para abas inativas */
+  font-weight: 600;
+  border-radius: 8px 8px 0 0;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+/* Estilo da aba ativa e quando o mouse passa por cima */
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link.active {
+  color: #ffff; /* Cor verde principal do seu design */
+  background-color: #27ac52; /* Fundo branco para destacar */
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.05); /* Sombra sutil para dar profundidade */
+}
+
+
+/* --- Estilos da Tabela de Dados --- */
+.table {
+  margin-bottom: 0 !important;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table thead th {
+  background-color: #e2f3e8 !important;
+  color: #333 !important;
+  font-weight: 600;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

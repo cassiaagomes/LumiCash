@@ -26,20 +26,42 @@
               placeholder="Ex: Mercado"
               required
             />
-            <div class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('nome')}"
+              th:errors="*{nome}"
+            ></div>
           </div>
 
           <!-- Natureza -->
           <div class="mb-3">
             <label class="form-label">Natureza</label>
-            <input
-              type="text"
-              class="form-control"
-              th:field="*{natureza}"
-              placeholder="Entrada, Saída ou Investimento"
-              required
-            />
-            <div class="text-danger" th:if="${#fields.hasErrors('natureza')}" th:errors="*{natureza}"></div>
+            <select class="form-control" th:field="*{natureza}" required>
+              <option value="" disabled>Selecione a natureza</option>
+              <option
+                value="ENTRADA"
+                th:selected="${categoria.natureza == 'ENTRADA'}"
+              >
+                Entrada
+              </option>
+              <option
+                value="SAIDA"
+                th:selected="${categoria.natureza == 'SAIDA'}"
+              >
+                Saída
+              </option>
+              <option
+                value="INVESTIMENTO"
+                th:selected="${categoria.natureza == 'INVESTIMENTO'}"
+              >
+                Investimento
+              </option>
+            </select>
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('natureza')}"
+              th:errors="*{natureza}"
+            ></div>
           </div>
 
           <!-- Ordem -->
@@ -52,11 +74,15 @@
               placeholder="Informe a ordem"
               required
             />
-            <div class="text-danger" th:if="${#fields.hasErrors('ordem')}" th:errors="*{ordem}"></div>
+            <div
+              class="text-danger"
+              th:if="${#fields.hasErrors('ordem')}"
+              th:errors="*{ordem}"
+            ></div>
           </div>
 
           <!-- Botão -->
-          <button type="submit" id="btnSalvar" class="btn btn-primary mt-3" disabled>
+          <button type="submit" id="btnSalvar" class="btn btn-primary mt-3">
             Salvar Categoria
           </button>
         </form>

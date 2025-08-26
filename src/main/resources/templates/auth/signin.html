@@ -1,90 +1,84 @@
 <!DOCTYPE html>
-<html lang="pt_BR">
-  <head>
-    <head th:replace="fragments/head :: commonHead('Login')"></head>
-    <link th:href="@{/css/cadastro.css}" rel="stylesheet" />
-  </head>
+<html lang="pt_BR" xmlns:th="http://www.thymeleaf.org">
 
-  <body class="text-center">
-    <div class="boxes">
-      <div class="box-esquerda">
-        <form
-          class="form-signin"
-          th:action="@{/auth/login}"
-          method="POST"
-          th:object="${usuario}"
-        >
-          <div class="centered">
-            <div class="juncao-esquerda">
-              <div class="imglogo">
-                <img
-                  class="mb-4"
-                  th:src="@{/images/lumicashgreen.png}"
-                  alt="Logo do Lumicash"
-                />
-              </div>
+<head>
+  <title>Login - LumiCash</title>
+  <head th:replace="~{fragments/head :: commonHead('Login')}"></head>
+  <link th:href="@{/css/cadastro.css}" rel="stylesheet" />
+</head>
 
-              <div
-                th:if="${not #strings.isEmpty(mensagem)}"
-                th:utext="${mensagem}"
-                class="alert alert-danger alert-dismissible fade show"
-                role="alert"
-              ></div>
+<body class="text-center">
+  <div class="boxes">
 
-              <div class="campos">
-                <label for="email" class="form-label">E-mail</label>
-                <div class="input-container">
-                  <i class="fa-solid fa-user icon"></i>
-                  <input
-                    type="email"
-                    class="form-control input-login input-with-icon"
-                    placeholder="usuario@email.com"
-                    required
-                    autofocus
-                    th:field="*{email}"
-                  />
-                </div>
+    <!-- Lado esquerdo: formulário de login -->
+    <div class="box-esquerda">
+      <form class="form-signin" th:action="@{/auth/login}" method="POST">
+        <div class="centered">
+          <div class="juncao-esquerda">
 
-                <label for="senha" class="form-label">Senha</label>
-                <div class="input-container">
-                  <i class="fa-solid fa-lock icon"></i>
-                  <input
-                    type="password"
-                    class="form-control input-login input-with-icon"
-                    placeholder="Sua senha"
-                    required
-                    th:field="*{senha}"
-                  />
-                </div>
-
-                <div class="checkbox mb-3">
-                  <label>
-                    <input type="checkbox" value="lembrar" />
-                    Lembrar-me
-                  </label>
-                </div>
-                <button class="btn btn-lg btn-primary" type="submit">
-                  ENTRAR
-                </button>
-              </div>
+            <!-- Logo -->
+            <div class="imglogo">
+              <img class="mb-4" th:src="@{/images/lumicashgreen.png}" alt="Logo do LumiCash" />
             </div>
+
+            <!-- Alertas -->
+            <div th:if="${param.error}" class="alert alert-danger" role="alert">
+              Email ou senha inválidos.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success" role="alert">
+              Você foi desconectado com sucesso.
+            </div>
+
+            <!-- Campos do formulário -->
+            <div class="campos">
+              <label for="username" class="form-label">E-mail</label>
+              <div class="input-container">
+                <i class="fa-solid fa-user icon"></i>
+                <input type="email" name="username" id="username"
+                       class="form-control input-login input-with-icon"
+                       placeholder="usuario@email.com" required autofocus />
+              </div>
+
+              <label for="password" class="form-label">Senha</label>
+              <div class="input-container">
+                <i class="fa-solid fa-lock icon"></i>
+                <input type="password" name="password" id="password"
+                       class="form-control input-login input-with-icon"
+                       placeholder="Sua senha" required />
+              </div>
+
+              <div class="checkbox mb-3">
+                <label>
+                  <input type="checkbox" name="remember-me" /> Lembrar-me
+                </label>
+              </div>
+
+              <button class="btn btn-lg btn-primary" type="submit">ENTRAR</button>
+            </div>
+
           </div>
-        </form>
-      </div>
-      <div class="box-direita">
-        <div class="juncao-direita">
-          <div class="porquinho">
-            <img th:src="@{/images/porco.png}" alt="Logo" />
-          </div>
-          <div class="texto-porquinho">
-            <h3>
-              Agora ficou fácil cuidar <br />
-              do seu dinheiro.
-            </h3>
-          </div>
+        </div>
+
+        <!-- Token CSRF -->
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      </form>
+    </div>
+
+    <!-- Lado direito: ilustração -->
+    <div class="box-direita">
+      <div class="juncao-direita">
+        <div class="porquinho">
+          <img th:src="@{/images/porco.png}" alt="Ilustração porquinho" />
+        </div>
+        <div class="texto-porquinho">
+          <h3>Agora ficou fácil cuidar <br /> do seu dinheiro.</h3>
         </div>
       </div>
     </div>
-    <div class="footer-bar"></div>
-  </body>
+
+  </div>
+
+  <div class="footer-bar"></div>
+</body>
+
 </html>

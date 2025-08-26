@@ -10,63 +10,76 @@
 
   <body>
     <div th:fragment="pageContent">
+      <!-- Header com filtro de conta e datas -->
       <div
         class="header-table d-flex justify-content-between align-items-center mb-3"
       >
-        <form class="d-flex" th:action="@{/transacoes}" method="get">
-          <div class="dropdown-icon-wrapper">
+        <form
+          class="d-flex align-items-center"
+          th:action="@{/extrato}"
+          method="post"
+        >
+          <div class="input-icon-wrapper me-2">
+            <span class="input-icon"><i class="fa fa-list"></i></span>
             <select
-              class="form-select"
+              class="search-input form-select"
               name="contaId"
-              id="conta"
-              onchange="this.form.submit()"
+              id="contaId"
             >
               <option value="">Selecione uma conta:</option>
               <option
-                th:each="conta : ${contas}"
+                th:each="conta : ${contasCorrentista}"
                 th:value="${conta.id}"
                 th:selected="${conta.id == contaSelecionadaId}"
-                th:text="${(conta.tipo == 'CARTAO' ? 'Cartão de Crédito' : 'Conta Corrente') + ' - ' + conta.numero}"
+                th:text="${conta.descricao}"
               ></option>
             </select>
           </div>
+
+          <div class="input-icon-wrapper me-2">
+            <span class="input-icon"><i class="fa fa-calendar"></i></span>
+            <input
+              class="search-input form-control"
+              type="date"
+              id="dataInicio"
+              name="dataInicio"
+              th:value="${dataInicio}"
+            />
+          </div>
+
+          <div class="input-icon-wrapper me-2">
+            <span class="input-icon"><i class="fa fa-calendar"></i></span>
+            <input
+              class="search-input form-control"
+              type="date"
+              id="dataFim"
+              name="dataFim"
+              th:value="${dataFim}"
+            />
+          </div>
+
+          <button type="submit" class="cadastrar btn btn-primary">
+            Pesquisar
+          </button>
         </form>
-
-        <!-- CORREÇÃO: Botão só aparece se conta estiver selecionada -->
-        <button
-          class="cadastrar btn btn-primary"
-          type="button"
-          th:if="${contaSelecionadaId != null}"
-          th:onclick="|window.location.href='@{/transacoes/form(contaId=${contaSelecionadaId})}'|"
-        >
-          + Nova Transação
-        </button>
-
-        <!-- CORREÇÃO: Botão desabilitado quando nenhuma conta está selecionada -->
-        <button
-          class="cadastrar btn btn-secondary"
-          type="button"
-          th:if="${contaSelecionadaId == null}"
-          disabled
-          title="Selecione uma conta primeiro"
-        >
-          + Nova Transação
-        </button>
       </div>
 
-      <!-- Mensagem quando nenhuma conta está selecionada -->
-      <div th:if="${contaSelecionadaId == null}" class="alert alert-info mb-3">
+      <!-- Mensagens -->
+      <div
+        th:if="${contaSelecionadaId == null}"
+        class="alert alert-info mb-3 text-center"
+      >
         <i class="fas fa-info-circle"></i>
-        Selecione uma conta acima para visualizar as transações e criar novas.
+        Selecione uma conta acima para visualizar as transações.
       </div>
 
       <div
         th:if="${mensagem}"
         th:text="${mensagem}"
-        class="text-danger mb-3"
+        class="text-danger mb-3 text-center"
       ></div>
 
-      <!-- Tabela só aparece se houver conta selecionada -->
+      <!-- Tabela de transações -->
       <div class="table-wrapper" th:if="${contaSelecionadaId != null}">
         <table class="table table-bordered table-hover align-middle">
           <thead>
@@ -74,7 +87,6 @@
               <th>Data</th>
               <th>Descrição</th>
               <th>Valor (R$)</th>
-              <th>Movimento</th>
               <th>Categoria</th>
               <th>Comentário</th>
               <th>Ações</th>
@@ -85,91 +97,102 @@
               <td
                 th:text="${#temporals.format(transacao.data, 'dd/MM/yyyy')}"
               ></td>
-
               <td th:text="${transacao.descricao}"></td>
               <td
                 th:text="${#numbers.formatDecimal(transacao.valor, 1, 'COMMA', 2, 'POINT')}"
               ></td>
-              <td>
-                <span
-                  th:text="${transacao.movimento}"
-                  th:classappend="${transacao.movimento == 'CREDITO'} ? 'badge bg-success' : 'badge bg-danger'"
-                ></span>
-              </td>
               <td th:text="${transacao.categoria.nome}"></td>
-
-              <!-- Comentário com modal -->
               <td>
-                <a href="#"
-                   th:if="${transacao.comentario != null}"
-                   th:attr="data-comentario=${transacao.comentario.texto}"
-                   class="abrirComentario"
-                   data-bs-toggle="modal"
-                   data-bs-target="#comentarioModal">
-                   Ver Comentário
+                <a
+                  href="#"
+                  th:if="${transacao.comentario != null}"
+                  th:attr="data-comentario=${transacao.comentario.texto}"
+                  class="abrirComentario"
+                  data-bs-toggle="modal"
+                  data-bs-target="#comentarioModal"
+                >
+                  Ver Comentário
                 </a>
                 <span th:if="${transacao.comentario == null}">-</span>
               </td>
-
               <td class="actions">
-                <a
-                  th:href="@{/transacoes/editar/{id}(id=${transacao.id})}"
+                <!-- <a
+                  href="#"
+                  class="btn-editar"
+                  th:data-id="${transacao.id}"
                   title="Editar"
-                  ><i class="fas fa-edit edit"></i
-                ></a>
+                >
+                  <i class="fas fa-edit edit"></i>
+                </a>
                 <a
-                  th:href="@{/transacoes/comentario/{id}(id=${transacao.id})}"
+                  href="#"
+                  class="btn-comentario"
+                  th:data-id="${transacao.id}"
                   title="Adicionar Comentário"
                 >
                   <i class="fas fa-comment comment"></i>
-                </a>
-
+                </a> -->
                 <a
                   href="#"
                   th:attr="onclick=|if(confirm('Confirma exclusão da transação ${transacao.descricao}?')) window.location.href='@{/transacoes/delete/{id}(id=${transacao.id})}'|"
                   title="Excluir"
-                  ><i class="fas fa-trash delete"></i
-                ></a>
+                >
+                  <i class="fas fa-trash delete"></i>
+                </a>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <!-- Mensagem quando conta está selecionada mas não há transações -->
         <div
           th:if="${#lists.isEmpty(transacoes)}"
           class="alert alert-info text-center"
         >
           <i class="fas fa-info-circle"></i>
-          Nenhuma transação encontrada para esta conta.
+          Nenhuma transação encontrada para esta conta neste mês.
         </div>
       </div>
 
-      <!-- Controles de paginação só aparecem se houver transações -->
+      <!-- Paginação -->
       <div
         th:if="${contaSelecionadaId != null and !#lists.isEmpty(transacoes)}"
         id="pagination-controls"
-        style="margin-top: auto; text-align: center"
-        class="estilo-row"
+        class="estilo-row text-center mt-3"
       >
         <button id="prevPage" class="estilo-btn">Anterior</button>
         <span id="pageInfo"></span>
         <button id="nextPage" class="estilo-btn">Próximo</button>
       </div>
 
-      <!-- Modal de Comentário -->
-      <div class="modal fade" id="comentarioModal" tabindex="-1" aria-hidden="true">
+      <!-- Modal de transação -->
+      <div
+        class="modal fade"
+        id="comentarioModal"
+        tabindex="-1"
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Comentário da Transação</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Fechar"
+              ></button>
             </div>
             <div class="modal-body" id="comentarioTexto">
               <!-- Texto do comentário entra aqui -->
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Fechar
+              </button>
             </div>
           </div>
         </div>

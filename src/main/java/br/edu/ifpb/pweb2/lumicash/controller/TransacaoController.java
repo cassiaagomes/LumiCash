@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.edu.ifpb.pweb2.lumicash.entity.Categoria;
 import br.edu.ifpb.pweb2.lumicash.entity.Comentario;
 import br.edu.ifpb.pweb2.lumicash.entity.Conta;
 import br.edu.ifpb.pweb2.lumicash.entity.Correntista;
@@ -87,8 +88,8 @@ public class TransacaoController {
     public String mostrarFormularioDeTransacao(@RequestParam(required = false) Long contaId,
             Model model,
             HttpSession session) {
-        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
 
+        Correntista correntista = (Correntista) session.getAttribute("loggedCorrentista");
         if (correntista == null) {
             return "redirect:/auth/signin";
         }
@@ -97,23 +98,31 @@ public class TransacaoController {
         Transacao transacao = new Transacao();
 
         if (contaId != null) {
-            // ⚠️ Verificar se a conta pertence ao usuário
             Conta contaSelecionada = contaService.findById(contaId);
             boolean pertence = contas.stream().anyMatch(c -> c.getId().equals(contaId));
             if (contaSelecionada != null && pertence) {
                 transacao.setConta(contaSelecionada);
                 model.addAttribute("contaId", contaId);
             } else {
-                // Redirecionar ou tratar erro
                 model.addAttribute("mensagem", "Conta inválida ou não pertence a você.");
                 return "redirect:/transacoes";
             }
         }
 
+        // Separar categorias por natureza
+        List<Categoria> todasCategorias = categoriaService.listarCategoriasAtivas();
+        model.addAttribute("categoriasEntrada", todasCategorias.stream()
+                .filter(c -> "ENTRADA".equalsIgnoreCase(c.getNatureza()))
+                .toList());
+        model.addAttribute("categoriasSaida", todasCategorias.stream()
+                .filter(c -> "SAIDA".equalsIgnoreCase(c.getNatureza()))
+                .toList());
+        model.addAttribute("categoriasInvestimento", todasCategorias.stream()
+                .filter(c -> "INVESTIMENTO".equalsIgnoreCase(c.getNatureza()))
+                .toList());
+
         model.addAttribute("transacao", transacao);
         model.addAttribute("contas", contas);
-        model.addAttribute("categorias", categoriaService.buscarTodas());
-        model.addAttribute("contaId", contaId);
         model.addAttribute("page", "transacoes");
 
         return "transacoes/form";
@@ -181,7 +190,7 @@ public class TransacaoController {
         }
 
         transacaoService.salvar(transacao);
-        return "redirect:/transacoes";
+        return "redirect:/transacoes?contaId=" + transacao.getConta().getId();
     }
 
     @GetMapping("/delete/{id}")
@@ -221,6 +230,7 @@ public class TransacaoController {
         }
 
         model.addAttribute("transacaoId", transacao.getId());
+        model.addAttribute("contaId", transacao.getConta().getId());
 
         // Passa o comentário existente, se houver. Se não, passa um novo objeto
         // Comentario

@@ -24,7 +24,7 @@
 /* Regra base para todos os nav-links */
 .sidenav .nav-item .nav-link {
   padding: 12px 20px;
-  color: #b3b3b3; /* Cor padrão cinza para itens não ativos */
+  color: #DCF3E0; /* Cor padrão cinza para itens não ativos */
   display: block;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
@@ -35,7 +35,7 @@
 .sidenav .nav.flex-column {
   list-style-type: none;
   padding-left: 50px; 
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* Hover mantém a cor atual e adiciona fundo verde */
@@ -46,7 +46,7 @@
 }
 
 .sidenav .nav-item {
-  margin-bottom: 35px;
+  margin-bottom: 25px;
 }
 
 /* Regra para item ativo - maior especificidade */
@@ -58,6 +58,6 @@
 
 /* Regra para item inativo (opcional, já que é o padrão agora) */
 .sidenav .nav-item .nav-link:not(.active) {
-  color: #b3b3b3;
+  color: #DCF3E0;
   background-color: transparent;
 }

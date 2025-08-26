@@ -10,37 +10,22 @@
 
   <body>
     <div th:fragment="pageContent">
-      <div
-        class="header-table d-flex justify-content-between align-items-center mb-3"
-      >
+      <div class="header-table d-flex justify-content-between align-items-center mb-3">
         <form class="d-flex" th:action="@{/correntistas}" method="get">
           <div class="input-icon-wrapper">
             <span class="input-icon"><i class="fa fa-search"></i></span>
-            <input
-              class="search-input form-control"
-              type="text"
-              name="number"
-              placeholder="Procurar"
-            />
+            <input class="search-input form-control" type="text" name="number" placeholder="Procurar" />
           </div>
         </form>
-        <button class="cadastrar btn btn-primary" type="button" th:onclick="|window.location.href='@{/correntistas/form}'|">
-            + Cadastrar Correntista
+        <button class="cadastrar btn btn-primary" type="button"
+          th:onclick="|window.location.href='@{/correntistas/form}'|">
+          + Cadastrar Correntista
         </button>
       </div>
 
       <div class="table-wrapper">
-        <div
-          th:if="${mensagem}"
-          th:text="${mensagem}"
-          class="alert alert-success mb-3"
-        ></div>
-
-        <div
-          th:if="${erro}"
-          th:text="${erro}"
-          class="alert alert-danger mb-3"
-        ></div>
+        <div th:if="${mensagem}" th:text="${mensagem}" class="alert alert-success mb-3"></div>
+        <div th:if="${erro}" th:text="${erro}" class="alert alert-danger mb-3"></div>
 
         <table class="table table-bordered table-hover align-middle">
           <thead>
@@ -58,64 +43,64 @@
               <td th:text="${correntista.id}"></td>
               <td th:text="${correntista.nome}"></td>
               <td th:text="${correntista.email}"></td>
-              <td
-                th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}"
-              ></td>
+              <td th:text="${correntista.isAdmin ? 'Administrador' : 'Usuário'}"></td>
               <td>
                 <span th:if="${!correntista.ativo}" class="badge bg-danger">Bloqueado</span>
                 <span th:if="${correntista.ativo}" class="badge bg-success">Ativo</span>
               </td>
-
               <td class="actions">
-                <a
-                  th:href="@{/correntistas/edit/{id}(id=${correntista.id})}"
-                  title="Editar"
-                >
+                <a th:href="@{/correntistas/edit/{id}(id=${correntista.id})}" title="Editar">
                   <i class="fas fa-edit edit"></i>
                 </a>
 
-<form th:if="${correntista.ativo}" th:action="@{/correntistas/bloquear/{id}(id=${correntista.id})}" method="post" style="display:inline;" 
-      onsubmit="return confirm('Deseja realmente bloquear este correntista?');">
-  <button type="submit" class="btn btn-link p-0 m-0" title="Bloquear" style="border:none; background:none; cursor:pointer;">
-    <i class="fas fa-ban block"></i>
-  </button>
-</form>
+                <form th:if="${correntista.ativo}" th:action="@{/correntistas/bloquear/{id}(id=${correntista.id})}"
+                  method="post" style="display:inline;" onsubmit="return confirm('Deseja realmente bloquear este correntista?');">
+                  <button type="submit" class="btn btn-link p-0 m-0" title="Bloquear"
+                    style="border:none; background:none; cursor:pointer;">
+                    <i class="fas fa-ban block"></i>
+                  </button>
+                </form>
 
-
-                <a
-                  href="#"
-                  th:if="${!correntista.ativo}"
-                  title="Correntista já está bloqueado"
-                  onclick="alert('Este correntista já está bloqueado.'); return false;"
-                >
+                <a href="#" th:if="${!correntista.ativo}" title="Correntista já está bloqueado"
+                  onclick="alert('Este correntista já está bloqueado.'); return false;">
                   <i class="fas fa-ban block text-muted"></i>
                 </a>
 
-                <a
-                  href="#"
-                  title="Apagar"
-                  th:onclick="|deletarCorrentista('@{/correntistas/delete/{id}(id=${correntista.id})}'); return false;|"
-                >
-                  <i class="fas fa-trash delete"></i>
-                </a>
+                <form th:action="@{/correntistas/delete/{id}(id=${correntista.id})}" method="post" style="display:inline;"
+                  onsubmit="return confirm('Você tem certeza que deseja apagar este correntista?');">
+                  <button type="submit" class="btn btn-link p-0 m-0" title="Apagar"
+                    style="border:none; background:none; cursor:pointer;">
+                    <i class="fas fa-trash delete"></i>
+                  </button>
+                </form>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div
-        id="pagination-controls"
-        style="margin-top: auto; text-align: center"
-        class="estilo-row"
-      >
-        <button id="prevPage" class="estilo-btn">Anterior</button>
-        <span id="pageInfo"></span>
-        <button id="nextPage" class="estilo-btn">Próximo</button>
+      <!-- Paginação Spring Data -->
+      <div id="pagination-controls" style="margin-top: 0; text-align: center" class="estilo-row">
+        <form th:action="@{/correntistas}" method="get" style="display:inline">
+          <input type="hidden" name="page" th:value="${currentPage - 1}" />
+          <input type="hidden" name="size" th:value="${pageSize}" />
+          <button type="submit" class="estilo-btn" th:disabled="${currentPage == 0}">Anterior</button>
+        </form>
+
+        <span id="pageInfo" style="margin: 0 10px">
+          Página <span th:text="${currentPage + 1}"></span> de <span th:text="${totalPages}"></span>
+        </span>
+
+        <form th:action="@{/correntistas}" method="get" style="display:inline">
+          <input type="hidden" name="page" th:value="${currentPage + 1}" />
+          <input type="hidden" name="size" th:value="${pageSize}" />
+          <button type="submit" class="estilo-btn" th:disabled="${currentPage + 1 >= totalPages}">Próximo</button>
+        </form>
       </div>
 
-    <th:block th:fragment="pageScripts">
-      <script th:src="@{/js/listar.js}"></script>
-    </th:block>
+      <th:block th:fragment="pageScripts">
+        <script th:src="@{/js/listar.js}"></script>
+      </th:block>
+    </div>
   </body>
 </html>

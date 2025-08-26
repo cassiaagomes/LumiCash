@@ -83,3 +83,15 @@ function verificarContaSelecionada() {
     window.location.href = "/transacoes/form?contaId=" + contaSelecionada;
   }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const links = document.querySelectorAll(".abrirComentario");
+  const comentarioTexto = document.getElementById("comentarioTexto");
+
+  links.forEach((link) => {
+    link.addEventListener("click", function () {
+      const texto = this.getAttribute("data-comentario");
+      comentarioTexto.textContent = texto || "Sem comentário";
+    });
+  });
+});

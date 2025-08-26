@@ -33,7 +33,17 @@ public class CategoriaService {
     }
 
     public Categoria buscarPorId(Long id) {
-    return categoriaRepository.findById(id).orElse(null);
-}
+        return categoriaRepository.findById(id).orElse(null);
+    }
+
+    public List<Categoria> listarPorNatureza(String natureza) {
+        return categoriaRepository.findByNaturezaOrderByOrdem(natureza);
+    }
+
+    // Retorna apenas categorias ativas (para formulário de transação)
+      // Lista apenas categorias ativas por natureza (para transações)
+    public List<Categoria> listarCategoriasAtivas() {
+        return categoriaRepository.findByAtivoTrueOrderByOrdem();
+    }
 
 }
