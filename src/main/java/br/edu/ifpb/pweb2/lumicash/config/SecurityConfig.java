@@ -64,7 +64,16 @@ public class SecurityConfig {
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             }
 
-            return new User(userEntity.getEmail(), userEntity.getSenha(), authorities);
+            // Usa o campo "ativo" para barrar o acesso
+            return new User(
+                    userEntity.getEmail(),
+                    userEntity.getSenha(),
+                    Boolean.TRUE.equals(userEntity.getAtivo()), // habilita/desabilita login
+                    true, // accountNonExpired
+                    true, // credentialsNonExpired
+                    true, // accountNonLocked
+                    authorities
+            );
         };
     }
 

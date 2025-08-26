@@ -110,7 +110,7 @@ public class TransacaoController {
         }
 
         // Separar categorias por natureza
-        List<Categoria> todasCategorias = categoriaService.buscarTodas();
+        List<Categoria> todasCategorias = categoriaService.listarCategoriasAtivas();
         model.addAttribute("categoriasEntrada", todasCategorias.stream()
                 .filter(c -> "ENTRADA".equalsIgnoreCase(c.getNatureza()))
                 .toList());

@@ -40,4 +40,10 @@ public class CategoriaService {
         return categoriaRepository.findByNaturezaOrderByOrdem(natureza);
     }
 
+    // Retorna apenas categorias ativas (para formulário de transação)
+      // Lista apenas categorias ativas por natureza (para transações)
+    public List<Categoria> listarCategoriasAtivas() {
+        return categoriaRepository.findByAtivoTrueOrderByOrdem();
+    }
+
 }

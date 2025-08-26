@@ -1,8 +1,5 @@
 
 
-ALTER SEQUENCE categoria_id_seq RESTART WITH 30;
-ALTER SEQUENCE correntista_id_seq RESTART WITH 2;
-
 
 -- Categorias de ENTRADA (E)
 INSERT INTO categoria (id, ativo, natureza, nome, ordem) VALUES (1, TRUE, 'ENTRADA', 'Salario', 1) ON CONFLICT (id) DO NOTHING;
@@ -32,4 +29,7 @@ INSERT INTO categoria (id, ativo, natureza, nome, ordem) VALUES (20, TRUE, 'INVE
 INSERT INTO categoria (id, ativo, natureza, nome, ordem) VALUES (21, TRUE, 'INVESTIMENTO', 'Aporte Reserva Emergencia', 3) ON CONFLICT (id) DO NOTHING;
 INSERT INTO categoria (id, ativo, natureza, nome, ordem) VALUES (22, TRUE, 'INVESTIMENTO', 'Aporte Previdencia', 4) ON CONFLICT (id) DO NOTHING;
 
-insert into correntista values (1,true,'adm@gmail.com',true,'Chefao','12345678') ON CONFLICT (id) DO NOTHING;
+insert into correntista values (1,true,'adm@gmail.com',true,'Chefao','$2a$10$clHUsaIQnKk0xZJdnms.rumWlEcjplg3lMmndvUFRBasosvIQIMUm') ON CONFLICT (id) DO NOTHING;
+
+SELECT setval('categoria_id_seq', (SELECT MAX(id) FROM categoria));
+SELECT setval('correntista_id_seq', (SELECT MAX(id) FROM correntista));
