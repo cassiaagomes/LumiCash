@@ -22,6 +22,20 @@ Esta primeira versão do LumiCash foca nas funcionalidades essenciais de **admin
 
 ---
 
+## ✨ Funcionalidades da Etapa II
+
+- **UC23 – Administrador cadastra/modifica categoria:** possibilita criar e editar categorias de transações.
+- **UC22 – Administrador lista categorias:** exibe todas as categorias cadastradas em uma tabela organizada.
+- **UC24 – Administrador bloqueia correntista:** permite ao administrador desativar temporariamente um correntista.
+- **UC07 – Correntista consulta extrato de conta:** visualiza todas as transações de suas contas.
+- **UC08 – Correntista consulta orçamento anual:** apresenta o resumo de receitas e despesas por ano.
+- **RNF 05 – Validação de campos dos formulários:** garante que os dados inseridos sejam corretos e consistentes.
+- **RNF 07 – Paginação nas tabelas:** melhora a navegação em listas longas de registros.
+- **RNF 08 – Autenticação:** permite login seguro de usuários.
+- **RNF 09 – Autorização:** controla o acesso a funcionalidades conforme o perfil do usuário.
+
+---
+
 ## 💻 Tecnologias Utilizadas
 
 - **Java (JDK):** 17
